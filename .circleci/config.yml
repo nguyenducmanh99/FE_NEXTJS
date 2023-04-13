@@ -10,11 +10,17 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          command: npm run build
-          name: Build app
+          command: npm install
+          name: Install for app
       - run:
           command: npm run lint
           name: check lint app
+      - run:
+          command: npm run format:fix
+          name: Run prettierrc
+      - run:
+          command: npm run build
+          name: Build app
       - persist_to_workspace:
           root: ~/project
           paths:
