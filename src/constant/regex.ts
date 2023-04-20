@@ -1,0 +1,10 @@
+export const koreanLanguage = /[\u3131-\uD79D]/giu;
+export const regPhone = /^\+(82|81|86||84)([0-9]{10}|[0-9]{11})$/;
+export const regOnlyNumber = /^\d+$/;
+export const regOnlyNumberAndFloat = /^[+-]?([0-9]*[.])?[0-9]+/;
+export const phoneNumber = /^[0-9-]+$/;
+export const textLatinAndNumber = /^[A-Za-z 0-9]+$/;
+export const onlyTextLatin = /^[A-Za-z]+$/;
+export const regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+export const regOnlyNumberAndPlus = /[\d-]+$/;
+export const regCSV = /\.(xlsx)$/;

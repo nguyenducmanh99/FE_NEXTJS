@@ -1,3 +1,21 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+/* Additional styles */
+@import '../pages/css/additional-styles/utility-patterns.css';
+@import '../pages/css/additional-styles/range-slider.css';
+@import '../pages/css/additional-styles/toggle-switch.css';
+@import '../pages/css/additional-styles/theme.css';
+
+@import 'tailwindcss/utilities';
+
+/* Additional Tailwind directives: https://tailwindcss.com/docs/functions-and-directives/#responsive */
+@layer utilities {
+    .rtl {
+        direction: rtl;
+    }
+}
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -97,7 +115,7 @@ body {
 
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: inherit !important;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import "bootstrap/dist/css/bootstrap.css";
 import { useEffect, StrictMode } from "react";
 import ErrorBoundary from "@/pages/error";
 import { Roboto } from "next/font/google";
@@ -15,6 +14,9 @@ import {
 } from '@mui/material';
 
 import styled from "styled-components";
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -33,27 +35,36 @@ const lightTheme = createTheme({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+
   useEffect(() => {
-    require("bootstrap/dist/js/bootstrap");
-  }, []);
+    AOS.init({
+      once: true,
+      disable: 'phone',
+      duration: 700,
+      easing: 'ease-out-cubic',
+    })
+  })
 
   return (
-    <Main className={roboto.className}>
-      <ThemeProvider theme={lightTheme || darkTheme}>
-        <StyledEngineProvider injectFirst>
-          <CssBaseline />
-          <HelmetProvider>
-            <StrictMode>
-              <LocalizationProvider dataAdapter={DateAdapter}>
-                <ErrorBoundary>
-                  <Component {...pageProps} />
-                </ErrorBoundary>
-              </LocalizationProvider>
-            </StrictMode>
-          </HelmetProvider>
-        </StyledEngineProvider>
-      </ThemeProvider>
-    </Main>
+    <>
+      <Main className={roboto.className}>
+        <ThemeProvider theme={lightTheme || darkTheme}>
+          <StyledEngineProvider injectFirst>
+            <CssBaseline />
+            <HelmetProvider>
+              <StrictMode>
+                <LocalizationProvider dataAdapter={DateAdapter}>
+                  <ErrorBoundary>
+                    <Component {...pageProps} />
+                  </ErrorBoundary>
+                </LocalizationProvider>
+              </StrictMode>
+            </HelmetProvider>
+          </StyledEngineProvider>
+        </ThemeProvider>
+      </Main>
+      {/* <Footer /> */}
+    </>
   );
 }
 
