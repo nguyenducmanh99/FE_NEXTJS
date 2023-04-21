@@ -1,19 +1,19 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 
 /* Additional styles */
-@import '../pages/css/additional-styles/utility-patterns.css';
-@import '../pages/css/additional-styles/range-slider.css';
-@import '../pages/css/additional-styles/toggle-switch.css';
-@import '../pages/css/additional-styles/theme.css';
+@import "../pages/css/additional-styles/utility-patterns.css";
+@import "../pages/css/additional-styles/range-slider.css";
+@import "../pages/css/additional-styles/toggle-switch.css";
+@import "../pages/css/additional-styles/theme.css";
 
-@import 'tailwindcss/utilities';
+@import "tailwindcss/utilities";
 
 /* Additional Tailwind directives: https://tailwindcss.com/docs/functions-and-directives/#responsive */
 @layer utilities {
-    .rtl {
-        direction: rtl;
-    }
+  .rtl {
+    direction: rtl;
+  }
 }
 
 :root {
@@ -123,3 +123,35 @@ a {
     color-scheme: dark;
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  /* background-color: #F5F5F5; */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+
+  /* background-color: #CCCCCC; */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  /* background-color: #FFF; */
+  border-radius: 12px;
+  background-image: -webkit-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 25%,
+    transparent 100%,
+    rgba(0, 0, 0, 1) 75%,
+    transparent
+  );
+}
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+} */

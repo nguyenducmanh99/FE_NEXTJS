@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect, StrictMode } from "react";
 import ErrorBoundary from "@/pages/error";
-import { Roboto } from "next/font/google";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { HelmetProvider } from "react-helmet-async";
@@ -10,41 +9,26 @@ import {
   ThemeProvider,
   StyledEngineProvider,
   CssBaseline,
-  createTheme
-} from '@mui/material';
-
+} from "@mui/material";
+import { roboto, darkTheme, lightTheme } from "@/constant";
 import styled from "styled-components";
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { SessionProvider } from "next-auth/react";
 
-const roboto = Roboto({
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
-
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
-
-export default function App({ Component, pageProps }: AppProps) {
-
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   useEffect(() => {
     AOS.init({
       once: true,
-      disable: 'phone',
+      disable: "phone",
       duration: 700,
-      easing: 'ease-out-cubic',
-    })
-  })
-
+      easing: "ease-out-cubic",
+    });
+  });
+  // console.log(Component.displayName)
   return (
     <>
       <Main className={roboto.className}>
@@ -55,7 +39,9 @@ export default function App({ Component, pageProps }: AppProps) {
               <StrictMode>
                 <LocalizationProvider dataAdapter={DateAdapter}>
                   <ErrorBoundary>
-                    <Component {...pageProps} />
+                    <SessionProvider session={session}>
+                      <Component {...pageProps} />
+                    </SessionProvider>
                   </ErrorBoundary>
                 </LocalizationProvider>
               </StrictMode>
@@ -63,9 +49,8 @@ export default function App({ Component, pageProps }: AppProps) {
           </StyledEngineProvider>
         </ThemeProvider>
       </Main>
-      {/* <Footer /> */}
     </>
   );
 }
 
-const Main = styled.main``
+const Main = styled.main``;
