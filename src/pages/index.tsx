@@ -7,6 +7,7 @@ import Newsletter from '@/components/newsletter'
 import Header from '@/components/ui/header'
 import styled from "styled-components";
 import Footer from '@/components/ui/footer'
+Home.displayName = "Home"
 export default function Home() {
   return (
     <>
