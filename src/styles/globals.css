@@ -123,3 +123,35 @@ a {
     color-scheme: dark;
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+	/* background-color: #F5F5F5; */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+
+	/* background-color: #CCCCCC; */
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  /* background-color: #FFF; */
+  border-radius: 12px;
+	background-image: -webkit-linear-gradient(
+     90deg,
+	   rgba(0, 0, 0, 1) 0%,
+		 rgba(0, 0, 0, 1) 25%,
+			transparent 100%,
+		 rgba(0, 0, 0, 1) 75%,
+			transparent
+    )
+}
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+} */
