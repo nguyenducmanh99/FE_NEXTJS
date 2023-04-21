@@ -9,23 +9,25 @@ import {
   ThemeProvider,
   StyledEngineProvider,
   CssBaseline,
-} from '@mui/material';
-import {roboto, darkTheme, lightTheme} from "@/constant";
+} from "@mui/material";
+import { roboto, darkTheme, lightTheme } from "@/constant";
 import styled from "styled-components";
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { SessionProvider } from "next-auth/react";
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   useEffect(() => {
     AOS.init({
       once: true,
-      disable: 'phone',
+      disable: "phone",
       duration: 700,
-      easing: 'ease-out-cubic',
-    })
-  })
+      easing: "ease-out-cubic",
+    });
+  });
   // console.log(Component.displayName)
   return (
     <>
@@ -38,7 +40,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
                 <LocalizationProvider dataAdapter={DateAdapter}>
                   <ErrorBoundary>
                     <SessionProvider session={session}>
-                     <Component {...pageProps} />
+                      <Component {...pageProps} />
                     </SessionProvider>
                   </ErrorBoundary>
                 </LocalizationProvider>
@@ -51,4 +53,4 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   );
 }
 
-const Main = styled.main``
+const Main = styled.main``;

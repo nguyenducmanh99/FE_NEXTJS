@@ -1,46 +1,45 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import { Transition } from '@headlessui/react'
+import { useEffect, useRef } from "react";
+import { Transition } from "@headlessui/react";
 
 type ModalProps = {
-  children: React.ReactNode
-  id: string
-  ariaLabel: string
-  show: boolean
-  handleClose: () => void
-}
+  children: React.ReactNode;
+  id: string;
+  ariaLabel: string;
+  show: boolean;
+  handleClose: () => void;
+};
 
 export default function Modal({
   children,
   id,
   ariaLabel,
   show,
-  handleClose
+  handleClose,
 }: ModalProps) {
-
-  const modalContent = useRef<HTMLDivElement>(null)
+  const modalContent = useRef<HTMLDivElement>(null);
 
   // close the modal on click outside
   useEffect(() => {
     const clickHandler = ({ target }: { target: EventTarget | null }): void => {
-      if (!show || modalContent.current?.contains(target as Node)) return
-      handleClose()
-    }
-    document.addEventListener('click', clickHandler)
-    return () => document.removeEventListener('click', clickHandler)
-  }, [show, handleClose, modalContent]) 
+      if (!show || modalContent.current?.contains(target as Node)) return;
+      handleClose();
+    };
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  }, [show, handleClose, modalContent]);
 
   // close the modal if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }: { keyCode: number }) => {
-      if (keyCode !== 27) return
-      handleClose()
-    }
-    document.addEventListener('keydown', keyHandler)
+      if (keyCode !== 27) return;
+      handleClose();
+    };
+    document.addEventListener("keydown", keyHandler);
 
-    return () => document.removeEventListener('keydown', keyHandler)
-  }, [handleClose])
+    return () => document.removeEventListener("keydown", keyHandler);
+  }, [handleClose]);
 
   return (
     <>
@@ -70,12 +69,15 @@ export default function Modal({
         className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center transform px-4 sm:px-6"
         role="dialog"
         aria-modal="true"
-        aria-labelledby={ariaLabel}          
-      >        
-        <div className="bg-white overflow-auto max-w-6xl w-full max-h-full" ref={modalContent}>          
+        aria-labelledby={ariaLabel}
+      >
+        <div
+          className="bg-white overflow-auto max-w-6xl w-full max-h-full"
+          ref={modalContent}
+        >
           {children}
         </div>
-      </Transition>    
+      </Transition>
     </>
-  )
+  );
 }
