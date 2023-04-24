@@ -1,7 +1,11 @@
-import { AUTH_EMAIL, AUTH_PASSWORD, AUTH_TOKEN, RequestStatus } from "@/constant";
+import {
+  AUTH_EMAIL,
+  AUTH_PASSWORD,
+  AUTH_TOKEN,
+  RequestStatus,
+} from "@/constant";
 import { LoginState } from "./types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
 
 export const initialState: LoginState = {
   loginStatus: RequestStatus.IDLE,
@@ -19,9 +23,9 @@ const slice = createSlice({
 
     loginSuccess: (state, action: PayloadAction<any>) => {
       state.loginStatus = RequestStatus.SUCCESS;
-      state.userInfo = {...action.payload};
-      const {accessToken, expired, password, email } = action.payload;
-      state.auth = {accessToken, expired};
+      state.userInfo = { ...action.payload };
+      const { accessToken, expired, password, email } = action.payload;
+      state.auth = { accessToken, expired };
       window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(accessToken));
       window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(password));
       window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(email));

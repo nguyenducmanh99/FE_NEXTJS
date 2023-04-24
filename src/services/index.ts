@@ -53,11 +53,7 @@ instance.interceptors.response.use(
   },
 );
 
-export const request = (
-  url: string,
-  payload: any,
-  method: IMeThod | any,
-) => {
+export const request = (url: string, payload: any, method: IMeThod | any) => {
   let data = payload;
   let params;
   if (method === "get") {

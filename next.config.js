@@ -8,15 +8,16 @@ const nextConfig = {
     // Enables the styled-components SWC transform
     styledComponents: true,
   },
-// async rewrites() {
-//  return [
+   pageExtensions: ['tsx'],
+  // async rewrites() {
+  //  return [
 
-//    {
-//      source: "/api/:path*",
-//      destination: "http://localhost:6060/api/v1/",
-//    },
-//  ];
-// },
+  //    {
+  //      source: "/api/:path*",
+  //      destination: "http://localhost:6060/api/v1/",
+  //    },
+  //  ];
+  // },
 };
 
 module.exports = nextConfig;

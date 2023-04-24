@@ -3,7 +3,6 @@ export * from "@/constant/enum";
 export * from "@/constant/regex";
 export * from "@/constant/theme";
 
-
 // < KEY >
 export const AUTH_TOKEN = "AUTH_TOKEN";
 export const AUTH_PASSWORD = "AUTH_PASSWORD";
