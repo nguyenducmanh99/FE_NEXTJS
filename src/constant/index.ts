@@ -2,6 +2,14 @@ export * from "@/constant/status";
 export * from "@/constant/enum";
 export * from "@/constant/regex";
 export * from "@/constant/theme";
+
+
+// < KEY >
+export const AUTH_TOKEN = "AUTH_TOKEN";
+export const AUTH_PASSWORD = "AUTH_PASSWORD";
+export const AUTH_EMAIL = "AUTH_EMAIL";
+// </ KEY>
+
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";

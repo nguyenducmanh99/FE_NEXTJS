@@ -15,6 +15,8 @@ import styled from "styled-components";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { SessionProvider } from "next-auth/react";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 export default function App({
   Component,
@@ -31,24 +33,26 @@ export default function App({
   // console.log(Component.displayName)
   return (
     <>
-      <Main className={roboto.className}>
-        <ThemeProvider theme={lightTheme || darkTheme}>
-          <StyledEngineProvider injectFirst>
-            <CssBaseline />
-            <HelmetProvider>
-              <StrictMode>
-                <LocalizationProvider dataAdapter={DateAdapter}>
-                  <ErrorBoundary>
-                    <SessionProvider session={session}>
-                      <Component {...pageProps} />
-                    </SessionProvider>
-                  </ErrorBoundary>
-                </LocalizationProvider>
-              </StrictMode>
-            </HelmetProvider>
-          </StyledEngineProvider>
-        </ThemeProvider>
-      </Main>
+      <Provider store={store}>
+        <Main className={roboto.className}>
+          <ThemeProvider theme={lightTheme || darkTheme}>
+            <StyledEngineProvider injectFirst>
+              <CssBaseline />
+              <HelmetProvider>
+                <StrictMode>
+                  <LocalizationProvider dataAdapter={DateAdapter}>
+                    <ErrorBoundary>
+                      <SessionProvider session={session}>
+                        <Component {...pageProps} />
+                      </SessionProvider>
+                    </ErrorBoundary>
+                  </LocalizationProvider>
+                </StrictMode>
+              </HelmetProvider>
+            </StyledEngineProvider>
+          </ThemeProvider>
+        </Main>
+      </Provider>
     </>
   );
 }

@@ -5,3 +5,5 @@ export const RequestStatus = {
   RELOAD: "RELOAD",
   ERROR: "ERROR",
 } as const;
+
+export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus];

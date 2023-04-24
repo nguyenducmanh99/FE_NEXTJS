@@ -6,12 +6,30 @@ export const metadata = {
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useCallback } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useLoginSlice } from "./slice";
+import { ILoginForm } from "./slice/types";
 
 export default function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ILoginForm>();
   // const { status, data: session } = useSession();
+  const dispatch = useDispatch();
+  const { loginRequest } = useLoginSlice().actions;
   const handleLoginWithGoogle = useCallback(async () => {
     const data = await signIn("google");
   }, []);
+
+  const onSubmit: SubmitHandler<ILoginForm> = useCallback(
+    async (data) => {
+      dispatch(loginRequest(data));
+    },
+    [dispatch, loginRequest],
+  );
 
   return (
     <section className="bg-gradient-to-b from-gray-100 to-white">
@@ -26,7 +44,7 @@ export default function SignIn() {
 
           {/* Form */}
           <div className="max-w-sm mx-auto">
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
                   <label
@@ -36,6 +54,14 @@ export default function SignIn() {
                     Email
                   </label>
                   <input
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value:
+                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "Please enter a valid email",
+                      },
+                    })}
                     id="email"
                     type="email"
                     className="form-input w-full text-gray-800"
@@ -61,6 +87,10 @@ export default function SignIn() {
                     </Link>
                   </div>
                   <input
+                    {...register("password", {
+                      required: true,
+                      maxLength: 200,
+                    })}
                     id="password"
                     type="password"
                     className="form-input w-full text-gray-800"
@@ -83,7 +113,10 @@ export default function SignIn() {
               </div>
               <div className="flex flex-wrap -mx-3 mt-6">
                 <div className="w-full px-3">
-                  <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">
+                  <button
+                    className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+                    type="submit"
+                  >
                     Sign in
                   </button>
                 </div>

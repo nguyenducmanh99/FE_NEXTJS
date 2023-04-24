@@ -8,9 +8,15 @@ const nextConfig = {
     // Enables the styled-components SWC transform
     styledComponents: true,
   },
-  // experimental: {
-  //   appDir: true,
-  // },
+// async rewrites() {
+//  return [
+
+//    {
+//      source: "/api/:path*",
+//      destination: "http://localhost:6060/api/v1/",
+//    },
+//  ];
+// },
 };
 
 module.exports = nextConfig;
