@@ -8,7 +8,7 @@ const nextConfig = {
     // Enables the styled-components SWC transform
     styledComponents: true,
   },
-   pageExtensions: ['tsx'],
+  // pageExtensions: ["tsx"],
   // async rewrites() {
   //  return [
 

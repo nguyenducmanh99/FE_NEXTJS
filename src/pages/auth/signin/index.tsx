@@ -8,8 +8,8 @@ import { signIn, useSession } from "next-auth/react";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useLoginSlice } from "./slice";
-import { ILoginForm } from "./slice/types";
+import { useLoginSlice } from "@/store";
+import { ILoginForm } from "@/store/type";
 
 export default function SignIn() {
   const {
