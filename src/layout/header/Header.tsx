@@ -53,7 +53,7 @@ const Header = ({ toggleMobileSidebar }: ItemType) => {
         >
           {/* <IconMenu width="20" height="20" /> */}
         </IconButton>
-
+        {/* 
         <IconButton
           size="large"
           aria-label="show 11 new notifications"
@@ -62,12 +62,12 @@ const Header = ({ toggleMobileSidebar }: ItemType) => {
           aria-haspopup="true"
         >
           <Badge variant="dot" color="primary">
-            {/* <IconBellRinging size="21" stroke="1.5" /> */}
+            <IconBellRinging size="21" stroke="1.5" />
           </Badge>
-        </IconButton>
+        </IconButton> */}
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
-          <Button
+          {/* <Button
             variant="contained"
             disableElevation
             color="primary"
@@ -75,7 +75,7 @@ const Header = ({ toggleMobileSidebar }: ItemType) => {
             href="https://adminmart.com/product/modernize-next-js-admin-dashboard"
           >
             Upgrade to Pro
-          </Button>
+          </Button> */}
           <Profile />
         </Stack>
       </ToolbarStyled>
