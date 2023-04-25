@@ -5,21 +5,64 @@ export const metadata = {
 
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLoginSlice } from "@/store";
 import { ILoginForm } from "@/store/type";
+import { selectAuth } from "@/store/selectors";
+import {
+  AUTH_EMAIL,
+  AUTH_PASSWORD,
+  AUTH_TOKEN,
+  RequestStatus,
+} from "@/constant";
+import { useLocalStorage } from "@/hook";
+import _ from "lodash";
 
 export default function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<ILoginForm>();
   // const { status, data: session } = useSession();
+  const [keepMe, setKeepMe] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { loginRequest } = useLoginSlice().actions;
+  const { loginRequest, resetLoginStatus } = useLoginSlice().actions;
+  const [emailLocal, setEmailLocal] = useLocalStorage(AUTH_EMAIL, "");
+  const [passwordLocal, setPasswordLocal] = useLocalStorage(AUTH_PASSWORD, "");
+  const { loginStatus, userInfo } = useSelector(selectAuth);
+
+  useEffect(() => {
+    if (!_.isEmpty(emailLocal) && !_.isEmpty(passwordLocal)) {
+      setKeepMe(true);
+      setValue("email", emailLocal);
+      setValue("password", passwordLocal);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (loginStatus === RequestStatus.SUCCESS) {
+      if (!keepMe) {
+        setEmailLocal("");
+        setPasswordLocal("");
+      }
+    }
+
+    dispatch(resetLoginStatus());
+  }, [
+    dispatch,
+    keepMe,
+    loginStatus,
+    resetLoginStatus,
+    setEmailLocal,
+    setPasswordLocal,
+    userInfo,
+  ]);
+
   const handleLoginWithGoogle = useCallback(async () => {
     const data = await signIn("google");
   }, []);
@@ -103,7 +146,12 @@ export default function SignIn() {
                 <div className="w-full px-3">
                   <div className="flex justify-between">
                     <label className="flex items-center">
-                      <input type="checkbox" className="form-checkbox" />
+                      <input
+                        type="checkbox"
+                        className="form-checkbox"
+                        checked={keepMe}
+                        onChange={() => setKeepMe(!keepMe)}
+                      />
                       <span className="text-gray-600 ml-2">
                         Keep me signed in
                       </span>

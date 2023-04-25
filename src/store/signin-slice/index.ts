@@ -34,6 +34,11 @@ const slice = createSlice({
     loginFail: (state, action: PayloadAction<any>) => {
       state.loginStatus = RequestStatus.ERROR;
     },
+
+    resetLoginStatus: (state) => {
+      state.loginStatus = RequestStatus.IDLE;
+    },
+
   },
 });
 
