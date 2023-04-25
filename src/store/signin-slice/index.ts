@@ -38,7 +38,6 @@ const slice = createSlice({
     resetLoginStatus: (state) => {
       state.loginStatus = RequestStatus.IDLE;
     },
-
   },
 });
 

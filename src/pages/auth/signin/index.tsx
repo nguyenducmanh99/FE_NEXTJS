@@ -19,6 +19,7 @@ import {
 } from "@/constant";
 import { useLocalStorage } from "@/hook";
 import _ from "lodash";
+import "tailwindcss/tailwind.css";
 
 export default function SignIn() {
   const {

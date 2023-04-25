@@ -2,6 +2,7 @@ export const metadata = {
   title: "Reset Password - Simple",
   description: "Page description",
 };
+import "tailwindcss/tailwind.css";
 
 export default function ResetPassword() {
   return (

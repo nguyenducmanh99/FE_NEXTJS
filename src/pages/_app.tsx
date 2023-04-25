@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { useEffect, StrictMode } from "react";
+import { useEffect, StrictMode, ReactElement, ReactNode } from "react";
 import ErrorBoundary from "@/pages/error";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -17,11 +17,21 @@ import "aos/dist/aos.css";
 import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import { store } from "@/store";
+import { NextPage } from "next";
+
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+interface MyAppProps extends AppProps {
+  pageProps: any;
+  Component: NextPageWithLayout;
+}
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
+}: MyAppProps) {
   useEffect(() => {
     AOS.init({
       once: true,
@@ -31,6 +41,8 @@ export default function App({
     });
   });
   // console.log(Component.displayName)
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <>
       <Provider store={store}>
@@ -43,7 +55,7 @@ export default function App({
                   <LocalizationProvider dataAdapter={DateAdapter}>
                     <ErrorBoundary>
                       <SessionProvider session={session}>
-                        <Component {...pageProps} />
+                        {getLayout(<Component {...pageProps} />)}
                       </SessionProvider>
                     </ErrorBoundary>
                   </LocalizationProvider>
