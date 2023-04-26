@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { styled, Container, Box } from "@mui/material";
 
-import Header from "./header/Header";
-import Sidebar from "./sidebar/Sidebar";
+import Header from "./header/index";
+import Sidebar from "./sidebar";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -16,12 +16,28 @@ const PageWrapper = styled("div")(() => ({
   paddingBottom: "60px",
   flexDirection: "column",
   zIndex: 1,
-  backgroundColor: "transparent",
+  backgroundColor: "rgb(238, 242, 246)",
 }));
 
 interface Props {
   children: React.ReactNode;
 }
+
+const APP_BAR_MOBILE = 64;
+const APP_BAR_DESKTOP = 92;
+
+const MainContainer = styled(Container)(({ theme }) => ({
+  flexGrow: 1,
+  overflow: "auto",
+  minHeight: "100%",
+  paddingTop: APP_BAR_MOBILE + 24,
+  paddingBottom: theme.spacing(10),
+  [theme.breakpoints.up("lg")]: {
+    paddingTop: APP_BAR_DESKTOP + 24,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
+}));
 
 const FullLayout: React.FC<Props> = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -34,9 +50,8 @@ const FullLayout: React.FC<Props> = ({ children }) => {
       {/* Sidebar */}
       {/* ------------------------------------------- */}
       <Sidebar
-        isSidebarOpen={isSidebarOpen}
-        isMobileSidebarOpen={isMobileSidebarOpen}
-        onSidebarClose={() => setMobileSidebarOpen(false)}
+        openSideBar={isSidebarOpen}
+        onCloseSideBar={() => setMobileSidebarOpen(false)}
       />
       {/* ------------------------------------------- */}
       {/* Main Wrapper */}
@@ -45,14 +60,14 @@ const FullLayout: React.FC<Props> = ({ children }) => {
         {/* ------------------------------------------- */}
         {/* Header */}
         {/* ------------------------------------------- */}
-        <Header toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
+        <Header onOpenNav={() => setMobileSidebarOpen(true)} />
         {/* ------------------------------------------- */}
         {/* PageContent */}
         {/* ------------------------------------------- */}
-        <Container
+        <MainContainer
           sx={{
             paddingTop: "20px",
-            maxWidth: "1200px",
+            maxWidth: "100% !important",
           }}
         >
           {/* ------------------------------------------- */}
@@ -62,7 +77,7 @@ const FullLayout: React.FC<Props> = ({ children }) => {
           {/* ------------------------------------------- */}
           {/* End Page */}
           {/* ------------------------------------------- */}
-        </Container>
+        </MainContainer>
       </PageWrapper>
     </MainWrapper>
   );
