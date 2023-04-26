@@ -9,8 +9,8 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
+import Iconify from "../utils/iconify";
 // component
-import Iconify from "../../../components/iconify";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ const StyledRoot = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(0, 1, 0, 3),
 }));
 
-const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
+const StyledSearch = styled(OutlinedInput)(({ theme }: any) => ({
   width: 240,
   transition: theme.transitions.create(["box-shadow", "width"], {
     easing: theme.transitions.easing.easeInOut,
@@ -29,7 +29,7 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
   }),
   "&.Mui-focused": {
     width: 320,
-    boxShadow: theme.customShadows.z8,
+    boxShadow: theme.customShadows?.z8,
   },
   "& fieldset": {
     borderWidth: `1px !important`,
@@ -39,17 +39,17 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-UserListToolbar.propTypes = {
-  numSelected: PropTypes.number,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func,
-};
+interface IUserListToolbar {
+  numSelected: number;
+  filterName: string;
+  onFilterName: CallableFunction;
+}
 
 export default function UserListToolbar({
   numSelected,
   filterName,
   onFilterName,
-}) {
+}: IUserListToolbar) {
   return (
     <StyledRoot
       sx={{
@@ -66,7 +66,7 @@ export default function UserListToolbar({
       ) : (
         <StyledSearch
           value={filterName}
-          onChange={onFilterName}
+          onChange={() => onFilterName()}
           placeholder="Search user..."
           startAdornment={
             <InputAdornment position="start">

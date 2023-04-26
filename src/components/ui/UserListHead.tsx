@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 // @mui
 import {
   Box,
@@ -8,6 +7,7 @@ import {
   TableHead,
   TableSortLabel,
 } from "@mui/material";
+import { ITABLE_HEAD } from "@/pages/users";
 
 // ----------------------------------------------------------------------
 
@@ -23,15 +23,15 @@ const visuallyHidden = {
   clip: "rect(0 0 0 0)",
 };
 
-UserListHead.propTypes = {
-  order: PropTypes.oneOf(["asc", "desc"]),
-  orderBy: PropTypes.string,
-  rowCount: PropTypes.number,
-  headLabel: PropTypes.array,
-  numSelected: PropTypes.number,
-  onRequestSort: PropTypes.func,
-  onSelectAllClick: PropTypes.func,
-};
+interface IUserListHead {
+  order: "asc" | "desc";
+  orderBy: string;
+  rowCount: number;
+  headLabel: ITABLE_HEAD[];
+  numSelected: number;
+  onRequestSort: CallableFunction;
+  onSelectAllClick: CallableFunction;
+}
 
 export default function UserListHead({
   order,
@@ -41,8 +41,8 @@ export default function UserListHead({
   numSelected,
   onRequestSort,
   onSelectAllClick,
-}) {
-  const createSortHandler = (property) => (event) => {
+}: IUserListHead) {
+  const createSortHandler = (property: string) => (event: any) => {
     onRequestSort(event, property);
   };
 
@@ -53,7 +53,7 @@ export default function UserListHead({
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
+            onChange={() => onSelectAllClick()}
           />
         </TableCell>
         {headLabel.map((headCell) => (

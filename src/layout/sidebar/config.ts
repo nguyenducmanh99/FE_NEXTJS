@@ -19,8 +19,8 @@ const sideBarConfig: ISideBarConfig[] = [
   },
   {
     id: "user",
-    title: "user",
-    path: "/user",
+    title: "users",
+    path: "/users",
     icon: AccountBoxIcon,
   },
 ];
