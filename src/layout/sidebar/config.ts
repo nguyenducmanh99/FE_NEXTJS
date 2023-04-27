@@ -2,7 +2,7 @@
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import BugReportIcon from '@mui/icons-material/BugReport';
+import BugReportIcon from "@mui/icons-material/BugReport";
 import { SvgIconComponent } from "@mui/icons-material";
 import { PAGE } from "@/constant";
 export interface ISideBarConfig {
