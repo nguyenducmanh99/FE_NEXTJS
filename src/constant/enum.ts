@@ -12,4 +12,5 @@ export const PAGE = {
   DASHBOARD: "/dashboard",
   USERS: "/users",
   ERROR: "/404",
+  PRODUCT: "/products",
 } as const;
