@@ -7,3 +7,9 @@ export const RequestStatus = {
 } as const;
 
 export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus];
+
+export const PAGE = {
+  DASHBOARD: "/dashboard",
+  USERS: "/users",
+  ERROR: '/404',
+} as const;

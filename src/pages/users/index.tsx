@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { filter } from "lodash";
-import { ReactElement, useState } from "react";
+import { ReactElement, useCallback, useMemo, useState } from "react";
 import { sample } from "lodash";
 import _ from "lodash";
 // @mui
@@ -51,35 +51,65 @@ export interface ITABLE_HEAD {
   alignRight: boolean;
 }
 
-const USERLIST = [...Array(10)].map((_, index) => ({
-  id: index,
-  avatarUrl: sample([
-    "https://static.vecteezy.com/system/resources/previews/002/002/297/original/beautiful-woman-avatar-character-icon-free-vector.jpg",
-  ]) as string,
-  name: sample(["Nguyen Van A"]) as string,
-  company: sample(["FaceBook"]) as string,
-  isVerified: sample([true]) as boolean,
-  status: sample([IStatus.ACTIVE]) as IStatus,
-  role: sample([
-    // "Leader",
-    // "Hr Manager",
-    // "UI Designer",
-    // "UX Designer",
-    // "UI/UX Designer",
-    // "Project Manager",
-    // "Backend Developer",
-    // "Full Stack Designer",
-    // "Front End Developer",
-    "Full Stack Developer",
-  ]) as string,
-}));
+const USERLIST: IUser[] = [
+  {
+    id: 1,
+    avatarUrl:
+      "https://static.vecteezy.com/system/resources/previews/002/002/297/original/beautiful-woman-avatar-character-icon-free-vector.jpg",
+    name: "Nguyen Van A",
+    company: "FaceBook",
+    isVerified: true,
+    status: IStatus.ACTIVE,
+    role: "Leader",
+  },
+  {
+    id: 2,
+    avatarUrl:
+      "https://thumbs.dreamstime.com/b/male-avatar-icon-flat-style-male-user-icon-cartoon-man-avatar-hipster-vector-stock-91462914.jpg",
+    name: "Nguyen Van B",
+    company: "Google",
+    isVerified: true,
+    status: IStatus.UNKNOWN,
+    role: "Full Stack Developer",
+  },
+  {
+    id: 3,
+    avatarUrl:
+      "https://static.vecteezy.com/system/resources/previews/002/002/403/original/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+    name: "Nguyen Van C",
+    company: "Twitter",
+    isVerified: true,
+    status: IStatus.UNKNOWN,
+    role: "Backend Developer",
+  },
+  {
+    id: 4,
+    avatarUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI3vvVZ-pOGsyhaNEm9s-tm96lh7OGxJrpPQ&usqp=CAU",
+    name: "Nguyen Van E",
+    company: "Twitter",
+    isVerified: true,
+    status: IStatus.UNKNOWN,
+    role: "UX/UI Designer",
+  },
+  {
+    id: 5,
+    avatarUrl:
+      "https://mir-s3-cdn-cf.behance.net/project_modules/disp/ce54bf11889067.562541ef7cde4.png",
+    name: "Nguyen Van M",
+    company: "Instagram",
+    isVerified: true,
+    status: IStatus.ACTIVE,
+    role: "Tester Engineer",
+  },
+];
 
 const TABLE_HEAD: ITABLE_HEAD[] = [
   { id: "name", label: "Name", alignRight: false },
   { id: "company", label: "Company", alignRight: false },
   { id: "role", label: "Role", alignRight: false },
-  { id: "isVerified", label: "Verified", alignRight: false },
-  { id: "status", label: "Status", alignRight: false },
+  { id: "isVerified", label: "Verified", alignRight: true },
+  { id: "status", label: "Status", alignRight: true },
   { id: "", label: "", alignRight: false },
 ];
 
@@ -197,26 +227,31 @@ export default function Users() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
-
+  const emptyRows = useMemo(
+    () =>
+      page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0,
+    [page, rowsPerPage],
+  );
   const filteredUsers = applySortFilter(
     USERLIST,
     getComparator(order, orderBy),
     filterName,
   );
 
-  const isNotFound = !filteredUsers.length && !!filterName;
+  const isNotFound = useMemo(
+    () => !filteredUsers.length && !!filterName,
+    [filterName, filteredUsers.length],
+  );
 
-  const renderStatus = (status: IStatus) => {
+  const renderStatus = useCallback((status: IStatus) => {
     const color = status === IStatus.ACTIVE ? "success" : "error";
-    return <Chip label="status" color={color} />;
-  };
+    return <Chip label={status} color={color} />;
+  }, []);
 
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title>User</title>
       </Helmet>
 
       <Container>
@@ -268,15 +303,15 @@ export default function Users() {
                       avatarUrl,
                       isVerified,
                     } = row;
-                    const selectedUser = selected?.indexOf(name) !== -1;
-
+                    const selectedUser =
+                      selected && selected?.indexOf(name) !== -1;
                     return (
                       <TableRow
                         hover
                         key={id}
                         tabIndex={-1}
                         role="checkbox"
-                        selected={selectedUser}
+                        selected={selectedUser || false}
                       >
                         <TableCell padding="checkbox">
                           <Checkbox
@@ -302,11 +337,11 @@ export default function Users() {
 
                         <TableCell align="left">{role}</TableCell>
 
-                        <TableCell align="left">
+                        <TableCell align="center">
                           {isVerified ? "Yes" : "No"}
                         </TableCell>
 
-                        <TableCell align="left">
+                        <TableCell align="center">
                           {renderStatus(status)}
                         </TableCell>
 

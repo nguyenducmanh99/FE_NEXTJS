@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 // @mui
 import {
   Box,
@@ -13,6 +12,8 @@ import {
 
 // ----------------------------------------------------------------------
 import { ISideBarConfig } from "./config";
+import { useRouter } from "next/router";
+import { useMemo } from "react";
 export const StyledNavItem: any = styled((props) => (
   <ListItemButton disableGutters {...props} />
 ))(({ theme }) => ({
@@ -54,19 +55,20 @@ export default function SideBarSection({
 }
 
 // ----------------------------------------------------------------------
-
-SideBarItem.propTypes = {
-  item: PropTypes.object,
-};
-
 interface ISideBarItem {
   item: ISideBarConfig;
 }
 function SideBarItem({ item }: ISideBarItem) {
   const { title, path, icon, info, id } = item;
+  const router = useRouter();
+  const classEl: string = useMemo(
+    () => (router.pathname === path ? "active" : "un_active"),
+    [path, router.pathname],
+  );
 
   return (
     <StyledNavItem
+      className={classEl}
       id={id}
       component={Link}
       to={path}

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import Image from "next/image";
 import moment from "moment";
@@ -118,18 +117,6 @@ export default function NotificationsPopover() {
 }
 
 // ----------------------------------------------------------------------
-
-NotificationItem.propTypes = {
-  notification: PropTypes.shape({
-    createdAt: PropTypes.instanceOf(Date),
-    id: PropTypes.string,
-    isUnRead: PropTypes.bool,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    avatar: PropTypes.any,
-  }),
-};
 
 function NotificationItem({ notification }: any) {
   const { avatar, title } = renderContent(notification);

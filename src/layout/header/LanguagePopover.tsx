@@ -9,7 +9,7 @@ const LANGS = [
   {
     value: "vn",
     label: "VietNam",
-    icon: "https://logowik.com/content/uploads/images/925_vietnam_flag.jpg",
+    icon: "https://seeklogo.com/images/V/viet-nam-logo-3D78D597F9-seeklogo.com.png",
   },
 ];
 
@@ -79,7 +79,7 @@ export default function LanguagePopover() {
               onClick={() => handleClose()}
             >
               <Box
-                component="img"
+                component={Image}
                 alt={option.label}
                 src={option.icon}
                 sx={{ width: 28, mr: 2 }}

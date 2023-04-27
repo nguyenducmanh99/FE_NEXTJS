@@ -53,13 +53,15 @@ export default function UserListHead({
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={() => onSelectAllClick()}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              onSelectAllClick(event)
+            }
           />
         </TableCell>
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.alignRight ? "right" : "left"}
+            align={headCell.alignRight ? "center" : "left"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel

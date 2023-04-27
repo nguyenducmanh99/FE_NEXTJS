@@ -20,6 +20,8 @@ import {
 import { useLocalStorage } from "@/hook";
 import _ from "lodash";
 import "tailwindcss/tailwind.css";
+import { useRouter } from "next/router";
+import { PAGE } from "@/constant";
 
 export default function SignIn() {
   const {
@@ -29,6 +31,7 @@ export default function SignIn() {
     setValue,
   } = useForm<ILoginForm>();
   // const { status, data: session } = useSession();
+  const router = useRouter();
   const [keepMe, setKeepMe] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { loginRequest, resetLoginStatus } = useLoginSlice().actions;
@@ -41,6 +44,7 @@ export default function SignIn() {
       setKeepMe(true);
       setValue("email", emailLocal);
       setValue("password", passwordLocal);
+      router.push(PAGE.DASHBOARD);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -51,6 +55,7 @@ export default function SignIn() {
         setEmailLocal("");
         setPasswordLocal("");
       }
+      router.push(PAGE.DASHBOARD);
     }
 
     dispatch(resetLoginStatus());
@@ -62,6 +67,7 @@ export default function SignIn() {
     setEmailLocal,
     setPasswordLocal,
     userInfo,
+    router,
   ]);
 
   const handleLoginWithGoogle = useCallback(async () => {
