@@ -13,4 +13,5 @@ export const PAGE = {
   USERS: "/users",
   ERROR: "/404",
   PRODUCT: "/products",
+  CATEGORY: "/category",
 } as const;

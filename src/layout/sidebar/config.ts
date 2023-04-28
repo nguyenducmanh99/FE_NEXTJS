@@ -5,6 +5,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import { SvgIconComponent } from "@mui/icons-material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import ComputerIcon from "@mui/icons-material/Computer";
 import { PAGE } from "@/constant";
 export interface ISideBarConfig {
   id: string;
@@ -37,6 +38,12 @@ const sideBarConfig: ISideBarConfig[] = [
     title: "product",
     path: PAGE.PRODUCT,
     icon: RocketLaunchIcon,
+  },
+  {
+    id: "category",
+    title: "category",
+    path: PAGE.CATEGORY,
+    icon: ComputerIcon,
   },
 ];
 

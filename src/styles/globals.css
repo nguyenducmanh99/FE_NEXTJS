@@ -142,3 +142,8 @@ a {
 /* ::-webkit-scrollbar-thumb:hover {
   background: #b30000; 
 } */
+.product_card:hover {
+  transform: translateY(3px);
+  box-shadow: 0px 7px 10px rgba(black, 0.5);
+  transition: 0.4s ease-out;
+}
