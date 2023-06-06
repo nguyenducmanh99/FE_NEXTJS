@@ -18,10 +18,10 @@ import {
   RequestStatus,
 } from "@/constant";
 import { useLocalStorage } from "@/hook";
-import _ from "lodash";
 import "tailwindcss/tailwind.css";
 import { useRouter } from "next/router";
 import { PAGE } from "@/constant";
+import _ from "lodash";
 
 export default function SignIn() {
   const {
@@ -71,7 +71,15 @@ export default function SignIn() {
   ]);
 
   const handleLoginWithGoogle = useCallback(async () => {
-    const data = await signIn("google");
+    const data = await signIn("google", {
+      callbackUrl: "http://localhost:3000/dashboard",
+    });
+  }, []);
+
+  const handleLoginWithGithub = useCallback(async () => {
+    const data = await signIn("github", {
+      callbackUrl: "http://localhost:3000/dashboard",
+    });
   }, []);
 
   const onSubmit: SubmitHandler<ILoginForm> = useCallback(
@@ -188,10 +196,14 @@ export default function SignIn() {
                 aria-hidden="true"
               ></div>
             </div>
-            <form>
+            <div>
               <div className="flex flex-wrap -mx-3 mb-3">
                 <div className="w-full px-3">
-                  <button className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
+                  <button
+                    type="button"
+                    onClick={handleLoginWithGithub}
+                    className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center"
+                  >
                     <svg
                       className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
                       viewBox="0 0 16 16"
@@ -208,8 +220,12 @@ export default function SignIn() {
               <div className="flex flex-wrap -mx-3">
                 <div className="w-full px-3">
                   <button
+                    type="button"
                     className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center"
-                    onClick={handleLoginWithGoogle}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      handleLoginWithGoogle();
+                    }}
                   >
                     <svg
                       className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
@@ -224,7 +240,7 @@ export default function SignIn() {
                   </button>
                 </div>
               </div>
-            </form>
+            </div>
             <div className="text-gray-600 text-center mt-6">
               Don&apos;t you have an account?{" "}
               <Link

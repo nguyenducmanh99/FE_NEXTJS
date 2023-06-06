@@ -9,8 +9,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export const initialState: LoginState = {
   loginStatus: RequestStatus.IDLE,
-  userInfo: {},
-  auth: {},
 };
 
 const slice = createSlice({
@@ -34,10 +32,19 @@ const slice = createSlice({
     loginFail: (state, action: PayloadAction<any>) => {
       state.loginStatus = RequestStatus.ERROR;
     },
-
+    
     resetLoginStatus: (state) => {
       state.loginStatus = RequestStatus.IDLE;
     },
+
+    authenticationDataRequest: (state, action: PayloadAction<any>) => {
+      state.infoParty3rd = {...action.payload}
+    },
+
+    resetAuthentication: (state) => {
+      state.infoParty3rd = undefined;
+    },
+
   },
 });
 

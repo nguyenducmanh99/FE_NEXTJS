@@ -12,7 +12,6 @@ function* loginFlow(
   const { payload } = action;
   try {
     const response: any = yield call(API.login, payload);
-    console.log(response);
     if (response.status === HttpStatus.OK) {
       yield put({
         type: Slice.loginSuccess.type,

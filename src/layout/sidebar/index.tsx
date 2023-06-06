@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 // @mui
 import { styled, alpha } from "@mui/material/styles";
@@ -20,6 +20,10 @@ import SideBarSection from "./sideBarSection";
 import sideBarConfig from "./config";
 import Logo from "@/components/logo";
 import Iconify from "@/components/utils/iconify";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth } from "@/store/selectors";
+import { signOut } from "next-auth/react";
+import { useLoginSlice } from "@/store";
 // ----------------------------------------------------------------------
 
 const NAV_WIDTH = 280;
@@ -38,10 +42,14 @@ interface ISideBar {
   openSideBar: boolean;
   onCloseSideBar: CallableFunction;
 }
+const defaultAvatarUrl =
+  "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/301801856_2066107933593180_5536598901693597399_n.jpg?_nc_cat=111&cb=99be929b-59f725be&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=8YAg1IrhWtQAX-qo-TC&_nc_ht=scontent.fhan18-1.fna&oh=00_AfCWMV_89XJ6GKQcYVVelPm4WDxZQkAys5_A831SI5QLGA&oe=64823D1E";
 
 export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
   const { pathname } = useRouter();
-
+  const dispatch = useDispatch();
+  const { resetAuthentication } = useLoginSlice().actions;
+  const { infoParty3rd, userInfo } = useSelector(selectAuth);
   const isDesktop = useResponsive("up", "lg", "xl");
 
   useEffect(() => {
@@ -50,6 +58,11 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  const handleLogout = useCallback(async () => {
+    await dispatch(resetAuthentication());
+    await signOut({ callbackUrl: "http://localhost:3000/auth/signin" });
+  }, [dispatch, resetAuthentication]);
 
   const renderContent = (
     <>
@@ -62,14 +75,14 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
           <StyledAccount>
             <Avatar
               src={
-                "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/301801856_2066107933593180_5536598901693597399_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=jQA3UavyjncAX_23hhY&_nc_ht=scontent.fhan14-1.fna&oh=00_AfAqNxO7EnIUK6iedAldViusKAHWkUF15X4Wzn3YWPVHyg&oe=644CD85E"
+                infoParty3rd?.image || userInfo?.avatarUrl || defaultAvatarUrl
               }
               alt="photoURL"
             />
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {"Duc Manh"}
+                {infoParty3rd?.name || userInfo?.name}
               </Typography>
 
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
@@ -81,7 +94,11 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
               sx={{ flexDirection: "row-reverse", display: "flex" }}
             >
               {" "}
-              <IconButton aria-label="logout" color="error">
+              <IconButton
+                aria-label="logout"
+                color="error"
+                onClick={handleLogout}
+              >
                 <Iconify
                   icon="ant-design:logout-outlined"
                   color="red"

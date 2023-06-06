@@ -1,15 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 // @mui
 import { alpha } from "@mui/material/styles";
 import { Box, MenuItem, Stack, IconButton, Popover } from "@mui/material";
-import Image from "next/image";
 // ----------------------------------------------------------------------
 
 const LANGS = [
   {
     value: "vn",
     label: "VietNam",
-    icon: "https://seeklogo.com/images/V/viet-nam-logo-3D78D597F9-seeklogo.com.png",
+    icon: "/images/VN.png",
   },
 ];
 
@@ -43,12 +43,7 @@ export default function LanguagePopover() {
           }),
         }}
       >
-        <Image
-          src={LANGS[0].icon}
-          alt={LANGS[0].label}
-          width={28}
-          height={20}
-        />
+        <img src={LANGS[0].icon} alt={LANGS[0].label} width={28} height={20} />
       </IconButton>
 
       <Popover
@@ -79,7 +74,7 @@ export default function LanguagePopover() {
               onClick={() => handleClose()}
             >
               <Box
-                component={Image}
+                component={"img"}
                 alt={option.label}
                 src={option.icon}
                 sx={{ width: 28, mr: 2 }}

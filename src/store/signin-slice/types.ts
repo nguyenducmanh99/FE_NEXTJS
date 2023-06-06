@@ -2,8 +2,9 @@ import { RequestStatus } from "@/constant";
 
 export interface LoginState {
   loginStatus: RequestStatus;
-  userInfo: IUser | {};
-  auth: IAuth | {};
+  userInfo?: IUser;
+  auth?: IAuth;
+  infoParty3rd?: IParty3rd
 }
 
 export interface IUser {
@@ -19,6 +20,11 @@ export interface IUser {
   avatarUrl: null | string;
 }
 
+export interface IParty3rd {
+  email: string;
+  image: string;
+  name: string;
+}
 export interface IAuth {
   accessToken: string;
   expired: string;

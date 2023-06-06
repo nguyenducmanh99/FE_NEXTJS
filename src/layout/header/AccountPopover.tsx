@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // @mui
 import { alpha } from "@mui/material/styles";
 import {
@@ -11,7 +11,11 @@ import {
   IconButton,
   Popover,
 } from "@mui/material";
-
+import { signOut, useSession } from "next-auth/react";
+import { useLoginSlice } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth } from "@/store/selectors";
+import { isEmpty } from "lodash";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -30,9 +34,21 @@ const MENU_OPTIONS = [
 ];
 
 // ----------------------------------------------------------------------
-
+const defaultAvatarUrl =
+  "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/301801856_2066107933593180_5536598901693597399_n.jpg?_nc_cat=111&cb=99be929b-59f725be&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=8YAg1IrhWtQAX-qo-TC&_nc_ht=scontent.fhan18-1.fna&oh=00_AfCWMV_89XJ6GKQcYVVelPm4WDxZQkAys5_A831SI5QLGA&oe=64823D1E";
 export default function AccountPopover() {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
+  const { infoParty3rd, userInfo } = useSelector(selectAuth);
+  const { status, data: session } = useSession();
+  const dispatch = useDispatch();
+  const { resetAuthentication } = useLoginSlice().actions;
+  const { authenticationDataRequest } = useLoginSlice().actions;
+
+  useEffect(() => {
+    if (status === "authenticated" && !isEmpty(session.user)) {
+      dispatch(authenticationDataRequest(session.user));
+    }
+  }, [authenticationDataRequest, dispatch, session, status]);
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
@@ -41,6 +57,12 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  const handleLogout = useCallback(async () => {
+    await handleClose();
+    await dispatch(resetAuthentication());
+    await signOut({ callbackUrl: "http://localhost:3000/auth/signin" });
+  }, [dispatch, resetAuthentication]);
 
   return (
     <>
@@ -62,9 +84,7 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={
-            "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/301801856_2066107933593180_5536598901693597399_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=jQA3UavyjncAX_23hhY&_nc_ht=scontent.fhan14-1.fna&oh=00_AfAqNxO7EnIUK6iedAldViusKAHWkUF15X4Wzn3YWPVHyg&oe=644CD85E"
-          }
+          src={infoParty3rd?.image || userInfo?.avatarUrl || defaultAvatarUrl}
           alt="photoURL"
         />
       </IconButton>
@@ -90,10 +110,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {"Duc Manh"}
+            {infoParty3rd?.name || userInfo?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {"nguyenducmanh02121999@gmail.com"}
+            {infoParty3rd?.email || userInfo?.email}
           </Typography>
         </Box>
 
@@ -109,7 +129,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </Popover>
