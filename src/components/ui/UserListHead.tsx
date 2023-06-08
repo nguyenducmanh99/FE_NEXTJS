@@ -63,6 +63,7 @@ export default function UserListHead({
             key={headCell.id}
             align={headCell.alignRight ? "center" : "left"}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={headCell.id ? {} : { width: "60px" }}
           >
             <TableSortLabel
               hideSortIcon

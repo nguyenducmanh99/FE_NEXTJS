@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect, StrictMode, ReactElement, ReactNode } from "react";
 import ErrorBoundary from "@/pages/error";
-import DateAdapter from "@mui/lab/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { HelmetProvider } from "react-helmet-async";
 import {
@@ -18,7 +17,7 @@ import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import { NextPage } from "next";
 import { wrapper } from "@/store";
-
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -49,7 +48,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
               <CssBaseline />
               <HelmetProvider>
                 <StrictMode>
-                  <LocalizationProvider dataAdapter={DateAdapter}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <ErrorBoundary>
                       <SessionProvider session={session}>
                         {getLayout(<Component {...pageProps} />)}

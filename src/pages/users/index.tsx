@@ -22,6 +22,7 @@ import {
   TableContainer,
   TablePagination,
   Chip,
+  Tooltip,
 } from "@mui/material";
 // components
 import Iconify from "@/components/utils/iconify";
@@ -37,6 +38,7 @@ import { selectUser } from "@/store/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { END } from "redux-saga";
 import useUpdateEffect from "@/hook/useUpdateEffect";
+import SignUpDialogs from "@/components/shared/SignUpDialog";
 // ----------------------------------------------------------------------
 export enum IStatus {
   UNKNOWN = "UNKNOWN",
@@ -109,6 +111,7 @@ export default function Users({
   const { userDataRes } = useSelector(selectUser);
   const [userData, setUserData] = useState(dataServer);
   const { getUserSuccess } = useUserSlice().actions;
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -224,7 +227,6 @@ export default function Users({
       <Helmet>
         <title>User</title>
       </Helmet>
-
       <Container>
         <Stack
           direction="row"
@@ -238,11 +240,12 @@ export default function Users({
           <Button
             variant="contained"
             startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => setOpenDialog(true)}
           >
             New User
           </Button>
         </Stack>
-
+        {/* Content ~ Table */}
         <Card>
           <UserListToolbar
             numSelected={selected?.length || 0}
@@ -297,7 +300,9 @@ export default function Users({
                             alignItems="center"
                             spacing={2}
                           >
-                            <Avatar src={avatarUrl || undefined} />
+                            <Tooltip title={email} arrow>
+                              <Avatar src={avatarUrl || undefined} />
+                            </Tooltip>
                             <Typography variant="subtitle2" noWrap>
                               {fullName}
                             </Typography>
@@ -372,7 +377,9 @@ export default function Users({
           />
         </Card>
       </Container>
-
+      {/* Dialog create user */}
+      <SignUpDialogs open={openDialog} onClose={() => setOpenDialog(false)} />
+      {/* Action popup for table */}
       <Popover
         open={Boolean(open)}
         anchorEl={open}

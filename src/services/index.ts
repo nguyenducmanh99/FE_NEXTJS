@@ -1,4 +1,4 @@
-import { AUTH_TOKEN } from "@/constant";
+import { APP_LOGIN_URL, AUTH_TOKEN, HttpStatus } from "@/constant";
 import axios, { AxiosRequestConfig, Method as AxiosMethod, AxiosInstance, AxiosError, AxiosResponse } from "axios";
 
 const instance: AxiosInstance = axios.create({
@@ -56,6 +56,9 @@ instance.interceptors.response.use(
   function (error: AxiosError | any) {
     // Bất kì mã trạng thái nào lọt ra ngoài tầm 2xx đều khiến hàm này được trigger\
     // Làm gì đó với lỗi response
+    if(error?.response.status == HttpStatus.UNAUTHORIZED && typeof window !== "undefined") {
+       window.location.href= APP_LOGIN_URL;
+    }
     return Promise.reject(error);
   },
 );

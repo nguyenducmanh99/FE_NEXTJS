@@ -18,11 +18,7 @@ function* userFlow(
       });
     }
   } catch (error: AxiosError | any) {
-    console.log("Error", error?.response.status)
     yield put({ type: Slice.getUserFail.type, payload: error?.response });
-    if(error?.response.status == HttpStatus.UNAUTHORIZED && typeof window !== "undefined") {
-       window.location.href= APP_LOGIN_URL;
-    }
   }
 }
 
