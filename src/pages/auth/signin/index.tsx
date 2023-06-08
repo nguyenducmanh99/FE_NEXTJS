@@ -12,9 +12,9 @@ import { useLoginSlice } from "@/store";
 import { ILoginForm } from "@/store/type";
 import { selectAuth } from "@/store/selectors";
 import {
+  APP_HOME_URL,
   AUTH_EMAIL,
   AUTH_PASSWORD,
-  AUTH_TOKEN,
   RequestStatus,
 } from "@/constant";
 import { useLocalStorage } from "@/hook";
@@ -72,13 +72,13 @@ export default function SignIn() {
 
   const handleLoginWithGoogle = useCallback(async () => {
     const data = await signIn("google", {
-      callbackUrl: "http://localhost:3000/dashboard",
+      callbackUrl: APP_HOME_URL,
     });
   }, []);
 
   const handleLoginWithGithub = useCallback(async () => {
     const data = await signIn("github", {
-      callbackUrl: "http://localhost:3000/dashboard",
+      callbackUrl: APP_HOME_URL,
     });
   }, []);
 

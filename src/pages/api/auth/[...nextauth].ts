@@ -5,6 +5,7 @@ export interface IJWT {
   token: any;
   account: any
 }
+
 export const authOptions = {
   providers: [
     GoogleProvider({

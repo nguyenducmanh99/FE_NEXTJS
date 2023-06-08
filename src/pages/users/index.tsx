@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { filter } from "lodash";
-import { ReactElement, useCallback, useMemo, useState } from "react";
-import { sample } from "lodash";
+import { ReactElement, useCallback, useEffect, useMemo, useState } from "react";
 import _ from "lodash";
 // @mui
 import {
@@ -30,86 +29,32 @@ import UserListHead from "@/components/ui/UserListHead";
 import UserListToolbar from "@/components/ui/UserListToolbar";
 // layout
 import FullLayout from "@/layout/FullLayout";
-
+import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
+import { IUserData, IUser } from "@/store/user-slice/types";
+import { useUserSlice, wrapper, store } from "@/store";
+import Cookies from "universal-cookie";
+import { selectUser } from "@/store/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { END } from "redux-saga";
+import useUpdateEffect from "@/hook/useUpdateEffect";
 // ----------------------------------------------------------------------
 export enum IStatus {
   UNKNOWN = "UNKNOWN",
   ACTIVE = "ACTIVE",
 }
-export interface IUser {
-  id: string | number;
-  avatarUrl: string;
-  name: string;
-  company: string;
-  status: IStatus;
-  isVerified: boolean;
-  role: string;
-}
+
 export interface ITABLE_HEAD {
   id: string;
   label: string;
   alignRight: boolean;
 }
 
-const USERLIST: IUser[] = [
-  {
-    id: 1,
-    avatarUrl:
-      "https://static.vecteezy.com/system/resources/previews/002/002/297/original/beautiful-woman-avatar-character-icon-free-vector.jpg",
-    name: "Nguyen Van A",
-    company: "FaceBook",
-    isVerified: true,
-    status: IStatus.ACTIVE,
-    role: "Leader",
-  },
-  {
-    id: 2,
-    avatarUrl:
-      "https://thumbs.dreamstime.com/b/male-avatar-icon-flat-style-male-user-icon-cartoon-man-avatar-hipster-vector-stock-91462914.jpg",
-    name: "Nguyen Van B",
-    company: "Google",
-    isVerified: true,
-    status: IStatus.UNKNOWN,
-    role: "Full Stack Developer",
-  },
-  {
-    id: 3,
-    avatarUrl:
-      "https://static.vecteezy.com/system/resources/previews/002/002/403/original/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-    name: "Nguyen Van C",
-    company: "Twitter",
-    isVerified: true,
-    status: IStatus.UNKNOWN,
-    role: "Backend Developer",
-  },
-  {
-    id: 4,
-    avatarUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI3vvVZ-pOGsyhaNEm9s-tm96lh7OGxJrpPQ&usqp=CAU",
-    name: "Nguyen Van E",
-    company: "Twitter",
-    isVerified: true,
-    status: IStatus.UNKNOWN,
-    role: "UX/UI Designer",
-  },
-  {
-    id: 5,
-    avatarUrl:
-      "https://mir-s3-cdn-cf.behance.net/project_modules/disp/ce54bf11889067.562541ef7cde4.png",
-    name: "Nguyen Van M",
-    company: "Instagram",
-    isVerified: true,
-    status: IStatus.ACTIVE,
-    role: "Tester Engineer",
-  },
-];
-
 const TABLE_HEAD: ITABLE_HEAD[] = [
-  { id: "name", label: "Name", alignRight: false },
-  { id: "company", label: "Company", alignRight: false },
-  { id: "role", label: "Role", alignRight: false },
-  { id: "isVerified", label: "Verified", alignRight: true },
-  { id: "status", label: "Status", alignRight: true },
+  { id: "fullName", label: "Name", alignRight: false },
+  { id: "address", label: "Address", alignRight: false },
+  { id: "description", label: "Role", alignRight: false },
+  { id: "phone", label: "Phone", alignRight: true },
+  { id: "email", label: "Status", alignRight: true },
   { id: "", label: "", alignRight: false },
 ];
 
@@ -132,11 +77,11 @@ function getComparator(order: "desc" | "asc", orderBy: string) {
 }
 
 function applySortFilter(
-  array: IUser[],
+  array: IUser[] | [],
   comparator: any | number,
   query: string,
-): IUser[] {
-  const stabilizedThis: any = array.map((el, index) => [el, index]);
+): IUser[] | [] {
+  const stabilizedThis: any = array?.map((el, index) => [el, index]);
   stabilizedThis.sort((a: any, b: any) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
@@ -151,20 +96,41 @@ function applySortFilter(
   return stabilizedThis.map((el: Record<number, any>) => el[0]);
 }
 
-export default function Users() {
+export default function Users({
+  dataServer,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState<"desc" | "asc">("asc");
-
   const [selected, setSelected] = useState<string[]>();
-
   const [orderBy, setOrderBy] = useState("name");
-
   const [filterName, setFilterName] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { userDataRes } = useSelector(selectUser);
+  const [userData, setUserData] = useState(dataServer);
+  const { getUserSuccess } = useUserSlice().actions;
+  const dispatch = useDispatch();
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  useEffect(() => {
+    if (!_.isEmpty(dataServer)) {
+      // When has data from server => update state userData data and pass to store
+      setUserData(dataServer);
+      dispatch(getUserSuccess(dataServer));
+    }
+  }, [dataServer, dispatch, getUserSuccess]);
+
+  useUpdateEffect(() => {
+    if (!_.isEmpty(userDataRes)) {
+      setUserData(userDataRes);
+    }
+  }, [userDataRes]);
+
+  useEffect(() => {
+    if (!_.isEmpty(userData)) {
+      setRowsPerPage(userData.meta.itemsPerPage);
+      setPage(userData.meta.currentPage - 1);
+    }
+  }, [userData]);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
@@ -181,8 +147,8 @@ export default function Users() {
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target?.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+    if (event.target?.checked && userData) {
+      const newSelecteds = userData.data.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -229,11 +195,16 @@ export default function Users() {
 
   const emptyRows = useMemo(
     () =>
-      page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0,
-    [page, rowsPerPage],
+      page > 0
+        ? Math.max(
+            0,
+            (1 + page) * rowsPerPage - (userData ? userData?.data.length : 0),
+          )
+        : 0,
+    [page, rowsPerPage, userData],
   );
   const filteredUsers = applySortFilter(
-    USERLIST,
+    userData?.data || [],
     getComparator(order, orderBy),
     filterName,
   );
@@ -285,7 +256,7 @@ export default function Users() {
                 order={order}
                 orderBy={orderBy}
                 headLabel={TABLE_HEAD}
-                rowCount={USERLIST.length}
+                rowCount={userData?.data.length || 0}
                 numSelected={selected?.length || 0}
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -296,15 +267,15 @@ export default function Users() {
                   .map((row) => {
                     const {
                       id,
-                      name,
-                      role,
-                      status,
-                      company,
+                      fullName,
+                      phone,
+                      description,
+                      address,
                       avatarUrl,
-                      isVerified,
+                      email,
                     } = row;
                     const selectedUser =
-                      selected && selected?.indexOf(name) !== -1;
+                      selected && selected?.indexOf(fullName) !== -1;
                     return (
                       <TableRow
                         hover
@@ -316,7 +287,7 @@ export default function Users() {
                         <TableCell padding="checkbox">
                           <Checkbox
                             checked={selectedUser}
-                            onChange={(event) => handleClick(event, name)}
+                            onChange={(event) => handleClick(event, fullName)}
                           />
                         </TableCell>
 
@@ -326,23 +297,23 @@ export default function Users() {
                             alignItems="center"
                             spacing={2}
                           >
-                            <Avatar src={avatarUrl} />
+                            <Avatar src={avatarUrl || undefined} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {fullName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{address}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{description}</TableCell>
 
-                        <TableCell align="center">
-                          {isVerified ? "Yes" : "No"}
-                        </TableCell>
+                        <TableCell align="center">{phone}</TableCell>
 
                         <TableCell align="center">
-                          {renderStatus(status)}
+                          {renderStatus(
+                            email ? IStatus.ACTIVE : IStatus.UNKNOWN,
+                          )}
                         </TableCell>
 
                         <TableCell align="right">
@@ -393,7 +364,7 @@ export default function Users() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={userData?.meta.totalItems || 0}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={() => handleChangePage}
@@ -433,6 +404,32 @@ export default function Users() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  dataServer: IUserData | undefined;
+}> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
+  const { getUserRequest } = useUserSlice().actions;
+  const cookies = new Cookies(req.headers.cookie);
+  const token = cookies.get("token");
+  // console.log("token", token);
+  const payload = {
+    data: {
+      page: 1,
+      limit: 10,
+      sortBy: "ASC",
+    },
+    token,
+  };
+
+  await store.dispatch(getUserRequest(payload));
+  await store.dispatch(END);
+  await store.sagaTask.toPromise();
+  const dataServer: IUserData | undefined =
+    store.getState().userInfo?.userDataRes;
+  // console.log("data", data);
+  if (dataServer) return { props: { dataServer } };
+});
+
 Users.getLayout = function getLayout(page: ReactElement) {
   return <FullLayout>{page}</FullLayout>;
 };

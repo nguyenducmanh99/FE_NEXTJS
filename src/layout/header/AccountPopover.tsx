@@ -16,6 +16,7 @@ import { useLoginSlice } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "@/store/selectors";
 import { isEmpty } from "lodash";
+import { APP_DEFAULT_AVT, APP_LOGIN_URL } from "@/constant";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -34,8 +35,7 @@ const MENU_OPTIONS = [
 ];
 
 // ----------------------------------------------------------------------
-const defaultAvatarUrl =
-  "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/301801856_2066107933593180_5536598901693597399_n.jpg?_nc_cat=111&cb=99be929b-59f725be&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=8YAg1IrhWtQAX-qo-TC&_nc_ht=scontent.fhan18-1.fna&oh=00_AfCWMV_89XJ6GKQcYVVelPm4WDxZQkAys5_A831SI5QLGA&oe=64823D1E";
+const defaultAvatarUrl = APP_DEFAULT_AVT;
 export default function AccountPopover() {
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
   const { infoParty3rd, userInfo } = useSelector(selectAuth);
@@ -61,7 +61,7 @@ export default function AccountPopover() {
   const handleLogout = useCallback(async () => {
     await handleClose();
     await dispatch(resetAuthentication());
-    await signOut({ callbackUrl: "http://localhost:3000/auth/signin" });
+    await signOut({ callbackUrl: APP_LOGIN_URL });
   }, [dispatch, resetAuthentication]);
 
   return (

@@ -6,6 +6,7 @@ import {
 } from "@/constant";
 import { LoginState } from "./types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import Cookies from "universal-cookie";
 
 export const initialState: LoginState = {
   loginStatus: RequestStatus.IDLE,
@@ -24,6 +25,8 @@ const slice = createSlice({
       state.userInfo = { ...action.payload };
       const { accessToken, expired, password, email } = action.payload;
       state.auth = { accessToken, expired };
+      const cookies = new Cookies();
+      cookies.set("token", accessToken, { path: '/' });
       window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(accessToken));
       window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(password));
       window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(email));
@@ -43,6 +46,9 @@ const slice = createSlice({
 
     resetAuthentication: (state) => {
       state.infoParty3rd = undefined;
+      window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(''));
+      window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(''));
+      window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(''));
     },
 
   },

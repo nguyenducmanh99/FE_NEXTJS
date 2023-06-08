@@ -16,8 +16,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
-import { store } from "@/store";
 import { NextPage } from "next";
+import { wrapper } from "@/store";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,10 +28,7 @@ interface MyAppProps extends AppProps {
   Component: NextPageWithLayout;
 }
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: MyAppProps) {
+function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
   useEffect(() => {
     AOS.init({
       once: true,
@@ -42,7 +39,7 @@ export default function App({
   });
   // console.log(Component.displayName)
   const getLayout = Component.getLayout ?? ((page) => page);
-
+  const { store, props } = wrapper.useWrappedStore(pageProps);
   return (
     <>
       <Provider store={store}>
@@ -69,4 +66,5 @@ export default function App({
   );
 }
 
+export default App;
 const Main = styled.main``;
