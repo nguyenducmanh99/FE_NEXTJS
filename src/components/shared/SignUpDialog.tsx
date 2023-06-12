@@ -6,11 +6,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { FormControl, Grid, InputAdornment, InputLabel } from "@mui/material";
+import {
+  Autocomplete,
+  FormControl,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  TextField,
+} from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useForm, Controller, ControllerRenderProps } from "react-hook-form";
+import dayjs, { Dayjs } from "dayjs";
 
 const SignUpDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -87,12 +96,12 @@ const fieldOption: IFieldOption[] = [
   {
     key: "description",
     label: "Role",
-    type: "text",
+    type: "select",
   },
   {
     key: "address",
     label: "Address",
-    type: "text",
+    type: "select",
   },
   {
     key: "dateOfBirth",
@@ -105,9 +114,48 @@ const fieldOption: IFieldOption[] = [
     type: "text",
   },
 ];
+const roleOptions = ["Admin", "Employee"];
+const cityOptions = [
+  "Hanoi",
+  "HoChiMinh",
+  "HaiPhong",
+  "Danang",
+  "Thanhhoa",
+  "Phutho",
+];
+
+type FormData = {
+  fullName: string;
+  name: string;
+  email: string;
+  phone: string;
+  description: string;
+  address: string;
+  dateOfBirth: string | Date | Dayjs;
+  password: string;
+};
+
 export default function SignUpDialogs(props: ISignUpDialogs) {
   const { open, onClose } = props;
   const [showPassword, setShowPassword] = React.useState(false);
+  const {
+    control,
+    setValue,
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      fullName: "",
+      name: "",
+      email: "",
+      phone: "",
+      description: "Employee",
+      address: "Hanoi",
+      dateOfBirth: dayjs("2000-01-1"),
+      password: "",
+    },
+  });
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -121,14 +169,92 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
     onClose();
   };
 
+  const renderInput = React.useCallback(
+    (
+      type: string,
+      key: string,
+      isPassWord: boolean,
+      typePassword: "text" | "password",
+      field: ControllerRenderProps<FormData, keyof FormData> | any,
+    ) => {
+      // console.log("field", field);
+      const isNumber = key === "phone";
+      switch (type) {
+        case "date":
+          return (
+            <DatePickerSelect
+              id={key}
+              key={key}
+              {...field}
+              onChange={(date: any) =>
+                field.onChange(dayjs(date).format("YYYY-MM-DD"))
+              }
+              selected={field.value}
+            />
+          );
+        case "select":
+          const optionRender = key === "address" ? cityOptions : roleOptions;
+          return (
+            <SelectField
+              disablePortal
+              {...field}
+              onChange={(event: any, newValue: string | null) => {
+                setValue(field.name, newValue);
+              }}
+              getOptionLabel={(option) => option || ""}
+              id={`controllable-states-${key}`}
+              options={optionRender}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          );
+        default:
+          return (
+            <BootstrapInput
+              {...field}
+              {...register(field.name, {
+                required: true,
+                // valueAsNumber: true,
+                pattern: {
+                  value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                  message: "Please enter a number",
+                },
+              })}
+              id={key}
+              fullWidth={true}
+              type={isPassWord ? typePassword : "text"}
+              endAdornment={
+                isPassWord && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }
+            />
+          );
+      }
+    },
+    [register, setValue, showPassword],
+  );
+
+  const onSubmit = React.useCallback((data: FormData) => {
+    console.log(data);
+  }, []);
+
   return (
-    <div>
-      <SignUpDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-        maxWidth={"md"}
-      >
+    <SignUpDialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={open}
+      maxWidth={"md"}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <SignUpDialogTitle id="customized-dialog-title" onClose={handleClose}>
           Create New User
         </SignUpDialogTitle>
@@ -138,64 +264,71 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
               const { key, label, type } = el;
               const isPassWord = key === "password";
               const typePassword = showPassword ? "text" : "password";
-              if (type === "text") {
-                return (
-                  <Grid
-                    item
-                    key={key}
-                    xs={6}
-                    md={6}
-                    sm={6}
-                    sx={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <FormControl variant="standard" sx={{ width: "95%" }}>
-                      <InputLabel shrink htmlFor="bootstrap-input">
-                        {label}
-                      </InputLabel>
-                      <BootstrapInput
-                        defaultValue=""
-                        id={key}
-                        fullWidth={true}
-                        type={isPassWord ? typePassword : "text"}
-                        endAdornment={
-                          isPassWord && (
-                            <InputAdornment position="end">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                              >
-                                {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }
-                      />
-                    </FormControl>
-                  </Grid>
-                );
-              }
-              if (type === "date") {
-                return <DatePicker key={key} />;
-              }
+
+              return (
+                <Grid
+                  item
+                  key={key}
+                  xs={6}
+                  md={6}
+                  sm={6}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <FormControl variant="standard" sx={{ width: "95%" }}>
+                    <InputLabel shrink htmlFor="bootstrap-input">
+                      {label}
+                    </InputLabel>
+                    <Controller
+                      name={key as keyof FormData}
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) =>
+                        renderInput(type, key, isPassWord, typePassword, {
+                          ...field,
+                        })
+                      }
+                    />
+                  </FormControl>
+                </Grid>
+              );
             })}
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
+          <Button
+            type="button"
+            onClick={() => console.log("Form", control._formValues)}
+          >
+            Cancel
           </Button>
+          <Button type="submit">Save changes</Button>
         </DialogActions>
-      </SignUpDialog>
-    </div>
+      </form>
+    </SignUpDialog>
   );
 }
+const DatePickerSelect = styled(DatePicker)(({ theme }) => ({
+  "& .MuiInputBase-root": {
+    height: "45px",
+    marginTop: "24px",
+  },
+  input: {
+    "&::placeholder": {
+      fontSize: "16px",
+    },
+  },
+}));
+
+const SelectField = styled(Autocomplete)(({ theme }) => ({
+  "& .MuiInputBase-root": {
+    height: "45px",
+    marginTop: "24px",
+  },
+  input: {
+    padding: "1.5px 4px 7.5px 5px !important",
+  },
+}));
+
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
     marginTop: theme.spacing(3),

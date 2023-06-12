@@ -48,7 +48,10 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
               <CssBaseline />
               <HelmetProvider>
                 <StrictMode>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale={"en"}
+                  >
                     <ErrorBoundary>
                       <SessionProvider session={session}>
                         {getLayout(<Component {...pageProps} />)}
