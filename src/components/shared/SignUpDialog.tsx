@@ -122,6 +122,10 @@ const cityOptions = [
   "Danang",
   "Thanhhoa",
   "Phutho",
+  "Thaibinh",
+  "Namdinh",
+  "Ninhbinh",
+  "Nghean",
 ];
 
 type FormData = {
@@ -177,8 +181,7 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
       typePassword: "text" | "password",
       field: ControllerRenderProps<FormData, keyof FormData> | any,
     ) => {
-      // console.log("field", field);
-      const isNumber = key === "phone";
+      const isNumber = key == "phone";
       switch (type) {
         case "date":
           return (
@@ -213,10 +216,14 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
               {...field}
               {...register(field.name, {
                 required: true,
-                // valueAsNumber: true,
-                pattern: {
-                  value: /^(0|[1-9]\d*)(\.\d+)?$/,
-                  message: "Please enter a number",
+                onChange: (event) => {
+                  const value: string = event.target.value;
+                  if (isNumber) {
+                    const phoneNumberOnly = value
+                      .replace(/[^0-9.]/g, "")
+                      .replace(/(\..*?)\..*/g, "$1");
+                    setValue("phone", phoneNumberOnly);
+                  }
                 },
               })}
               id={key}
@@ -297,11 +304,15 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
         <DialogActions>
           <Button
             type="button"
-            onClick={() => console.log("Form", control._formValues)}
+            onClick={handleClose}
+            variant="outlined"
+            color="error"
           >
             Cancel
           </Button>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" variant="outlined">
+            Save changes
+          </Button>
         </DialogActions>
       </form>
     </SignUpDialog>
