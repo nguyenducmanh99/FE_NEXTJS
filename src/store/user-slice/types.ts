@@ -2,7 +2,11 @@ import { RequestStatus } from "@/constant";
 
 export interface UserState {
   userStatus: RequestStatus;
+  createUserStatus: RequestStatus;
+  editUserStatus: RequestStatus;
+  deleteUserStatus: RequestStatus;
   userDataRes?: IUserData;
+  userCreateRes?: IUser;
 }
 
 export interface IUserData {
@@ -19,7 +23,7 @@ export interface IUser {
   fullName: string;
   description: string;
   address: string;
-  password: string;
+  password?: string;
   phone: number;
   email: string;
   dateOfBirth: string;

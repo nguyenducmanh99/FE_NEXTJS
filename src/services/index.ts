@@ -32,7 +32,7 @@ export type IMeThod = Extract<
 >;
 instance.interceptors.request.use(
   function (config: AxiosRequestConfig | any) {
-  const token = config.headers?.Authorization || window?.localStorage.getItem(AUTH_TOKEN);
+  const token = config.headers?.Authorization || JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "");
   // console.log("token", token);
   if (token !== null && token !== undefined) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -78,6 +78,8 @@ export const request = (url: string, payload: any, method: IMeThod | any, token?
 
 const APIs = {
   login: (payload: any) => request("/auth/login", payload, "POST"),
+  saveLog: (payload: any) => request("/history", payload, "POST"),
   users: (payload: any) => request("/users", payload.data, "get", payload.token),
+  createUser: (payload: any) => request("/users", payload, "POST"),
 };
 export default APIs;

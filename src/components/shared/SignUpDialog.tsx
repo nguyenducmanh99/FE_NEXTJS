@@ -20,6 +20,11 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useForm, Controller, ControllerRenderProps } from "react-hook-form";
 import dayjs, { Dayjs } from "dayjs";
+import { useDispatch, useSelector } from "react-redux";
+import { useUserSlice, useHistorySlice } from "@/store";
+import { selectUser } from "@/store/selectors";
+import { AUTH_INFO, RequestStatus } from "@/constant";
+import { useLocalStorage } from "@/hook";
 
 const SignUpDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -74,12 +79,12 @@ interface IFieldOption {
 const fieldOption: IFieldOption[] = [
   {
     key: "fullName",
-    label: "First Name",
+    label: "Full Name",
     type: "text",
   },
   {
     key: "name",
-    label: "Last Name",
+    label: "User Name",
     type: "text",
   },
   {
@@ -137,11 +142,17 @@ type FormData = {
   address: string;
   dateOfBirth: string | Date | Dayjs;
   password: string;
+  avatarUrl: string;
 };
 
 export default function SignUpDialogs(props: ISignUpDialogs) {
   const { open, onClose } = props;
   const [showPassword, setShowPassword] = React.useState(false);
+  const dispatch = useDispatch();
+  const { createUserRequest, resetUserStatus } = useUserSlice().actions;
+  const { createHistoryRequest } = useHistorySlice().actions;
+  const { createUserStatus, userCreateRes } = useSelector(selectUser);
+  const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   const {
     control,
     setValue,
@@ -158,8 +169,24 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
       address: "Hanoi",
       dateOfBirth: dayjs("2000-01-1"),
       password: "",
+      avatarUrl: "",
     },
   });
+  
+  React.useEffect(() => {
+    if(createUserStatus === RequestStatus.SUCCESS) {
+      const dataSave =  {
+        authorId: Number(authInfo.id),
+        authorUrl: authInfo.avatarUrl,
+        action: `Create user ${userCreateRes?.fullName}`,
+        categoryName: "User",
+        fullName: authInfo.fullName
+      };
+      console.log("dataSave", dataSave);
+      dispatch(createHistoryRequest(dataSave));
+    }
+    dispatch(resetUserStatus()) 
+  }, [authInfo, createHistoryRequest, createUserStatus, dispatch, resetUserStatus, userCreateRes?.fullName])
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -251,8 +278,11 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
   );
 
   const onSubmit = React.useCallback((data: FormData) => {
-    console.log(data);
-  }, []);
+      const { dateOfBirth } = data
+      data.dateOfBirth = dayjs(dateOfBirth).format("YYYY-MM-DD");
+      data.avatarUrl = 'https://freeiconshop.com/wp-content/uploads/edd/person-outline-filled.png';
+      dispatch(createUserRequest(data));
+  }, [createUserRequest, dispatch]);
 
   return (
     <SignUpDialog

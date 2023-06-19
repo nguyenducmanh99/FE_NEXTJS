@@ -433,7 +433,7 @@ export const getServerSideProps: GetServerSideProps<{
   await store.sagaTask.toPromise();
   const dataServer: IUserData | undefined =
     store.getState().userInfo?.userDataRes;
-  // console.log("data", data);
+  // console.log("dataServer", dataServer);
   if (dataServer) return { props: { dataServer } };
 });
 

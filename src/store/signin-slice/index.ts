@@ -1,5 +1,6 @@
 import {
   AUTH_EMAIL,
+  AUTH_INFO,
   AUTH_PASSWORD,
   AUTH_TOKEN,
   RequestStatus,
@@ -23,13 +24,15 @@ const slice = createSlice({
     loginSuccess: (state, action: PayloadAction<any>) => {
       state.loginStatus = RequestStatus.SUCCESS;
       state.userInfo = { ...action.payload };
-      const { accessToken, expired, password, email } = action.payload;
+      const { accessToken, expired, password, email, fullName } = action.payload;
       state.auth = { accessToken, expired };
       const cookies = new Cookies();
       cookies.set("token", accessToken, { path: '/' });
+
       window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(accessToken));
       window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(password));
       window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(email));
+      window.localStorage.setItem(AUTH_INFO, JSON.stringify(state.userInfo));
     },
 
     loginFail: (state, action: PayloadAction<any>) => {

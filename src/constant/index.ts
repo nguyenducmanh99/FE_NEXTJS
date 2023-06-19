@@ -15,6 +15,8 @@ export const APP_HOME_URL = "http://localhost:3000/dashboard";
 export const AUTH_TOKEN = "AUTH_TOKEN";
 export const AUTH_PASSWORD = "AUTH_PASSWORD";
 export const AUTH_EMAIL = "AUTH_EMAIL";
+export const AUTH_INFO = "AUTH_INFO";
+
 // </ KEY>
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
