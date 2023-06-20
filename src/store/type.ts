@@ -5,5 +5,5 @@ export * from "@/store/signin-slice/types";
 export interface RootReducer {
   authInfo: LoginState;
   userInfo: UserState;
-  history: HistoryState
+  history: HistoryState;
 }

@@ -172,21 +172,27 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
       avatarUrl: "",
     },
   });
-  
+
   React.useEffect(() => {
-    if(createUserStatus === RequestStatus.SUCCESS) {
-      const dataSave =  {
+    if (createUserStatus === RequestStatus.SUCCESS) {
+      const dataSave = {
         authorId: Number(authInfo.id),
         authorUrl: authInfo.avatarUrl,
         action: `Create user ${userCreateRes?.fullName}`,
         categoryName: "User",
-        fullName: authInfo.fullName
+        fullName: authInfo.fullName,
       };
-      console.log("dataSave", dataSave);
       dispatch(createHistoryRequest(dataSave));
     }
-    dispatch(resetUserStatus()) 
-  }, [authInfo, createHistoryRequest, createUserStatus, dispatch, resetUserStatus, userCreateRes?.fullName])
+    dispatch(resetUserStatus());
+  }, [
+    authInfo,
+    createHistoryRequest,
+    createUserStatus,
+    dispatch,
+    resetUserStatus,
+    userCreateRes?.fullName,
+  ]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -277,12 +283,16 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
     [register, setValue, showPassword],
   );
 
-  const onSubmit = React.useCallback((data: FormData) => {
-      const { dateOfBirth } = data
+  const onSubmit = React.useCallback(
+    (data: FormData) => {
+      const { dateOfBirth } = data;
       data.dateOfBirth = dayjs(dateOfBirth).format("YYYY-MM-DD");
-      data.avatarUrl = 'https://freeiconshop.com/wp-content/uploads/edd/person-outline-filled.png';
+      data.avatarUrl =
+        "https://freeiconshop.com/wp-content/uploads/edd/person-outline-filled.png";
       dispatch(createUserRequest(data));
-  }, [createUserRequest, dispatch]);
+    },
+    [createUserRequest, dispatch],
+  );
 
   return (
     <SignUpDialog

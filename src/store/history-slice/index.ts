@@ -1,6 +1,4 @@
-import {
-  RequestStatus,
-} from "@/constant";
+import { RequestStatus } from "@/constant";
 import { HistoryState } from "./types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
@@ -18,28 +16,28 @@ const slice = createSlice({
     },
 
     getHistorySuccess: (state, action: PayloadAction<any>) => {
-        state.historyStatus = RequestStatus.SUCCESS;
+      state.historyStatus = RequestStatus.SUCCESS;
     },
 
     getHistoryFail: (state, action: PayloadAction<any>) => {
       state.historyStatus = RequestStatus.ERROR;
     },
-    
+
     createHistoryRequest: (state, action: PayloadAction<any>) => {
       state.createHistoryStatus = RequestStatus.REQUESTING;
     },
 
     createHistorySuccess: (state, action: PayloadAction<any>) => {
-        state.createHistoryStatus = RequestStatus.SUCCESS;
+      state.createHistoryStatus = RequestStatus.SUCCESS;
     },
 
     createHistoryFail: (state, action: PayloadAction<any>) => {
       state.createHistoryStatus = RequestStatus.ERROR;
     },
-    
+
     resetHistoryStatus: (state) => {
       state.historyStatus = RequestStatus.IDLE;
-      state.createHistoryStatus= RequestStatus.IDLE;
+      state.createHistoryStatus = RequestStatus.IDLE;
     },
   },
 });

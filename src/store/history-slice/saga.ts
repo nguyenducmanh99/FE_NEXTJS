@@ -2,7 +2,7 @@ import { takeLatest, call, put } from "redux-saga/effects";
 import Slice from ".";
 import { PayloadAction } from "@reduxjs/toolkit";
 import API from "@/services";
-import {  HttpStatus } from "@/constant";
+import { HttpStatus } from "@/constant";
 import { AxiosError } from "axios";
 
 // function* userFlow(
@@ -23,11 +23,11 @@ import { AxiosError } from "axios";
 // }
 
 function* createHistoryFlow(
-action: PayloadAction<{ type: string; payload: any }>,
+  action: PayloadAction<{ type: string; payload: any }>,
 ): any {
   const { payload } = action;
   try {
-    const response: any =  yield call(API.saveLog, payload);
+    const response: any = yield call(API.saveLog, payload);
     if (response.status === HttpStatus.CREATED) {
       yield put({
         type: Slice.createHistorySuccess.type,

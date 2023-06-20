@@ -10,11 +10,11 @@ export interface UserState {
 }
 
 export interface IUserData {
-    data: IUser[];
-    meta: IMeta;
-    links: {
-      current: string;
-    }
+  data: IUser[];
+  meta: IMeta;
+  links: {
+    current: string;
+  };
 }
 
 export interface IUser {

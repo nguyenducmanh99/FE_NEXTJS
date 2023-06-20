@@ -24,10 +24,11 @@ const slice = createSlice({
     loginSuccess: (state, action: PayloadAction<any>) => {
       state.loginStatus = RequestStatus.SUCCESS;
       state.userInfo = { ...action.payload };
-      const { accessToken, expired, password, email, fullName } = action.payload;
+      const { accessToken, expired, password, email, fullName } =
+        action.payload;
       state.auth = { accessToken, expired };
       const cookies = new Cookies();
-      cookies.set("token", accessToken, { path: '/' });
+      cookies.set("token", accessToken, { path: "/" });
 
       window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(accessToken));
       window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(password));
@@ -38,22 +39,21 @@ const slice = createSlice({
     loginFail: (state, action: PayloadAction<any>) => {
       state.loginStatus = RequestStatus.ERROR;
     },
-    
+
     resetLoginStatus: (state) => {
       state.loginStatus = RequestStatus.IDLE;
     },
 
     authenticationDataRequest: (state, action: PayloadAction<any>) => {
-      state.infoParty3rd = {...action.payload}
+      state.infoParty3rd = { ...action.payload };
     },
 
     resetAuthentication: (state) => {
       state.infoParty3rd = undefined;
-      window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(''));
-      window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(''));
-      window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(''));
+      window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(""));
+      window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(""));
+      window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(""));
     },
-
   },
 });
 

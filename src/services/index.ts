@@ -1,5 +1,11 @@
 import { APP_LOGIN_URL, AUTH_TOKEN, HttpStatus } from "@/constant";
-import axios, { AxiosRequestConfig, Method as AxiosMethod, AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import axios, {
+  AxiosRequestConfig,
+  Method as AxiosMethod,
+  AxiosInstance,
+  AxiosError,
+  AxiosResponse,
+} from "axios";
 
 const instance: AxiosInstance = axios.create({
   baseURL: "http://localhost:6060/api/v1/",
@@ -32,11 +38,13 @@ export type IMeThod = Extract<
 >;
 instance.interceptors.request.use(
   function (config: AxiosRequestConfig | any) {
-  const token = config.headers?.Authorization || JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "");
-  // console.log("token", token);
-  if (token !== null && token !== undefined) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+    const token =
+      config.headers?.Authorization ||
+      JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "");
+    // console.log("token", token);
+    if (token !== null && token !== undefined) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
   },
@@ -56,21 +64,29 @@ instance.interceptors.response.use(
   function (error: AxiosError | any) {
     // Bất kì mã trạng thái nào lọt ra ngoài tầm 2xx đều khiến hàm này được trigger\
     // Làm gì đó với lỗi response
-    if(error?.response.status == HttpStatus.UNAUTHORIZED && typeof window !== "undefined") {
-       window.location.href= APP_LOGIN_URL;
+    if (
+      error?.response.status == HttpStatus.UNAUTHORIZED &&
+      typeof window !== "undefined"
+    ) {
+      window.location.href = APP_LOGIN_URL;
     }
     return Promise.reject(error);
   },
 );
 
-export const request = (url: string, payload: any, method: IMeThod | any, token?: string) => {
+export const request = (
+  url: string,
+  payload: any,
+  method: IMeThod | any,
+  token?: string,
+) => {
   let data = payload;
   let params;
   if (method === "get") {
     params = payload;
   }
-  if(token) {
-  instance.defaults.headers.common = {'Authorization': `${token}`}
+  if (token) {
+    instance.defaults.headers.common = { Authorization: `${token}` };
   }
 
   return instance({ url, data, params, method });
@@ -79,7 +95,8 @@ export const request = (url: string, payload: any, method: IMeThod | any, token?
 const APIs = {
   login: (payload: any) => request("/auth/login", payload, "POST"),
   saveLog: (payload: any) => request("/history", payload, "POST"),
-  users: (payload: any) => request("/users", payload.data, "get", payload.token),
+  users: (payload: any) =>
+    request("/users", payload.data, "get", payload.token),
   createUser: (payload: any) => request("/users", payload, "POST"),
 };
 export default APIs;

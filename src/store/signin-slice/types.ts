@@ -4,7 +4,7 @@ export interface LoginState {
   loginStatus: RequestStatus;
   userInfo?: IUser;
   auth?: IAuth;
-  infoParty3rd?: IParty3rd
+  infoParty3rd?: IParty3rd;
 }
 
 export interface IUser {

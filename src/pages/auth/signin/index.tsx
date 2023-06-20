@@ -8,12 +8,13 @@ import { signIn, useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginSlice } from "@/store";
+import { useHistorySlice, useLoginSlice } from "@/store";
 import { ILoginForm } from "@/store/type";
 import { selectAuth } from "@/store/selectors";
 import {
   APP_HOME_URL,
   AUTH_EMAIL,
+  AUTH_INFO,
   AUTH_PASSWORD,
   RequestStatus,
 } from "@/constant";
@@ -38,6 +39,8 @@ export default function SignIn() {
   const [emailLocal, setEmailLocal] = useLocalStorage(AUTH_EMAIL, "");
   const [passwordLocal, setPasswordLocal] = useLocalStorage(AUTH_PASSWORD, "");
   const { loginStatus, userInfo } = useSelector(selectAuth);
+  const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
+  const { createHistoryRequest } = useHistorySlice().actions;
 
   useEffect(() => {
     if (!_.isEmpty(emailLocal) && !_.isEmpty(passwordLocal)) {
@@ -55,6 +58,14 @@ export default function SignIn() {
         setEmailLocal("");
         setPasswordLocal("");
       }
+      const dataSave = {
+        authorId: Number(authInfo.id),
+        authorUrl: authInfo.avatarUrl,
+        action: `${authInfo.name} Login to Admin`,
+        categoryName: "Authentication",
+        fullName: authInfo.fullName,
+      };
+      dispatch(createHistoryRequest(dataSave));
       router.push(PAGE.DASHBOARD);
     }
 
@@ -68,6 +79,11 @@ export default function SignIn() {
     setPasswordLocal,
     userInfo,
     router,
+    authInfo.id,
+    authInfo.avatarUrl,
+    authInfo.fullName,
+    createHistoryRequest,
+    authInfo.name,
   ]);
 
   const handleLoginWithGoogle = useCallback(async () => {

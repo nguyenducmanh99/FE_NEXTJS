@@ -5,7 +5,6 @@ export interface HistoryState {
   createHistoryStatus: RequestStatus;
 }
 
-
 export interface IHistory {
   id: number;
   authorId: number;
