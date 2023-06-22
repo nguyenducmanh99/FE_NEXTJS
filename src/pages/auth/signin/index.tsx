@@ -61,7 +61,7 @@ export default function SignIn() {
       const dataSave = {
         authorId: Number(authInfo.id),
         authorUrl: authInfo.avatarUrl,
-        action: `${authInfo.name} Login to Admin`,
+        action: `${authInfo.name} has login to Admin`,
         categoryName: "Authentication",
         fullName: authInfo.fullName,
       };

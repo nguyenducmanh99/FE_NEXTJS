@@ -3,6 +3,7 @@ import { RequestStatus } from "@/constant";
 export interface HistoryState {
   historyStatus: RequestStatus;
   createHistoryStatus: RequestStatus;
+  historyData?: IHistory[];
 }
 
 export interface IHistory {

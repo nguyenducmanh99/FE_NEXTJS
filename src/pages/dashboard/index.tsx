@@ -2,13 +2,20 @@ import type { ReactElement } from "react";
 import PageContainer from "@/layout/container/PageContainer";
 import FullLayout from "@/layout/FullLayout";
 import { Box, Grid } from "@mui/material";
-import RecentTransactions from "@/components/ui/RecentTransactions";
+import RecentActivity from "@/components/ui/RecentActivity";
 import ProductPerformance from "@/components/ui/ProductPerformance";
 import AppWidgetSummary from "@/components/ui/AppWidgetSummary";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
+import { useHistorySlice, wrapper, store } from "@/store";
+import { IHistory } from "@/store/history-slice/types";
+import Cookies from "universal-cookie";
+import { END } from "redux-saga";
 
 // components
 
-export default function Dashboard() {
+export default function Dashboard({
+  dataServer,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
@@ -60,13 +67,31 @@ export default function Dashboard() {
             <ProductPerformance />
           </Grid>
           <Grid item xs={4} lg={4}>
-            <RecentTransactions />
+            <RecentActivity data={dataServer}/>
           </Grid>
         </Grid>
       </Box>
     </PageContainer>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  dataServer: IHistory[] | undefined;
+}> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
+  const { getHistoryRequest } = useHistorySlice().actions;
+  const cookies = new Cookies(req?.headers?.cookie);
+  const token = cookies.get("token");
+  const payload = {
+    token,
+  };
+
+  await store.dispatch(getHistoryRequest(payload));
+  await store.dispatch(END);
+  await store.sagaTask.toPromise();
+  const dataServer: IHistory[] | undefined =
+    store.getState().history.historyData
+  if (dataServer) return { props: { dataServer } };
+});
 
 Dashboard.getLayout = function getLayout(page: ReactElement) {
   return <FullLayout>{page}</FullLayout>;

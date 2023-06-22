@@ -17,6 +17,7 @@ const slice = createSlice({
 
     getHistorySuccess: (state, action: PayloadAction<any>) => {
       state.historyStatus = RequestStatus.SUCCESS;
+      state.historyData = action.payload;
     },
 
     getHistoryFail: (state, action: PayloadAction<any>) => {

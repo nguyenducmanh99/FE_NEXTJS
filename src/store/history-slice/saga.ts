@@ -5,22 +5,22 @@ import API from "@/services";
 import { HttpStatus } from "@/constant";
 import { AxiosError } from "axios";
 
-// function* userFlow(
-//   action: PayloadAction<{ type: string; payload: any }>,
-// ): any {
-//   const { payload } = action;
-//   try {
-//     const response: any =  yield call(API.users, payload);
-//     if (response.status === HttpStatus.OK) {
-//       yield put({
-//         type: Slice.getUserSuccess.type,
-//         payload: response.data,
-//       });
-//     }
-//   } catch (error: AxiosError | any) {
-//     yield put({ type: Slice.getUserFail.type, payload: error?.response });
-//   }
-// }
+function* getHistoryFlow(
+  action: PayloadAction<{ type: string; payload: any }>,
+): any {
+  const { payload } = action;
+  try {
+    const response: any =  yield call(API.getHistory, payload);
+    if (response.status === HttpStatus.OK) {
+      yield put({
+        type: Slice.getHistorySuccess.type,
+        payload: response.data,
+      });
+    }
+  } catch (error: AxiosError | any) {
+    yield put({ type: Slice.getHistoryFail.type, payload: error?.response });
+  }
+}
 
 function* createHistoryFlow(
   action: PayloadAction<{ type: string; payload: any }>,
@@ -40,7 +40,7 @@ function* createHistoryFlow(
 }
 
 function* historyWatcher() {
-  // yield takeLatest(Slice.getHistoryRequest, userFlow);
+  yield takeLatest(Slice.getHistoryRequest, getHistoryFlow);
   yield takeLatest(Slice.createHistoryRequest, createHistoryFlow);
 }
 export default historyWatcher;

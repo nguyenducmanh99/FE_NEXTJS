@@ -94,7 +94,9 @@ export const request = (
 
 const APIs = {
   login: (payload: any) => request("/auth/login", payload, "POST"),
+  // saveLog is create history api
   saveLog: (payload: any) => request("/history", payload, "POST"),
+  getHistory: (payload: any) => request("/history", payload?.data, "get", payload?.token),
   users: (payload: any) =>
     request("/users", payload.data, "get", payload.token),
   createUser: (payload: any) => request("/users", payload, "POST"),
