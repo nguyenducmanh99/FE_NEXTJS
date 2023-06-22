@@ -20,11 +20,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useForm, Controller, ControllerRenderProps } from "react-hook-form";
 import dayjs, { Dayjs } from "dayjs";
-import { useDispatch, useSelector } from "react-redux";
-import { useUserSlice, useHistorySlice } from "@/store";
-import { selectUser } from "@/store/selectors";
-import { AUTH_INFO, RequestStatus } from "@/constant";
-import { useLocalStorage } from "@/hook";
+import { useDispatch } from "react-redux";
+import { useUserSlice } from "@/store";
 
 const SignUpDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -68,6 +65,7 @@ function SignUpDialogTitle(props: DialogTitleProps) {
 interface ISignUpDialogs {
   open: boolean;
   onClose: CallableFunction;
+  isEdit: boolean;
 }
 
 interface IFieldOption {
@@ -146,13 +144,10 @@ type FormData = {
 };
 
 export default function SignUpDialogs(props: ISignUpDialogs) {
-  const { open, onClose } = props;
+  const { open, onClose, isEdit } = props;
   const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
-  const { createUserRequest, resetUserStatus } = useUserSlice().actions;
-  const { createHistoryRequest } = useHistorySlice().actions;
-  const { createUserStatus, userCreateRes } = useSelector(selectUser);
-  const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
+  const { createUserRequest } = useUserSlice().actions;
   const {
     control,
     setValue,
@@ -172,27 +167,6 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
       avatarUrl: "",
     },
   });
-
-  React.useEffect(() => {
-    if (createUserStatus === RequestStatus.SUCCESS) {
-      const dataSave = {
-        authorId: Number(authInfo.id),
-        authorUrl: authInfo.avatarUrl,
-        action: `Create user ${userCreateRes?.fullName}`,
-        categoryName: "User",
-        fullName: authInfo.fullName,
-      };
-      dispatch(createHistoryRequest(dataSave));
-    }
-    dispatch(resetUserStatus());
-  }, [
-    authInfo,
-    createHistoryRequest,
-    createUserStatus,
-    dispatch,
-    resetUserStatus,
-    userCreateRes?.fullName,
-  ]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -303,7 +277,7 @@ export default function SignUpDialogs(props: ISignUpDialogs) {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <SignUpDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Create New User
+          {isEdit ? "Edit User" : "Create New User"}
         </SignUpDialogTitle>
         <DialogContent dividers>
           <Grid container rowSpacing={2} columnSpacing={2} sx={{ p: 5 }}>

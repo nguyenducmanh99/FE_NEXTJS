@@ -15,3 +15,8 @@ export const PAGE = {
   PRODUCT: "/products",
   CATEGORY: "/category",
 } as const;
+
+export enum IModalType {
+  CREATE = "CREATE",
+  EDIT = "EDIT",
+}

@@ -1,6 +1,7 @@
 import { RequestStatus } from "@/constant";
 import { UserState } from "./types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 export const initialState: UserState = {
   userStatus: RequestStatus.IDLE,
@@ -33,10 +34,12 @@ const slice = createSlice({
     createUserSuccess: (state, action: PayloadAction<any>) => {
       state.createUserStatus = RequestStatus.SUCCESS;
       state.userCreateRes = action.payload;
+      toast.success('Create user success');
     },
 
     createUserFail: (state, action: PayloadAction<any>) => {
       state.createUserStatus = RequestStatus.ERROR;
+      toast.error(`${action.payload?.data?.message[0]}` || "Some thing is wrong");
     },
 
     editUserRequest: (state, action: PayloadAction<any>) => {

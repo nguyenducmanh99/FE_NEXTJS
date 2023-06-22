@@ -67,7 +67,7 @@ export default function Dashboard({
             <ProductPerformance />
           </Grid>
           <Grid item xs={4} lg={4}>
-            <RecentActivity data={dataServer}/>
+            <RecentActivity data={dataServer} />
           </Grid>
         </Grid>
       </Box>
@@ -89,7 +89,7 @@ export const getServerSideProps: GetServerSideProps<{
   await store.dispatch(END);
   await store.sagaTask.toPromise();
   const dataServer: IHistory[] | undefined =
-    store.getState().history.historyData
+    store.getState().history.historyData;
   if (dataServer) return { props: { dataServer } };
 });
 

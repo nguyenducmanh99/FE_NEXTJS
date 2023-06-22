@@ -19,8 +19,7 @@ interface IRecentActivity {
   data: IHistory[] | undefined;
 }
 const RecentActivity = (props: IRecentActivity) => {
-  const {data} = props
-  console.log("data", data)
+  const { data } = props;
   return (
     <DashboardCard title="Recent Activity">
       <>
@@ -42,29 +41,33 @@ const RecentActivity = (props: IRecentActivity) => {
             },
           }}
         >
-          {data && data?.map((el, index) => {
-            const {authorUrl, action, categoryName, createAt} = el;
+          {data &&
+            data?.map((el, index) => {
+              const { authorUrl, action, categoryName, createAt } = el;
 
-            return (
-            <TimelineItem key={index}>
-              <TimelineOppositeContent>{dayjs(createAt).format("hh:mm a")}</TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineDot sx={{p: 0}}> 
-                <Avatar
-                  src={authorUrl || APP_DEFAULT_AVT}
-                  alt="photoDotAvt"
-                  sx={{ width: 24, height: 24 }}
-                 />
-                </TimelineDot>
-                <TimelineConnector sx={{backgroundColor: "cornflowerblue !important"}}/>
-              </TimelineSeparator>
-              <TimelineContent>
-                {action} <br/> {categoryName}
-              </TimelineContent>
-            </TimelineItem>
-            )
-          })}
-
+              return (
+                <TimelineItem key={index}>
+                  <TimelineOppositeContent>
+                    {dayjs(createAt).format("hh:mm a")}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot sx={{ p: 0 }}>
+                      <Avatar
+                        src={authorUrl || APP_DEFAULT_AVT}
+                        alt="photoDotAvt"
+                        sx={{ width: 24, height: 24 }}
+                      />
+                    </TimelineDot>
+                    <TimelineConnector
+                      sx={{ backgroundColor: "cornflowerblue !important" }}
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    {action} <br /> {categoryName}
+                  </TimelineContent>
+                </TimelineItem>
+              );
+            })}
         </Timeline>
       </>
     </DashboardCard>

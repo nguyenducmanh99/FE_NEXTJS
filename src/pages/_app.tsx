@@ -18,6 +18,7 @@ import { Provider } from "react-redux";
 import { NextPage } from "next";
 import { wrapper } from "@/store";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Toaster } from "react-hot-toast";
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -61,6 +62,23 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
           </ThemeProvider>
         </Main>
       </Provider>
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+  gutter={8}
+  containerClassName=""
+  containerStyle={{}}
+  toastOptions={{
+    // Define default options
+    className: '',
+    duration: 5000,
+    style: {
+      background: '#fff',
+      color: '#333',
+      height: "60px"
+    },
+  }}
+/>
     </>
   );
 }

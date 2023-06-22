@@ -10,7 +10,7 @@ function* getHistoryFlow(
 ): any {
   const { payload } = action;
   try {
-    const response: any =  yield call(API.getHistory, payload);
+    const response: any = yield call(API.getHistory, payload);
     if (response.status === HttpStatus.OK) {
       yield put({
         type: Slice.getHistorySuccess.type,

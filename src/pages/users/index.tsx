@@ -32,13 +32,19 @@ import UserListToolbar from "@/components/ui/UserListToolbar";
 import FullLayout from "@/layout/FullLayout";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
 import { IUserData, IUser } from "@/store/user-slice/types";
-import { useUserSlice, wrapper, store } from "@/store";
+import { useUserSlice, wrapper, store, useHistorySlice } from "@/store";
 import Cookies from "universal-cookie";
 import { selectUser } from "@/store/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { END } from "redux-saga";
 import useUpdateEffect from "@/hook/useUpdateEffect";
 import SignUpDialogs from "@/components/shared/SignUpDialog";
+import { useLocalStorage } from "@/hook";
+import { AUTH_INFO, IModalType, RequestStatus } from "@/constant";
+import React from "react";
+
+
+
 // ----------------------------------------------------------------------
 export enum IStatus {
   UNKNOWN = "UNKNOWN",
@@ -108,10 +114,15 @@ export default function Users({
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { userDataRes } = useSelector(selectUser);
   const [userData, setUserData] = useState(dataServer);
-  const { getUserSuccess } = useUserSlice().actions;
+  const { getUserSuccess, resetUserStatus, getUserRequest } =
+    useUserSlice().actions;
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<IModalType>(IModalType.CREATE);
+  const { createHistoryRequest } = useHistorySlice().actions;
+  const { createUserStatus, userCreateRes, userDataRes } =
+    useSelector(selectUser);
+  const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -134,6 +145,45 @@ export default function Users({
       setPage(userData.meta.currentPage - 1);
     }
   }, [userData]);
+
+  useEffect(() => {
+    (async () => {
+      if (createUserStatus === RequestStatus.SUCCESS) {
+        const dataSave = {
+          authorId: Number(authInfo.id),
+          authorUrl: authInfo.avatarUrl,
+          action: `${userCreateRes?.fullName} has been created`,
+          categoryName: "Create new User",
+          fullName: authInfo.fullName,
+        };
+
+        await dispatch(createHistoryRequest(dataSave));
+        await dispatch(
+          getUserRequest({
+            data: {
+              page: 1,
+              limit: 10,
+              sortBy: "ASC",
+            },
+          }),
+        );
+        await setOpenDialog(false);
+      }
+      await dispatch(resetUserStatus());
+    })();
+  }, [
+    authInfo,
+    createHistoryRequest,
+    createUserStatus,
+    dispatch,
+    getUserRequest,
+    resetUserStatus,
+    userCreateRes?.fullName,
+  ]);
+
+  const isEditDialog = useMemo(() => {
+    return modalType === IModalType.EDIT;
+  }, [modalType]);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(event.currentTarget);
@@ -222,6 +272,16 @@ export default function Users({
     return <Chip label={status} color={color} />;
   }, []);
 
+  const openCreateUserDialog = useCallback(async () => {
+    await setModalType(IModalType.CREATE);
+    await setOpenDialog(true);
+  }, []);
+
+  const openEditUserDialog = useCallback(async () => {
+    await setModalType(IModalType.EDIT);
+    await setOpenDialog(true);
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -240,7 +300,7 @@ export default function Users({
           <Button
             variant="contained"
             startIcon={<Iconify icon="eva:plus-fill" />}
-            onClick={() => setOpenDialog(true)}
+            onClick={openCreateUserDialog}
           >
             New User
           </Button>
@@ -378,7 +438,11 @@ export default function Users({
         </Card>
       </Container>
       {/* Dialog create user */}
-      <SignUpDialogs open={openDialog} onClose={() => setOpenDialog(false)} />
+      <SignUpDialogs
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        isEdit={isEditDialog}
+      />
       {/* Action popup for table */}
       <Popover
         open={Boolean(open)}
@@ -398,7 +462,7 @@ export default function Users({
           },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={openEditUserDialog}>
           <Iconify icon={"eva:edit-fill"} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
