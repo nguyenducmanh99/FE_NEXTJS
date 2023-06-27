@@ -498,6 +498,9 @@ export const getServerSideProps: GetServerSideProps<{
   const dataServer: IUserData | undefined =
     store.getState().userInfo?.userDataRes;
   // console.log("dataServer", dataServer);
+  setTimeout(() => {
+   if (!dataServer) return;
+  }, 3000)
   if (dataServer) return { props: { dataServer } };
 });
 
