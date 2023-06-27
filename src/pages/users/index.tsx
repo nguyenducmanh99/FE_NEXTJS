@@ -124,7 +124,7 @@ export default function Users({
     useSelector(selectUser);
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   const dispatch = useDispatch();
-  console.log("da vao day");
+
   useEffect(() => {
     if (!_.isEmpty(dataServer)) {
       // When has data from server => update state userData data and pass to store
@@ -482,7 +482,7 @@ export const getServerSideProps: GetServerSideProps<{
   const { getUserRequest } = useUserSlice().actions;
   const cookies = new Cookies(req.headers.cookie);
   const token = cookies.get("token");
-  console.log("token", token);
+  // console.log("token", token);
   const payload = {
     data: {
       page: 1,
@@ -498,9 +498,6 @@ export const getServerSideProps: GetServerSideProps<{
   const dataServer: IUserData | undefined =
     store.getState().userInfo?.userDataRes;
   // console.log("dataServer", dataServer);
-  setTimeout(() => {
-   if (!dataServer) return;
-  }, 3000)
   if (dataServer) return { props: { dataServer } };
 });
 
