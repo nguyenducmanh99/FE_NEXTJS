@@ -34,12 +34,14 @@ const slice = createSlice({
     createUserSuccess: (state, action: PayloadAction<any>) => {
       state.createUserStatus = RequestStatus.SUCCESS;
       state.userCreateRes = action.payload;
-      toast.success('Create user success');
+      toast.success("Create user success");
     },
 
     createUserFail: (state, action: PayloadAction<any>) => {
       state.createUserStatus = RequestStatus.ERROR;
-      toast.error(`${action.payload?.data?.message[0]}` || "Some thing is wrong");
+      toast.error(
+        `${action.payload?.data?.message[0]}` || "Some thing is wrong",
+      );
     },
 
     editUserRequest: (state, action: PayloadAction<any>) => {

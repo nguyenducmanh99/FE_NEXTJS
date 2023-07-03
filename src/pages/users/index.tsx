@@ -43,8 +43,6 @@ import { useLocalStorage } from "@/hook";
 import { AUTH_INFO, IModalType, RequestStatus } from "@/constant";
 import React from "react";
 
-
-
 // ----------------------------------------------------------------------
 export enum IStatus {
   UNKNOWN = "UNKNOWN",
