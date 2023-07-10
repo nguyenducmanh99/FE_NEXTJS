@@ -354,7 +354,7 @@ const SelectField = styled(Autocomplete)(({ theme }) => ({
   },
 }));
 
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
+export const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
     marginTop: theme.spacing(3),
   },

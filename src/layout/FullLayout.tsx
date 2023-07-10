@@ -3,6 +3,7 @@ import { styled, Container, Box } from "@mui/material";
 
 import Header from "./header/index";
 import Sidebar from "./sidebar";
+import PopupMessage from "@/components/shared/PopupMessage";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -45,7 +46,7 @@ const FullLayout: React.FC<Props> = ({ children }) => {
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
   return (
-    <MainWrapper className="mainwrapper">
+    <MainWrapper className="mainwrapper">   
       {/* ------------------------------------------- */}
       {/* Sidebar */}
       {/* ------------------------------------------- */}
@@ -78,6 +79,7 @@ const FullLayout: React.FC<Props> = ({ children }) => {
           {/* End Page */}
           {/* ------------------------------------------- */}
         </MainContainer>
+        <PopupMessage />
       </PageWrapper>
     </MainWrapper>
   );

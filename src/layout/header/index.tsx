@@ -9,6 +9,7 @@ import LanguagePopover from "./LanguagePopover";
 import NotificationsPopover from "./NotificationsPopover";
 import Iconify from "@/components/utils/iconify";
 import { bgBlur } from "@/components/utils/cssStyle";
+import MessageButtonIcon from "./MessageButtonIcon";
 
 // ----------------------------------------------------------------------
 
@@ -67,6 +68,7 @@ export default function Header({ onOpenNav }: HeaderProps) {
           }}
         >
           <LanguagePopover />
+          <MessageButtonIcon />
           <NotificationsPopover />
           <AccountPopover />
         </Stack>

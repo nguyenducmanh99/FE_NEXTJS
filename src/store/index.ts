@@ -10,9 +10,11 @@ import { LoginReducer } from "@/store/signin-slice";
 import { UserReducer } from "./user-slice";
 import { createWrapper } from "next-redux-wrapper";
 import { HistoryReducer } from "./history-slice";
+import { MessageReducer } from "./message-slice";
 export { useLoginSlice } from "@/store/signin-slice";
 export { useUserSlice } from "@/store/user-slice";
 export { useHistorySlice } from "@/store/history-slice";
+export { useMessageSlice } from "@/store/message-slice"
 declare module "redux" {
   export interface Store {
     sagaTask: any;
@@ -23,6 +25,7 @@ const rootReducer = combineReducers({
   authInfo: LoginReducer,
   userInfo: UserReducer,
   history: HistoryReducer,
+  message: MessageReducer
 });
 export const store = configureStore({
   reducer: rootReducer,
