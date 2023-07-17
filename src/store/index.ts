@@ -14,7 +14,7 @@ import { MessageReducer } from "./message-slice";
 export { useLoginSlice } from "@/store/signin-slice";
 export { useUserSlice } from "@/store/user-slice";
 export { useHistorySlice } from "@/store/history-slice";
-export { useMessageSlice } from "@/store/message-slice"
+export { useMessageSlice } from "@/store/message-slice";
 declare module "redux" {
   export interface Store {
     sagaTask: any;
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   authInfo: LoginReducer,
   userInfo: UserReducer,
   history: HistoryReducer,
-  message: MessageReducer
+  message: MessageReducer,
 });
 export const store = configureStore({
   reducer: rootReducer,

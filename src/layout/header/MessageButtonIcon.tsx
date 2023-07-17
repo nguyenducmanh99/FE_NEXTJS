@@ -1,9 +1,6 @@
 import { useCallback, useState } from "react";
 // @mui
-import {
-  Badge,
-  IconButton,
-} from "@mui/material";
+import { Badge, IconButton } from "@mui/material";
 // utils
 
 // components
@@ -13,16 +10,14 @@ import { useMessageSlice } from "@/store";
 
 // ----------------------------------------------------------------------
 
-
 export default function MessageButtonIcon() {
-
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
   const dispatch = useDispatch();
   const { changeStatePopup } = useMessageSlice().actions;
-  
+
   const handleChangePopup = useCallback(() => {
-   dispatch(changeStatePopup())
-  }, [changeStatePopup, dispatch])
+    dispatch(changeStatePopup());
+  }, [changeStatePopup, dispatch]);
 
   return (
     <>
@@ -32,7 +27,7 @@ export default function MessageButtonIcon() {
         sx={{ width: 40, height: 40 }}
       >
         <Badge badgeContent={1} color="error">
-          <Iconify icon="fe:messanger"  />
+          <Iconify icon="fe:messanger" />
         </Badge>
       </IconButton>
     </>

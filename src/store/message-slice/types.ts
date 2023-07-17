@@ -1,3 +1,7 @@
+import { RequestStatus } from "@/constant";
+
 export interface MessageState {
-  open: boolean
+  open: boolean;
+  connectStatus: RequestStatus;
+  disconnectStatus: RequestStatus;
 }

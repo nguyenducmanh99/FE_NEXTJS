@@ -48,7 +48,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
             <StyledEngineProvider injectFirst>
               <CssBaseline />
               <HelmetProvider>
-                <StrictMode>
+                {/* <StrictMode> */}
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <ErrorBoundary>
                       <SessionProvider session={session}>
@@ -56,7 +56,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
                       </SessionProvider>
                     </ErrorBoundary>
                   </LocalizationProvider>
-                </StrictMode>
+                {/* </StrictMode> */}
               </HelmetProvider>
             </StyledEngineProvider>
           </ThemeProvider>

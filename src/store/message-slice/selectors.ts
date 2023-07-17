@@ -4,4 +4,7 @@ import { initialState } from ".";
 
 export const selectMessageSlice = (state: RootReducer) =>
   state.message || initialState;
-export const selectMessage = createSelector([selectMessageSlice], (state) => state);
+export const selectMessage = createSelector(
+  [selectMessageSlice],
+  (state) => state,
+);

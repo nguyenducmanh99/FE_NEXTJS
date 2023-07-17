@@ -8,6 +8,7 @@ export const APP_DEFAULT_AVT =
   "https://demoda.vn/wp-content/uploads/2022/01/hinh-anh-naruto-chibi-naruto-hien-nhan-ket-an-phan-than-chi-thuat.jpg";
 export const APP_LOGIN_URL = "http://localhost:3000/auth/signin";
 export const APP_HOME_URL = "http://localhost:3000/dashboard";
+export const APP_SOCKET_URL = "http://localhost:3006";
 
 // </ URL>
 
