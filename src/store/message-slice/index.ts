@@ -1,11 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { MessageState } from "./types";
+import { IConversation, MessageState } from "./types";
 import { RequestStatus } from "@/constant/enum";
 
 export const initialState: MessageState = {
   open: false,
   connectStatus: RequestStatus.IDLE,
   disconnectStatus: RequestStatus.IDLE,
+  conversationStatus: RequestStatus.IDLE,
 };
 
 const slice = createSlice({
@@ -15,6 +16,7 @@ const slice = createSlice({
     changeStatePopup: (state) => {
       state.open = !state.open;
     },
+
     connectSocketRequest: (state) => {
       state.connectStatus = RequestStatus.REQUESTING;
     },
@@ -27,6 +29,7 @@ const slice = createSlice({
     connectSocketFail: (state, action: PayloadAction<any>) => {
       state.connectStatus = RequestStatus.ERROR;
     },
+
     disconnectSocketRequest: (state) => {
       state.disconnectStatus = RequestStatus.REQUESTING;
     },
@@ -39,6 +42,23 @@ const slice = createSlice({
     disconnectSocketFail: (state, action: PayloadAction<any>) => {
       state.disconnectStatus = RequestStatus.ERROR;
     },
+
+    getConversationRequest: (state) => {
+      state.conversationStatus = RequestStatus.REQUESTING;
+    },
+
+    getConversationSuccess: (state, action: PayloadAction<IConversation[]>) => {
+      state.conversationStatus = RequestStatus.SUCCESS;
+      state.conversationData = action.payload;
+    },
+
+    getConversationFail: (state, action: PayloadAction<any>) => {
+      state.conversationStatus = RequestStatus.ERROR;
+    },
+
+    resetConversationStatus: (state) => {
+        state.conversationStatus = RequestStatus.IDLE;
+    }
   },
 });
 

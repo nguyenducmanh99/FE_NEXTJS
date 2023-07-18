@@ -101,5 +101,6 @@ const APIs = {
   users: (payload: any) =>
     request("/users", payload.data, "get", payload.token),
   createUser: (payload: any) => request("/users", payload, "POST"),
+  conversation: () => request("/conversation", {}, "get"),
 };
 export default APIs;

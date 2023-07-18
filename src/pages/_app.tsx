@@ -49,13 +49,13 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
               <CssBaseline />
               <HelmetProvider>
                 {/* <StrictMode> */}
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <ErrorBoundary>
-                      <SessionProvider session={session}>
-                        {getLayout(<Component {...pageProps} />)}
-                      </SessionProvider>
-                    </ErrorBoundary>
-                  </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <ErrorBoundary>
+                    <SessionProvider session={session}>
+                      {getLayout(<Component {...pageProps} />)}
+                    </SessionProvider>
+                  </ErrorBoundary>
+                </LocalizationProvider>
                 {/* </StrictMode> */}
               </HelmetProvider>
             </StyledEngineProvider>

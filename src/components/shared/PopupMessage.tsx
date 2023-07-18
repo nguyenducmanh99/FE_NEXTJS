@@ -1,6 +1,6 @@
-'use client'
+"use client";
 import * as React from "react";
-// import dayjs, { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { selectMessage } from "@/store/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar, IconButton } from "@mui/material";
@@ -12,38 +12,66 @@ import Iconify from "../utils/iconify";
 import { io } from "socket.io-client";
 import { APP_SOCKET_URL, AUTH_INFO } from "@/constant";
 import { useEffect } from "react";
-import useIsomorphicLayoutEffect from "@/hook/useIsomorphicLayoutEffect";
 import { useLocalStorage } from "@/hook";
+import { RequestStatus } from "@/constant";
+import useUpdateEffect from "@/hook/useUpdateEffect";
 
 const socket = io(APP_SOCKET_URL);
 
 export default function PopupMessage() {
-  const { open } = useSelector(selectMessage);
+  const { open, conversationData , conversationStatus} = useSelector(selectMessage);
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   const dispatch = useDispatch();
-  const { changeStatePopup, connectSocketRequest, disconnectSocketRequest } =
-    useMessageSlice().actions;
+  const {
+    changeStatePopup,
+    connectSocketRequest,
+    disconnectSocketRequest,
+    getConversationRequest,
+    resetConversationStatus
+  } = useMessageSlice().actions;
   const [show, setShow] = React.useState<boolean>(true);
   const [message, setMessage] = React.useState<string>();
 
   useEffect(() => {
-    dispatch(connectSocketRequest());
     const onConnect = () => console.log("connected");
     const onDisconnect = () => console.log("disconnected");
 
-    socket.on('onMessage', dataMess => {
-      console.log('dataMess', dataMess)
-    });
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
+    (async () =>  {
+     await dispatch(connectSocketRequest());
+      socket.on("onMessage", (dataMess) => {
+        console.log("dataMess", dataMess);
+      });
+      socket.on("connect", onConnect);
+      socket.on("disconnect", onDisconnect);
+      
+     await dispatch(getConversationRequest());
+     
+    })();
+
     return () => {
-      // console.log("Enddd")
-      // dispatch(disconnectSocketRequest());
-      socket.off('connect',onConnect);
-      socket.off('disconnect', onDisconnect);
-    }  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useUpdateEffect(() => {
+    if(conversationStatus == RequestStatus.SUCCESS) {
+      dispatch(resetConversationStatus())
+    }
+
+  }, [conversationStatus, dispatch, resetConversationStatus])
+  
+  const myListMessage = React.useMemo(() => {
+   return conversationData && conversationData?.filter(el => el.authorId === authInfo.id)   
+  }, [authInfo.id, conversationData])
+
+  const othersListMessage = React.useMemo(() => {
+    return conversationData && conversationData?.filter(el => el.authorId !== authInfo.id)   
+   }, [authInfo.id, conversationData])
+
+  console.log("myListMessage",myListMessage)
+  console.log("authInfo",authInfo)
 
   const handleZoomOut = React.useCallback(() => {
     setShow(false);
@@ -53,19 +81,22 @@ export default function PopupMessage() {
     await dispatch(changeStatePopup());
   }, [changeStatePopup, dispatch]);
 
-  const handleChangeMessage = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(event.target.value)
-  }, [])
-  
+  const handleChangeMessage = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMessage(event.target.value);
+    },
+    [],
+  );
+
   const handleSendMessage = React.useCallback(() => {
-    console.log("submit", message)
-     if(message) {
+    console.log("submit", message);
+    if (message) {
       const content = {
         authorId: authInfo.id,
-        message: message
-      }
-      socket.emit("newMessage", content)
-     }
+        message: message,
+      };
+      socket.emit("newMessage", content);
+    }
   }, [authInfo.id, message]);
 
   return (
@@ -82,7 +113,7 @@ export default function PopupMessage() {
                   className="msger-header-title"
                   style={{ alignSelf: "center", color: "ivory" }}
                 >
-                  SimpleChat
+                  Messenger
                 </div>
                 <div>
                   <IconButton
@@ -100,36 +131,34 @@ export default function PopupMessage() {
               </header>
 
               <main className="msger-chat">
-                <div className="msg left-msg">
-                  <Avatar sx={{ marginBottom: "12px" }}>N</Avatar>
-
-                  <div className="msg-bubble">
-                    <div className="msg-info">
-                      <div className="msg-info-name">BOT</div>
-                      <div className="msg-info-time">12:45</div>
-                    </div>
-
-                    <div className="msg-text left-text">
-                      Hi, welcome to SimpleChat! Go ahead and send me a message.
-                      😄
-                    </div>
-                  </div>
-                </div>
-
-                <div className="msg right-msg">
-                  <Avatar sx={{ marginBottom: "12px" }}>M</Avatar>
-
-                  <div className="msg-bubble" style={{ color: "#333" }}>
-                    <div className="msg-info">
-                      <div className="msg-info-name">Sajad</div>
-                      <div className="msg-info-time">12:46</div>
-                    </div>
-
-                    <div className="msg-text right-text">
-                      You can change your name in JS section!
+                {conversationData && conversationData.map((el) => { 
+                  const position: string = el.authorId === authInfo.id ? "right" : "left"; 
+                  const avtUrl = el.users.avatarUrl || "";
+                  const name =  el.users?.name;
+                  const nameDisplay = name?.charAt(0);
+          
+                  return (
+                    <>
+                    <div className={`msg ${position}-msg`}>
+                    <Avatar sx={{ alignSelf: "center" , marginTop: "25px" }} src={avtUrl}>
+                       {!avtUrl && nameDisplay}
+                     </Avatar>
+  
+                    <div className="msg-bubble">
+                      <div className="msg-info">
+                        <div className="msg-info-name">{name}</div>
+                        <div className="msg-info-time">{dayjs(el.createAt).format("hh:mm a")}</div>
+                      </div>
+  
+                      <div className={`msg-text ${position}-text`} style={{padding: "10px"}}>
+                        {el.message}
+                      </div>
                     </div>
                   </div>
-                </div>
+                  </>
+                  )
+                })}
+
               </main>
 
               <form className="msger-inputarea">
@@ -141,7 +170,11 @@ export default function PopupMessage() {
                   value={message}
                   onChange={handleChangeMessage}
                 />
-                <button type="button" className="msger-send-btn" onClick={handleSendMessage}>
+                <button
+                  type="button"
+                  className="msger-send-btn"
+                  onClick={handleSendMessage}
+                >
                   Send
                 </button>
               </form>

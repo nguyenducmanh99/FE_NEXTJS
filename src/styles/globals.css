@@ -222,9 +222,11 @@ a {
 .msg-info-name {
   margin-right: 10px;
   font-weight: bold;
+  color: darkslategrey;
 }
 .msg-info-time {
   font-size: 0.85em;
+  color: #000;
 }
 
 .left-msg .msg-bubble {
