@@ -14,6 +14,7 @@ export const PAGE = {
   ERROR: "/404",
   PRODUCT: "/products",
   CATEGORY: "/category",
+  PROFILE: "/profile"
 } as const;
 
 export enum IModalType {

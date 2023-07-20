@@ -65,7 +65,7 @@ instance.interceptors.response.use(
     // Bất kì mã trạng thái nào lọt ra ngoài tầm 2xx đều khiến hàm này được trigger\
     // Làm gì đó với lỗi response
     if (
-      error?.response.status == HttpStatus.UNAUTHORIZED &&
+      error?.response?.status == HttpStatus.UNAUTHORIZED &&
       typeof window !== "undefined"
     ) {
       window.location.href = APP_LOGIN_URL;

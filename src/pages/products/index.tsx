@@ -1,13 +1,16 @@
 import { Helmet } from "react-helmet-async";
-import { ReactElement, useState } from "react";
+import { ReactElement, useCallback, useState } from "react";
 // @mui
-import { Container, Stack, Typography } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
 // components
 
 import ProductFilterSidebar from "@/components/ui/ProductFilterSidebar";
 import ProductSort from "@/components/ui/ProductSort";
 import ProductList from "@/components/ui/ProductList";
 import FullLayout from "@/layout/FullLayout";
+import Iconify from "@/components/utils/iconify";
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 // ----------------------------------------------------------------------
 
 export default function Products() {
@@ -20,6 +23,18 @@ export default function Products() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
+
+  const handleExportData = useCallback(() => {
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+    const fileName = "list_product";
+    const ws = XLSX.utils.json_to_sheet(products);
+    const wb = { Sheets: { 'data': ws }, SheetNames: ['Data'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], {type: fileType});
+    FileSaver.saveAs(data, fileName + fileExtension);
+    
+  }, [])
 
   return (
     <>
@@ -40,6 +55,14 @@ export default function Products() {
           sx={{ mb: 5 }}
         >
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+            <Button
+              disableRipple
+              color="inherit"
+              endIcon={<Iconify icon="typcn:export-outline" />}
+              onClick={handleExportData}
+            >
+              Export&nbsp;
+            </Button>
             <ProductFilterSidebar
               openFilter={openFilter}
               onOpenFilter={handleOpenFilter}

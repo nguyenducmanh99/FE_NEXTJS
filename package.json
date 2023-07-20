@@ -32,6 +32,7 @@
     "dayjs": "^1.11.8",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "13.3.0",
@@ -47,10 +48,12 @@
     "socket.io-client": "^4.7.1",
     "styled-components": "^5.3.9",
     "typescript": "5.0.4",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/aos": "^3.0.4",
+    "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.194",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.23",
