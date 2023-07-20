@@ -57,8 +57,8 @@ const slice = createSlice({
     },
 
     resetConversationStatus: (state) => {
-        state.conversationStatus = RequestStatus.IDLE;
-    }
+      state.conversationStatus = RequestStatus.IDLE;
+    },
   },
 });
 

@@ -40,7 +40,7 @@ import { END } from "redux-saga";
 import useUpdateEffect from "@/hook/useUpdateEffect";
 import SignUpDialogs from "@/components/shared/SignUpDialog";
 import { useLocalStorage } from "@/hook";
-import { AUTH_INFO, IModalType, RequestStatus } from "@/constant";
+import { AUTH_INFO, AUTH_TOKEN, IModalType, RequestStatus } from "@/constant";
 import React from "react";
 
 // ----------------------------------------------------------------------
@@ -479,8 +479,10 @@ export const getServerSideProps: GetServerSideProps<{
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
   const { getUserRequest } = useUserSlice().actions;
   const cookies = new Cookies(req.headers.cookie);
-  const token = cookies.get("token");
-  // console.log("token", token);
+  const token =
+    cookies.get("token") ||
+    JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "");
+
   const payload = {
     data: {
       page: 1,
@@ -495,7 +497,6 @@ export const getServerSideProps: GetServerSideProps<{
   await store.sagaTask.toPromise();
   const dataServer: IUserData | undefined =
     store.getState().userInfo?.userDataRes;
-  console.log("dataServer", dataServer);
   if (dataServer) return { props: { dataServer } };
 });
 

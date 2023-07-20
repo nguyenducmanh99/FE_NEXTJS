@@ -19,7 +19,8 @@ import useUpdateEffect from "@/hook/useUpdateEffect";
 const socket = io(APP_SOCKET_URL);
 
 export default function PopupMessage() {
-  const { open, conversationData , conversationStatus} = useSelector(selectMessage);
+  const { open, conversationData, conversationStatus } =
+    useSelector(selectMessage);
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   const dispatch = useDispatch();
   const {
@@ -27,7 +28,7 @@ export default function PopupMessage() {
     connectSocketRequest,
     disconnectSocketRequest,
     getConversationRequest,
-    resetConversationStatus
+    resetConversationStatus,
   } = useMessageSlice().actions;
   const [show, setShow] = React.useState<boolean>(true);
   const [message, setMessage] = React.useState<string>();
@@ -36,16 +37,15 @@ export default function PopupMessage() {
     const onConnect = () => console.log("connected");
     const onDisconnect = () => console.log("disconnected");
 
-    (async () =>  {
-     await dispatch(connectSocketRequest());
+    (async () => {
+      await dispatch(connectSocketRequest());
       socket.on("onMessage", (dataMess) => {
         console.log("dataMess", dataMess);
       });
       socket.on("connect", onConnect);
       socket.on("disconnect", onDisconnect);
-      
-     await dispatch(getConversationRequest());
-     
+
+      await dispatch(getConversationRequest());
     })();
 
     return () => {
@@ -56,22 +56,10 @@ export default function PopupMessage() {
   }, []);
 
   useUpdateEffect(() => {
-    if(conversationStatus == RequestStatus.SUCCESS) {
-      dispatch(resetConversationStatus())
+    if (conversationStatus == RequestStatus.SUCCESS) {
+      dispatch(resetConversationStatus());
     }
-
-  }, [conversationStatus, dispatch, resetConversationStatus])
-  
-  const myListMessage = React.useMemo(() => {
-   return conversationData && conversationData?.filter(el => el.authorId === authInfo.id)   
-  }, [authInfo.id, conversationData])
-
-  const othersListMessage = React.useMemo(() => {
-    return conversationData && conversationData?.filter(el => el.authorId !== authInfo.id)   
-   }, [authInfo.id, conversationData])
-
-  console.log("myListMessage",myListMessage)
-  console.log("authInfo",authInfo)
+  }, [conversationStatus, dispatch, resetConversationStatus]);
 
   const handleZoomOut = React.useCallback(() => {
     setShow(false);
@@ -89,7 +77,6 @@ export default function PopupMessage() {
   );
 
   const handleSendMessage = React.useCallback(() => {
-    console.log("submit", message);
     if (message) {
       const content = {
         authorId: authInfo.id,
@@ -131,34 +118,43 @@ export default function PopupMessage() {
               </header>
 
               <main className="msger-chat">
-                {conversationData && conversationData.map((el) => { 
-                  const position: string = el.authorId === authInfo.id ? "right" : "left"; 
-                  const avtUrl = el.users.avatarUrl || "";
-                  const name =  el.users?.name;
-                  const nameDisplay = name?.charAt(0);
-          
-                  return (
-                    <>
-                    <div className={`msg ${position}-msg`}>
-                    <Avatar sx={{ alignSelf: "center" , marginTop: "25px" }} src={avtUrl}>
-                       {!avtUrl && nameDisplay}
-                     </Avatar>
-  
-                    <div className="msg-bubble">
-                      <div className="msg-info">
-                        <div className="msg-info-name">{name}</div>
-                        <div className="msg-info-time">{dayjs(el.createAt).format("hh:mm a")}</div>
-                      </div>
-  
-                      <div className={`msg-text ${position}-text`} style={{padding: "10px"}}>
-                        {el.message}
-                      </div>
-                    </div>
-                  </div>
-                  </>
-                  )
-                })}
+                {conversationData &&
+                  conversationData.map((el) => {
+                    const position: string =
+                      el.authorId === authInfo.id ? "right" : "left";
+                    const avtUrl = el.users.avatarUrl || "";
+                    const name = el.users?.name;
+                    const nameDisplay = name?.charAt(0);
 
+                    return (
+                      <>
+                        <div className={`msg ${position}-msg`}>
+                          <Avatar
+                            sx={{ alignSelf: "center", marginTop: "25px" }}
+                            src={avtUrl}
+                          >
+                            {!avtUrl && nameDisplay}
+                          </Avatar>
+
+                          <div className="msg-bubble">
+                            <div className="msg-info">
+                              <div className="msg-info-name">{name}</div>
+                              <div className="msg-info-time">
+                                {dayjs(el.createAt).format("hh:mm a")}
+                              </div>
+                            </div>
+
+                            <div
+                              className={`msg-text ${position}-text`}
+                              style={{ padding: "10px" }}
+                            >
+                              {el.message}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
               </main>
 
               <form className="msger-inputarea">

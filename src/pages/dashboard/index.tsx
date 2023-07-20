@@ -10,6 +10,7 @@ import { useHistorySlice, wrapper, store } from "@/store";
 import { IHistory } from "@/store/history-slice/types";
 import Cookies from "universal-cookie";
 import { END } from "redux-saga";
+import { AUTH_TOKEN } from "@/constant";
 
 // components
 
@@ -80,7 +81,9 @@ export const getServerSideProps: GetServerSideProps<{
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
   const { getHistoryRequest } = useHistorySlice().actions;
   const cookies = new Cookies(req?.headers?.cookie);
-  const token = cookies.get("token");
+  const token =
+    cookies.get("token") ||
+    JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "");
   const payload = {
     token,
   };
