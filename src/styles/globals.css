@@ -291,3 +291,17 @@ a {
 .right-text {
   background-color: darkseagreen;
 }
+
+.login-form {
+  box-shadow: 0 11px 34px 0 rgba(0,0,0,.2);
+  border-radius: 34px;
+  padding: 3rem 0px;
+  background-color: rgb(255,255,255);
+}
+
+.middle-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+}

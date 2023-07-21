@@ -4,7 +4,7 @@ export const metadata = {
 };
 
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,9 @@ import "tailwindcss/tailwind.css";
 import { useRouter } from "next/router";
 import { PAGE } from "@/constant";
 import _ from "lodash";
-
+import { BootstrapInput } from "@/components/utils/Input"
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 export default function SignIn() {
   const {
     register,
@@ -41,6 +43,7 @@ export default function SignIn() {
   const { loginStatus, userInfo } = useSelector(selectAuth);
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   const { createHistoryRequest } = useHistorySlice().actions;
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   useEffect(() => {
     if (!_.isEmpty(emailLocal) && !_.isEmpty(passwordLocal)) {
@@ -104,30 +107,36 @@ export default function SignIn() {
     },
     [dispatch, loginRequest],
   );
+  
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+  };
 
   return (
-    <section className="bg-gradient-to-b from-gray-100 to-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-          {/* Page header */}
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h1 className="h1">
-              Welcome back. We exist to make entrepreneurism easier.
-            </h1>
+    <section style={{backgroundColor: "#FBFBFD"}}>
+      <div className="h-screen max-w-3xl mx-auto px-4 sm:px-6 middle-form ">
+        <div className="login-form">
+          {/* Header Tile of form */}
+          <div className="max-w-3xl mx-auto text-center pb-4">
+            <h3 className="h3">
+              Admin Login
+            </h3>
           </div>
-
+ 
+            <h4 className="h4 max-w-3xl mx-auto text-center pb-6 font-medium">
+              Hey, Enter your account information to access the system
+            </h4>
+    
           {/* Form */}
-          <div className="max-w-sm mx-auto">
+          <div className="max-w-xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
-                  <label
-                    className="block text-gray-800 text-sm font-medium mb-1"
-                    htmlFor="email"
-                  >
-                    Email
-                  </label>
-                  <input
+                  <BootstrapInput
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
@@ -138,7 +147,7 @@ export default function SignIn() {
                     })}
                     id="email"
                     type="email"
-                    className="form-input w-full text-gray-800"
+                    className="w-full text-gray-800"
                     placeholder="Enter your email address"
                     required
                   />
@@ -146,29 +155,29 @@ export default function SignIn() {
               </div>
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
-                  <div className="flex justify-between">
-                    <label
-                      className="block text-gray-800 text-sm font-medium mb-1"
-                      htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <Link
-                      href="/auth/reset-password"
-                      className="text-sm font-medium text-blue-600 hover:underline"
-                    >
-                      Having trouble signing in?
-                    </Link>
+                  <div className="flex justify-end">
                   </div>
-                  <input
+                  <BootstrapInput
                     {...register("password", {
                       required: true,
                       maxLength: 200,
                     })}
                     id="password"
-                    type="password"
-                    className="form-input w-full text-gray-800"
+                    type={showPassword ? "text" : "password"}
+                    className="w-full text-gray-800"
                     placeholder="Enter your password"
+                    endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                    }
                     required
                   />
                 </div>
@@ -187,6 +196,12 @@ export default function SignIn() {
                         Keep me signed in
                       </span>
                     </label>
+                    <Link
+                      href="/auth/reset-password"
+                      className="text-sm font-medium text-blue-600 hover:underline"
+                    >
+                      Having trouble signing in?
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -206,7 +221,7 @@ export default function SignIn() {
                 className="border-t border-gray-300 grow mr-3"
                 aria-hidden="true"
               ></div>
-              <div className="text-gray-600 italic">Or</div>
+              <div className="text-gray-600 italic">Or try with</div>
               <div
                 className="border-t border-gray-300 grow ml-3"
                 aria-hidden="true"
