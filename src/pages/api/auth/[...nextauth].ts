@@ -17,7 +17,7 @@ export const authOptions = {
       clientSecret: process.env.APP_GITHUB_SECRET as string,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXT_PUBLIC_AUTH_SECRET,
   callbacks: {
     async jwt({ token, account }: IJWT) {
       // Persist the OAuth access_token to the token right after signin

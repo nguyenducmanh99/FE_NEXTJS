@@ -19,24 +19,24 @@ export  const withAuth = <P extends object>(
     const [token, setToken] = useLocalStorage(AUTH_TOKEN, "");
     const router = useRouter();
 
-    const isAccess =  useMemo(() => {
-      // If isSever render return...
-      if(typeof window === "undefined") return
-      // Else client render process check auth
-      const currentDate: string | any = dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss") 
-      const expired: any  = dayjs(authInfo?.expired).format("YYYY-MM-DD hh:mm:ss");
-      console.log("currentDate", currentDate)
-      console.log("expired", expired)
-      console.log("???", dayjs().isBefore(currentDate , expired))
-      const isExpired: boolean = dayjs().isBefore(currentDate , expired)
-      const result: boolean = !!(isExpired && token)
-      // If expired time || not have token return login page
-      // if (!result) {
-      //   router.push("/auth/signin")
-      // }
-      return result
-    }, [authInfo, router, token]);
-
+    // const isAccess =  useMemo(() => {
+    //   // If isSever render return...
+    //   if(typeof window === "undefined") return
+    //   // Else client render process check auth
+    //   const currentDate: string | any = dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss") 
+    //   const expired: any  = dayjs(authInfo?.expired).format("YYYY-MM-DD hh:mm:ss");
+    //   console.log("currentDate", currentDate)
+    //   console.log("expired", expired)
+    //   console.log("???", dayjs().isBefore(currentDate , expired))
+    //   const isExpired: boolean = dayjs().isBefore(currentDate , expired)
+    //   const result: boolean = !!(isExpired && token)
+    //   // If expired time || not have token return login page
+    //   if (!result) {
+    //     router.push("/auth/signin")
+    //   }
+    //   return result
+    // }, [authInfo, router, token]);
+    console.log(process.env.NEXT_PUBLIC_HOST)
     return (
       // isAccess ? <WrappedComponent {...props} /> : <></>
       <WrappedComponent {...props} />
