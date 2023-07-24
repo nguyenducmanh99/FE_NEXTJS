@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { styled, Container, Box } from "@mui/material";
 
 import Header from "./header/index";
 import Sidebar from "./sidebar";
 import PopupMessage from "@/components/shared/PopupMessage";
 
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { useLocalStorage } from "@/hook";
 import dayjs, { Dayjs } from "dayjs";
 import { AUTH_INFO, AUTH_TOKEN } from "@/constant";
@@ -17,8 +17,9 @@ export  const withAuth = <P extends object>(
   const ComponentWithAuth = (props: P) => {
     const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
     const [token, setToken] = useLocalStorage(AUTH_TOKEN, "");
+    const router = useRouter();
 
-    useEffect(() => {
+    const isAccess =  useMemo(() => {
       // If isSever render return...
       if(typeof window === "undefined") return
       // Else client render process check auth
@@ -27,15 +28,19 @@ export  const withAuth = <P extends object>(
       console.log("currentDate", currentDate)
       console.log("expired", expired)
       console.log("???", dayjs().isBefore(currentDate , expired))
-      // if(!expired || )
-
-
-      // if (!isAuthenticated) {
-      //   redirect("/auth/signin")
+      const isExpired: boolean = dayjs().isBefore(currentDate , expired)
+      const result: boolean = !!(isExpired && token)
+      // If expired time || not have token return login page
+      // if (!result) {
+      //   router.push("/auth/signin")
       // }
-    }, [authInfo]);
+      return result
+    }, [authInfo, router, token]);
 
-    return <WrappedComponent {...props} />;
+    return (
+      // isAccess ? <WrappedComponent {...props} /> : <></>
+      <WrappedComponent {...props} />
+    ) 
   };
 
   return ComponentWithAuth;

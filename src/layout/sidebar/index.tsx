@@ -18,7 +18,6 @@ import useResponsive from "@/hook/useResponsive";
 import SideBarSection from "./sideBarSection";
 //
 import sideBarConfig from "./config";
-import Logo from "@/components/logo";
 import Iconify from "@/components/utils/iconify";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "@/store/selectors";
@@ -66,11 +65,9 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
 
   const renderContent = (
     <>
-      <Box sx={{ px: 2.5, py: 3, display: "inline-flex" }}>
-        <Logo />
-      </Box>
+      <BoxLogo />
 
-      <Box sx={{ mb: 4, mx: 2.5 }}>
+      <Box sx={{ mb: 1.5, mx: 2 }}>
         <Link underline="none">
           <StyledAccount>
             <Avatar
@@ -155,3 +152,11 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
     </Box>
   );
 }
+
+export const BoxLogo = styled(Box)({
+  backgroundImage: `url(./images/logo_dinosaur.png)`,
+  display: 'inline-flex',
+  height: "92px",
+  marginBottom: "15px",
+  backgroundPosition: "-10px 132px"
+});
