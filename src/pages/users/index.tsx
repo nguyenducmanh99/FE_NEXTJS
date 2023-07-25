@@ -479,10 +479,11 @@ export const getServerSideProps: GetServerSideProps<{
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
   const { getUserRequest } = useUserSlice().actions;
   const cookies = new Cookies(req.headers.cookie);
-  const isClientRender = typeof window !== 'undefined'
+  const isClientRender = !!(typeof window !== "undefined" && window);
   const token =
-    cookies.get("token") || isClientRender ?
-    JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "") : "";
+    cookies.get("token") || isClientRender
+      ? JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "")
+      : "";
 
   const payload = {
     data: {

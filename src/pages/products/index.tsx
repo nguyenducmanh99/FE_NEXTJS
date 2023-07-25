@@ -9,8 +9,8 @@ import ProductSort from "@/components/ui/ProductSort";
 import ProductList from "@/components/ui/ProductList";
 import FullLayout from "@/layout/FullLayout";
 import Iconify from "@/components/utils/iconify";
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 // ----------------------------------------------------------------------
 
 export default function Products() {
@@ -25,16 +25,16 @@ export default function Products() {
   };
 
   const handleExportData = useCallback(() => {
-    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    const fileExtension = '.xlsx';
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
     const fileName = "list_product";
     const ws = XLSX.utils.json_to_sheet(products);
-    const wb = { Sheets: { 'data': ws }, SheetNames: ['Data'] };
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], {type: fileType});
+    const wb = { Sheets: { data: ws }, SheetNames: ["Data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, fileName + fileExtension);
-    
-  }, [])
+  }, []);
 
   return (
     <>

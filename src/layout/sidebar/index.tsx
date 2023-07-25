@@ -155,8 +155,8 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
 
 export const BoxLogo = styled(Box)({
   backgroundImage: `url(./images/logo_dinosaur.png)`,
-  display: 'inline-flex',
+  display: "inline-flex",
   height: "92px",
   marginBottom: "15px",
-  backgroundPosition: "-10px 132px"
+  backgroundPosition: "-10px 132px",
 });

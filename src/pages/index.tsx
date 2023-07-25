@@ -1,13 +1,10 @@
 import Head from "next/head";
-import Hero from "@/components/hero";
 import Features from "@/components/features";
-import FeaturesBlocks from "@/components/features-blocks";
-import Testimonials from "@/components/testimonials";
-import Newsletter from "@/components/newsletter";
 import Header from "@/components/ui/header";
 import styled from "styled-components";
 import Footer from "@/components/ui/footer";
 import "tailwindcss/tailwind.css";
+import SlideShow from "@/components/shared/SlideShow";
 
 Home.displayName = "Home";
 export default function Home() {
@@ -25,11 +22,12 @@ export default function Home() {
           ></script>
         </Head>
         <Header />
-        <Hero />
+        <SlideShow />
+        {/* <CategoryShow /> */}
         <Features />
-        <FeaturesBlocks />
+        {/* <FeaturesBlocks />
         <Testimonials />
-        <Newsletter />
+        <Newsletter /> */}
       </Container>
       <Footer />
     </>

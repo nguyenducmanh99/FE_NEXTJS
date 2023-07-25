@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
 import Link from "next/link";
-import Logo from "./logo";
-import Dropdown from "@/components/utils/dropdown";
 import MobileMenu from "./mobile-menu";
-
+import { Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
 
@@ -27,17 +25,40 @@ export default function Header() {
         !top ? "bg-white backdrop-blur-sm shadow-lg" : ""
       }`}
     >
-      <div className="max-w-6xl mx-auto px-5 sm:px-6">
+      <div className="mx-2 px-5 sm:px-6 w-full">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Site branding */}
           <div className="shrink-0 mr-4">
-            <Logo />
+            <TitleLogo> Dinosaur </TitleLogo>
           </div>
 
           {/* Desktop navigation */}
           <nav className="hidden md:flex md:grow">
             {/* Desktop sign in links */}
             <ul className="flex grow justify-end flex-wrap items-center mb-0">
+              {/* Search input */}
+              <li className="mx-auto w-1/3">
+                <div className="overflow-hidden z-0 rounded-full relative p-3">
+                  <form
+                    role="form"
+                    className="relative flex z-50 bg-white rounded-full"
+                  >
+                    <input
+                      type="text"
+                      placeholder="enter your search here"
+                      className="rounded-full flex-1 px-6 py-4 text-gray-700 focus:outline-none"
+                    />
+                    <button className="bg-indigo-500 text-white rounded-full font-semibold px-8 py-4 hover:bg-indigo-400 focus:bg-indigo-600 focus:outline-none">
+                      Search
+                    </button>
+                  </form>
+                  <div className="glow glow-1 z-10 bg-pink-400 absolute"></div>
+                  <div className="glow glow-2 z-20 bg-purple-400 absolute"></div>
+                  <div className="glow glow-3 z-30 bg-yellow-400 absolute"></div>
+                  <div className="glow glow-4 z-40 bg-blue-400 absolute"></div>
+                </div>
+              </li>
+              {/* Search input */}
               <li>
                 <Link
                   href="/auth/signin"
@@ -73,3 +94,9 @@ export default function Header() {
     </header>
   );
 }
+
+export const TitleLogo = styled(Typography)({
+  fontWeight: "700",
+  fontSize: "25px",
+  fontFamily: "system-ui",
+});

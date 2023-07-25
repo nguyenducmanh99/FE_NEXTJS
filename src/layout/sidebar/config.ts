@@ -6,7 +6,7 @@ import BugReportIcon from "@mui/icons-material/BugReport";
 import { SvgIconComponent } from "@mui/icons-material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import ComputerIcon from "@mui/icons-material/Computer";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 import { PAGE } from "@/constant";
 export interface ISideBarConfig {
   id: string;
@@ -52,7 +52,6 @@ const sideBarConfig: ISideBarConfig[] = [
     path: PAGE.PROFILE,
     icon: SettingsIcon,
   },
-
 ];
 
 export default sideBarConfig;

@@ -23,7 +23,7 @@ import "tailwindcss/tailwind.css";
 import { useRouter } from "next/router";
 import { PAGE } from "@/constant";
 import _ from "lodash";
-import { BootstrapInput } from "@/components/utils/Input"
+import { BootstrapInput } from "@/components/utils/Input";
 import { IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 export default function SignIn() {
@@ -107,7 +107,7 @@ export default function SignIn() {
     },
     [dispatch, loginRequest],
   );
-  
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (
@@ -117,20 +117,18 @@ export default function SignIn() {
   };
 
   return (
-    <section style={{backgroundColor: "#FBFBFD"}}>
+    <section style={{ backgroundColor: "#FBFBFD" }}>
       <div className="h-screen max-w-3xl mx-auto px-4 sm:px-6 middle-form ">
         <div className="login-form">
           {/* Header Tile of form */}
           <div className="max-w-3xl mx-auto text-center pb-4">
-            <h3 className="h3">
-              Admin Login
-            </h3>
+            <h3 className="h3">Admin Login</h3>
           </div>
- 
-            <h4 className="h4 max-w-3xl mx-auto text-center pb-6 font-medium">
-              Hey, Enter your account information to access the system
-            </h4>
-    
+
+          <h4 className="h4 max-w-3xl mx-auto text-center pb-6 font-medium">
+            Hey, Enter your account information to access the system
+          </h4>
+
           {/* Form */}
           <div className="max-w-xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -155,8 +153,7 @@ export default function SignIn() {
               </div>
               <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
-                  <div className="flex justify-end">
-                  </div>
+                  <div className="flex justify-end"></div>
                   <BootstrapInput
                     {...register("password", {
                       required: true,
@@ -167,16 +164,16 @@ export default function SignIn() {
                     className="w-full text-gray-800"
                     placeholder="Enter your password"
                     endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
                     }
                     required
                   />

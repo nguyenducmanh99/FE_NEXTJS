@@ -5,14 +5,13 @@ import Header from "./header/index";
 import Sidebar from "./sidebar";
 import PopupMessage from "@/components/shared/PopupMessage";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { useLocalStorage } from "@/hook";
 import dayjs, { Dayjs } from "dayjs";
 import { AUTH_INFO, AUTH_TOKEN } from "@/constant";
 
-
-export  const withAuth = <P extends object>(
-  WrappedComponent: React.ComponentType<P>
+export const withAuth = <P extends object>(
+  WrappedComponent: React.ComponentType<P>,
 ) => {
   const ComponentWithAuth = (props: P) => {
     const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
@@ -23,7 +22,7 @@ export  const withAuth = <P extends object>(
     //   // If isSever render return...
     //   if(typeof window === "undefined") return
     //   // Else client render process check auth
-    //   const currentDate: string | any = dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss") 
+    //   const currentDate: string | any = dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss")
     //   const expired: any  = dayjs(authInfo?.expired).format("YYYY-MM-DD hh:mm:ss");
     //   console.log("currentDate", currentDate)
     //   console.log("expired", expired)
@@ -36,11 +35,11 @@ export  const withAuth = <P extends object>(
     //   }
     //   return result
     // }, [authInfo, router, token]);
-    console.log(process.env.NEXT_PUBLIC_HOST)
+    console.log(process.env.NEXT_PUBLIC_HOST);
     return (
       // isAccess ? <WrappedComponent {...props} /> : <></>
       <WrappedComponent {...props} />
-    ) 
+    );
   };
 
   return ComponentWithAuth;
