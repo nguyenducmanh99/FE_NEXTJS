@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Footer from "@/components/ui/footer";
 import "tailwindcss/tailwind.css";
 import SlideShow from "@/components/shared/SlideShow";
+import ContentList from "@/components/ContentList";
 
 Home.displayName = "Home";
 export default function Home() {
@@ -23,11 +24,8 @@ export default function Home() {
         </Head>
         <Header />
         <SlideShow />
-        {/* <CategoryShow /> */}
         <Features />
-        {/* <FeaturesBlocks />
-        <Testimonials />
-        <Newsletter /> */}
+        <ContentList />
       </Container>
       <Footer />
     </>

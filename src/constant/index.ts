@@ -72,3 +72,169 @@ export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
 export const DELETE_USER_RESET = "DELETE_USER_RESET";
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+
+export interface IProduct {
+  id: number;
+  cover: string;
+  name: string;
+  price: number;
+  priceSale: number;
+  colors: string[];
+  status: "sale" | "new" | "";
+}
+
+export const products: IProduct[] = [
+  {
+    id: 1,
+    cover: `/images/product_1.jpg`,
+    name: "Nike Air Force 1 NDESTRUKT",
+    price: 20,
+    priceSale: 18,
+    colors: ["#00AB55", "#000000"],
+    status: "sale",
+  },
+  {
+    id: 2,
+    cover: `/images/product_2.jpg`,
+    name: "Nike Space Hippie 04",
+    price: 10,
+    priceSale: 8,
+    colors: ["#94D82D", "#FFC107"],
+    status: "new",
+  },
+  {
+    id: 3,
+    cover: `/images/product_3.jpg`,
+    name: "Nike Air Zoom Pegasus 37 A.I.R. Chaz Bear",
+    price: 30,
+    priceSale: 26,
+    colors: ["#FFFFFF", "#FFC0CB"],
+    status: "",
+  },
+  {
+    id: 4,
+    cover: `/images/product_4.jpg`,
+    name: "Nike Blazer Low 77 Vintage",
+    price: 56,
+    priceSale: 50,
+    colors: ["#94D82D", "#FFC107"],
+    status: "sale",
+  },
+  {
+    id: 5,
+    cover: `/images/product_5.jpg`,
+    name: "Nike ZoomX SuperRep Surge",
+    price: 17,
+    priceSale: 16,
+    colors: ["#FFC0CB", "#FF4842", "#1890FF", "#94D82D"],
+    status: "",
+  },
+  {
+    id: 6,
+    cover: `/images/product_6.jpg`,
+    name: "Zoom Freak 2",
+    price: 60,
+    priceSale: 48,
+    colors: ["#00AB55", "#000000", "#FFFFFF", "#FFC0CB", "#FF4842"],
+    status: "sale",
+  },
+  {
+    id: 7,
+    cover: `/images/product_7.jpg`,
+    name: "Nike Air Max Zephyr",
+    price: 33,
+    priceSale: 30,
+    colors: ["#FFC107"],
+    status: "new",
+  },
+  {
+    id: 8,
+    cover: `/images/product_8.jpg`,
+    name: "Jordan Delta",
+    price: 44,
+    priceSale: 42,
+    colors: ["#00AB55", "#000000", "#FFFFFF"],
+    status: "",
+  },
+  {
+    id: 9,
+    cover: `/images/product_9.jpg`,
+    name: "Air Jordan XXXV PF",
+    price: 52,
+    priceSale: 50,
+    colors: ["#94D82D"],
+    status: "sale",
+  },
+  {
+    id: 10,
+    cover: `/images/product_10.jpg`,
+    name: "Nike Waffle Racer Crater",
+    price: 67,
+    priceSale: 60,
+    colors: ["#000000", "#FFFFFF", "#FFC0CB", "#FF4842"],
+    status: "new",
+  },
+];
+
+export interface IFieldOption {
+  key: string;
+  label: string;
+  type: string;
+}
+
+export const fieldOption: IFieldOption[] = [
+  {
+    key: "fullName",
+    label: "Full Name",
+    type: "text",
+  },
+  {
+    key: "name",
+    label: "User Name",
+    type: "text",
+  },
+  {
+    key: "email",
+    label: "Email",
+    type: "text",
+  },
+  {
+    key: "phone",
+    label: "Phone",
+    type: "text",
+  },
+
+  {
+    key: "description",
+    label: "Role",
+    type: "select",
+  },
+  {
+    key: "address",
+    label: "Address",
+    type: "select",
+  },
+  {
+    key: "dateOfBirth",
+    label: "Birthday",
+    type: "date",
+  },
+  {
+    key: "password",
+    label: "Password",
+    type: "text",
+  },
+];
+export const roleOptions = ["Admin", "Employee"];
+export const cityOptions = [
+  "Hanoi",
+  "HoChiMinh",
+  "HaiPhong",
+  "Danang",
+  "Thanhhoa",
+  "Phutho",
+  "Thaibinh",
+  "Namdinh",
+  "Ninhbinh",
+  "Nghean",
+];

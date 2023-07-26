@@ -1,10 +1,17 @@
 // @mui
-import { Box, Card, Link, Typography, Stack, Chip } from "@mui/material";
+import {
+  Box,
+  Card,
+  Typography,
+  Stack,
+  Chip,
+  Rating,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Image from "next/image";
-import Skeleton from "@mui/material/Skeleton";
+import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { alpha } from "@mui/material/styles";
+import { IProduct } from "@/constant";
 
 // ----------------------------------------------------------------------
 const styledImage: any = {
@@ -20,12 +27,40 @@ const StyledProductImg = styled("img")(styledImage);
 // ----------------------------------------------------------------------
 
 interface IShopProductCard {
-  product: any;
+  product: IProduct;
+  onSelect: CallableFunction;
 }
 
-export default function ShopProductCard({ product }: IShopProductCard) {
+export default function ShopProductCard({ product, onSelect }: IShopProductCard) {
   const { name, cover, price, colors, status, priceSale } = product;
   const [loaded, setLoaded] = useState<boolean>(false);
+  
+  const renderActionList = () => {
+    return (
+      <div className="flex flex-col shadow-sm list-button-action" role="group">
+        <button
+          onClick={() => onSelect(product)}
+          type="button"
+          className="px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-sm rounded-r-sm hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          <Icon icon="fluent:cart-24-regular" width="25"/>
+        </button>
+        <button
+          type="button"
+          className="px-3 py-2 text-sm font-medium text-gray-900 bg-white border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          <Icon icon="carbon:view" width="25" />
+        </button>
+        <button
+          type="button"
+          className="px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-sm rounded-l-sm hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
+        >
+          <Icon icon="ion:call-outline" width="25" />
+        </button>
+      </div>
+    );
+  };
+
   return (
     <Card className={"product_card"}>
       <Box
@@ -34,6 +69,7 @@ export default function ShopProductCard({ product }: IShopProductCard) {
           position: "relative",
           cursor: "pointer",
         }}
+        className="card_content"
       >
         {status && (
           <Chip
@@ -51,33 +87,32 @@ export default function ShopProductCard({ product }: IShopProductCard) {
         <StyledProductImg
           alt={name}
           src={cover}
-          // fill={true}
-          // priority={true}
           sx={{
-            // display: loaded ? "" : "none",
             "&:hover": {
               opacity: 0.6,
               transition: "0.3s",
             },
           }}
-          // onLoadingComplete={() => setLoaded(true)}
         />
-        {/* <Skeleton variant="rounded" sx={styledImage} /> */}
+        {renderActionList()}
       </Box>
 
-      <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover">
-          <Typography variant="subtitle2" noWrap>
-            {name}
-          </Typography>
-        </Link>
-
+      <Stack spacing={2} sx={{ p: 2 }} direction="column">
+        <Typography
+          variant="subtitle2"
+          noWrap
+          sx={{ textTransform: "uppercase", color: "darkslategray" }}
+        >
+          {"Fashion shoes"}
+        </Typography>
+        <ProductName>{name}</ProductName>
+        <Rating name={name} value={4} readOnly />
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
         >
-          <ColorPreview colors={colors} />
+          <ColorPreview colors={colors} sx={{ minWidth: "25px" }} />
           <Typography variant="subtitle1">
             <Typography
               component="span"
@@ -98,6 +133,11 @@ export default function ShopProductCard({ product }: IShopProductCard) {
   );
 }
 
+const ProductName = styled("div")({
+  marginTop: "2px !important",
+  fontSize: "16px",
+});
+
 export function ColorPreview({
   colors,
   limit = 3,
@@ -112,7 +152,7 @@ export function ColorPreview({
 
   return (
     <Stack
-      component="span"
+      component="div"
       direction="row"
       alignItems="center"
       justifyContent="flex-end"

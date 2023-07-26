@@ -1,11 +1,9 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import {
   Autocomplete,
   FormControl,
@@ -22,6 +20,8 @@ import { useForm, Controller, ControllerRenderProps } from "react-hook-form";
 import dayjs, { Dayjs } from "dayjs";
 import { useDispatch } from "react-redux";
 import { useUserSlice } from "@/store";
+import { cityOptions, fieldOption, roleOptions } from "@/constant";
+import { SignUpDialogTitle } from "./DialogTitle";
 
 const SignUpDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -31,105 +31,11 @@ const SignUpDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
-export interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-}
-
-function SignUpDialogTitle(props: DialogTitleProps) {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2, fontWeight: "bold" }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
-
 interface ISignUpDialogs {
   open: boolean;
   onClose: CallableFunction;
   isEdit: boolean;
 }
-
-interface IFieldOption {
-  key: string;
-  label: string;
-  type: string;
-}
-
-const fieldOption: IFieldOption[] = [
-  {
-    key: "fullName",
-    label: "Full Name",
-    type: "text",
-  },
-  {
-    key: "name",
-    label: "User Name",
-    type: "text",
-  },
-  {
-    key: "email",
-    label: "Email",
-    type: "text",
-  },
-  {
-    key: "phone",
-    label: "Phone",
-    type: "text",
-  },
-
-  {
-    key: "description",
-    label: "Role",
-    type: "select",
-  },
-  {
-    key: "address",
-    label: "Address",
-    type: "select",
-  },
-  {
-    key: "dateOfBirth",
-    label: "Birthday",
-    type: "date",
-  },
-  {
-    key: "password",
-    label: "Password",
-    type: "text",
-  },
-];
-const roleOptions = ["Admin", "Employee"];
-const cityOptions = [
-  "Hanoi",
-  "HoChiMinh",
-  "HaiPhong",
-  "Danang",
-  "Thanhhoa",
-  "Phutho",
-  "Thaibinh",
-  "Namdinh",
-  "Ninhbinh",
-  "Nghean",
-];
 
 type FormData = {
   fullName: string;
