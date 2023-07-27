@@ -68,7 +68,8 @@ jobs:
       # - name: Build with Next.js
       #   run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - run: npm ci --legacy-peer-deps
-      - run: npm run build --if-present
+      - run: NODE_OPTIONS="--max-old-space-size=3072"
+      - run: npm run build node --max-old-space-size=3072 --if-present
       - run: npm install -g pm2 
       - run: pm2 start npm --name "example" -- start
       - run: pm2 save
