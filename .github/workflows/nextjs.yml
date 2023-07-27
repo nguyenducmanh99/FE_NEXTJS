@@ -70,6 +70,8 @@ jobs:
       - run: npm ci --legacy-peer-deps
       - run: npm run build --if-present
       - run: npm install -g pm2 
+      - run: pm2 start npm --name "example" -- start
+      - run: pm2 save
       - run: pm2 restart example
         
       # - name: Static HTML export with Next.js
