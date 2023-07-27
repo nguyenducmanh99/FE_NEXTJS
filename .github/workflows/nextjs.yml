@@ -67,6 +67,10 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+      - run: npm ci --legacy-peer-deps
+      - run: npm run build --if-present
+      - run: pm2 restart example
+        
       # - name: Static HTML export with Next.js
       #   run: ${{ steps.detect-package-manager.outputs.runner }} next export
       # - name: Upload artifact
