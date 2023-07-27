@@ -1,12 +1,5 @@
 // @mui
-import {
-  Box,
-  Card,
-  Typography,
-  Stack,
-  Chip,
-  Rating,
-} from "@mui/material";
+import { Box, Card, Typography, Stack, Chip, Rating } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
@@ -31,21 +24,28 @@ interface IShopProductCard {
   onSelect: CallableFunction;
 }
 
-export default function ShopProductCard({ product, onSelect }: IShopProductCard) {
-  const { name, cover, price, colors, status, priceSale } = product;
+export default function ShopProductCard({
+  product,
+  onSelect,
+}: IShopProductCard) {
+  const { name, cover, price, colors, status, priceSale, id } = product;
   const [loaded, setLoaded] = useState<boolean>(false);
-  
+
   const renderActionList = () => {
     return (
-      <div className="flex flex-col shadow-sm list-button-action" role="group">
+      <div
+        className="flex flex-col shadow-sm list-button-action"
+        role="group"
+        id={`list-button-action${id}`}
+      >
         <button
-          onClick={() => onSelect(product)}
           type="button"
           className="px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-sm rounded-r-sm hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
         >
-          <Icon icon="fluent:cart-24-regular" width="25"/>
+          <Icon icon="fluent:cart-24-regular" width="25" />
         </button>
         <button
+          onClick={() => onSelect(product)}
           type="button"
           className="px-3 py-2 text-sm font-medium text-gray-900 bg-white border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"
         >
@@ -70,6 +70,7 @@ export default function ShopProductCard({ product, onSelect }: IShopProductCard)
           cursor: "pointer",
         }}
         className="card_content"
+        id={`card_content${id}`}
       >
         {status && (
           <Chip

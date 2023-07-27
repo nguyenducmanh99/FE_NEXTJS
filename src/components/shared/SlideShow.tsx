@@ -20,6 +20,7 @@ export default function SlideShow() {
           infiniteLoop={true}
           dynamicHeight={false}
           className="carousel-root"
+          showThumbs={false}
         >
           {listImage.map((item, index) => (
             <ImageShow

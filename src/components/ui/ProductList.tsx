@@ -17,22 +17,28 @@ export default function ProductList({ products, ...other }: IProductList) {
 
   const handleSelectProduct = useCallback((data: IProduct) => {
     setOpen(true);
-    console.log("data", data)
     setProductSelect(data);
   }, []);
-  
+
   const handleClose = useCallback(() => {
-    setOpen(false)
-  }, []);
+    setOpen(false);
+    const el: any = document.getElementById(
+      `list-button-action${productSelect?.id}`,
+    );
+    el.style.display = "none";
+    setTimeout(() => {
+      el.style.display = "flex";
+    }, 1000);
+  }, [productSelect?.id]);
 
   return (
     <Grid container spacing={3} {...other}>
       {products.map((product) => (
         <Grid key={product.id} item xs={12} sm={6} md={3}>
-          <ShopProductCard product={product} onSelect={handleSelectProduct}/>
+          <ShopProductCard product={product} onSelect={handleSelectProduct} />
         </Grid>
       ))}
-      <DetailProductDialogs 
+      <DetailProductDialogs
         open={open}
         onClose={handleClose}
         data={productSelect}

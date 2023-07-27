@@ -445,14 +445,65 @@ a {
   margin-top: 5px !important;
 }
 
+.card_content {
+  display: block;
+}
 .card_content:hover .list-button-action {
   right: 5px !important;
   opacity: 1;
   transition: right 800ms ease;
+  display: flex;
 }
 
 .list-button-action {
   position: absolute;
   right: -60px;
   bottom: 15px;
+}
+
+figure.zoom {
+  background-position: 50% 50%;
+  position: relative;
+  width: 100%;
+  height: 85%;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+figure.zoom img:hover {
+  opacity: 0;
+}
+
+figure.zoom img {
+  transition: opacity 0.5s;
+  display: block;
+  width: 100%;
+}
+
+.image-item-button {
+  width: 90px;
+  height: 90px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  box-shadow: none;
+  border: 1px solid rgb(218, 225, 231);
+  border-radius: 5px;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+.selected-image {
+  border: 5px solid darkgray;
+}
+
+.rotate-left {
+  transform: rotate(90deg);
+}
+
+.rotate-right {
+  transform: rotate(-90deg);
 }

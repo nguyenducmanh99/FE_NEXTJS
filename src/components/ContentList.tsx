@@ -21,7 +21,10 @@ export default function ContentList() {
 
   const renderHeaderTitle = useCallback(
     (title: string) => (
-      <h3 style={{ fontSize: "36px", position: "relative", zIndex: 1 }}>
+      <h3
+        id="trending-title"
+        style={{ fontSize: "36px", position: "relative", zIndex: 1 }}
+      >
         {title}
         <svg
           style={{
