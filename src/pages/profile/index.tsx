@@ -3,7 +3,13 @@
 import { Helmet } from "react-helmet-async";
 import { ReactElement, useCallback, useState } from "react";
 // @mui
-import { Button, Container, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 // components
 
 import FullLayout from "@/layout/FullLayout";
@@ -59,14 +65,18 @@ export default function Profile() {
                 <div className="px-6">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                      <div className="relative">
+                      <IconButton
+                        className="relative"
+                        size="large"
+                        sx={{ width: "150px" }}
+                      >
                         <img
                           alt="..."
                           src="https://i.pinimg.com/originals/e1/ed/eb/e1edeb6d3f086b74b0f33be6e665c10f.jpg"
                           className="shadow-xl rounded-full h-auto align-middle border-b border-teal-300 absolute -m-16 -ml-20 lg:-ml-16"
                           style={{ maxWidth: "150px" }}
                         />
-                      </div>
+                      </IconButton>
                     </div>
                     <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                       <div className="py-6 px-3 mt-32 sm:mt-0">
