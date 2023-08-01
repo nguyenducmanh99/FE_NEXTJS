@@ -477,24 +477,24 @@ export default function Users({
 export const getServerSideProps: GetServerSideProps<{
   dataServer: IUserData | undefined;
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
-  const { getUserRequest } = useUserSlice().actions;
-  const cookies = new Cookies(req.headers.cookie);
-  const token = cookies.get("token");
-  const payload = {
-    data: {
-      page: 1,
-      limit: 10,
-      sortBy: "ASC",
-    },
-    token,
-  };
-  if (!token) return;
-  await store.dispatch(getUserRequest(payload));
-  await store.dispatch(END);
-  await store.sagaTask.toPromise();
-  const dataServer: IUserData | undefined =
-    store.getState().userInfo?.userDataRes;
-  if (dataServer) return { props: { dataServer } };
+  // const { getUserRequest } = useUserSlice().actions;
+  // const cookies = new Cookies(req.headers.cookie);
+  // const token = cookies.get("token");
+  // const payload = {
+  //   data: {
+  //     page: 1,
+  //     limit: 10,
+  //     sortBy: "ASC",
+  //   },
+  //   token,
+  // };
+  // if (!token) return;
+  // await store.dispatch(getUserRequest(payload));
+  // await store.dispatch(END);
+  // await store.sagaTask.toPromise();
+  // const dataServer: IUserData | undefined =
+  //   store.getState().userInfo?.userDataRes;
+  // if (dataServer) return { props: { dataServer } };
 });
 
 Users.getLayout = function getLayout(page: ReactElement) {
