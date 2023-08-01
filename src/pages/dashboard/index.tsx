@@ -11,7 +11,6 @@ import { IHistory } from "@/store/history-slice/types";
 import Cookies from "universal-cookie";
 import { END } from "redux-saga";
 
-
 // components
 
 export default function Dashboard({

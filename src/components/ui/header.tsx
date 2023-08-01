@@ -72,9 +72,25 @@ export default function Header() {
                   href="/auth/signup"
                   className="btn-sm ml-3 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-center"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"><path d="M6 6h24l-3 13H9m18 4H10L5 2H2"/><circle cx="25" cy="27" r="2"/><circle cx="12" cy="27" r="2"/></g></svg>
-                  <span style={{marginLeft: "5px"}}>My Cart</span>
-        
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 32 32"
+                  >
+                    <g
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                    >
+                      <path d="M6 6h24l-3 13H9m18 4H10L5 2H2" />
+                      <circle cx="25" cy="27" r="2" />
+                      <circle cx="12" cy="27" r="2" />
+                    </g>
+                  </svg>
+                  <span style={{ marginLeft: "5px" }}>My Cart</span>
                 </Link>
               </li>
             </ul>
