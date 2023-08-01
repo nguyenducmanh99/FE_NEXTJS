@@ -251,9 +251,9 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
                       <path
                         d="M1 1H10"
                         stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                     </svg>
                   </span>
@@ -277,16 +277,16 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
                       <path
                         d="M1 6H10"
                         stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                       <path
                         d="M5.5 10.5V1.5"
                         stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                     </svg>
                   </span>
@@ -304,9 +304,9 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
                     <g
                       fill="none"
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                     >
                       <path d="M6 6h24l-3 13H9m18 4H10L5 2H2" />
                       <circle cx="25" cy="27" r="2" />

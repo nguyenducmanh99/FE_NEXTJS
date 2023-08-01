@@ -79,21 +79,19 @@ export default function Dashboard({
 export const getServerSideProps: GetServerSideProps<{
   dataServer: IHistory[] | undefined;
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
-  // const { getHistoryRequest } = useHistorySlice().actions;
-  // const cookies = new Cookies(req?.headers?.cookie);
-  // const token = cookies.get("token");
-  // const payload = {
-  //   token,
-  // };
-  // console.log(1)
-  // if (!token) return;
-  // console.log(2)
-  // await store.dispatch(getHistoryRequest(payload));
-  // await store.dispatch(END);
-  // await store.sagaTask.toPromise();
-  // const dataServer: IHistory[] | undefined =
-  //   store.getState().history.historyData;
-  // if (dataServer) return { props: { dataServer } };
+  const { getHistoryRequest } = useHistorySlice().actions;
+  const cookies = new Cookies(req?.headers?.cookie);
+  const token = cookies.get("token");
+  const payload = {
+    token,
+  };
+  if (!token) return;
+  await store.dispatch(getHistoryRequest(payload));
+  await store.dispatch(END);
+  await store.sagaTask.toPromise();
+  const dataServer: IHistory[] | undefined =
+    store.getState().history.historyData;
+  if (dataServer) return { props: { dataServer } };
 });
 
 Dashboard.getLayout = function getLayout(page: ReactElement) {
