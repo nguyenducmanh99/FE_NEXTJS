@@ -488,7 +488,7 @@ export const getServerSideProps: GetServerSideProps<{
     },
     token,
   };
-
+  if (!token) return;
   await store.dispatch(getUserRequest(payload));
   await store.dispatch(END);
   await store.sagaTask.toPromise();

@@ -209,7 +209,12 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
             </div>
             <div className="flex flex-row py-2">
               <Label className="text-base">Old Price:</Label>
-              <span className="text-base">{data?.price}.000</span>
+              <span
+                className="text-base"
+                style={{ textDecorationLine: "line-through" }}
+              >
+                {data?.price}.000
+              </span>
             </div>
             <div className="flex flex-row py-2">
               <Label className="text-base">Promotion Price:</Label>

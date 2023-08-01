@@ -85,7 +85,7 @@ export const getServerSideProps: GetServerSideProps<{
   const payload = {
     token,
   };
-
+  if (!token) return;
   await store.dispatch(getHistoryRequest(payload));
   await store.dispatch(END);
   await store.sagaTask.toPromise();
