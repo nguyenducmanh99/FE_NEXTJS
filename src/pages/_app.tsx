@@ -4,12 +4,9 @@ import { useEffect, StrictMode, ReactElement, ReactNode } from "react";
 import ErrorBoundary from "@/pages/error";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { HelmetProvider } from "react-helmet-async";
-import {
-  ThemeProvider,
-  StyledEngineProvider,
-  CssBaseline,
-} from "@mui/material";
-import { roboto, darkTheme, lightTheme } from "@/constant";
+import { StyledEngineProvider, CssBaseline } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { roboto } from "@/constant";
 import styled from "styled-components";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -41,11 +38,18 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
   // console.log(Component.displayName)
   const getLayout = Component.getLayout ?? ((page) => page);
   const { store, props } = wrapper.useWrappedStore(pageProps);
+
+  const lightTheme = createTheme({
+    palette: {
+      mode: "light",
+    },
+  });
+
   return (
     <>
       <Provider store={store}>
         <Main className={roboto.className}>
-          <ThemeProvider theme={lightTheme || darkTheme}>
+          <ThemeProvider theme={lightTheme}>
             <StyledEngineProvider injectFirst>
               <CssBaseline />
               <HelmetProvider>

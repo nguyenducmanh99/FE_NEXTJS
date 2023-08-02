@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 // @mui
-import { styled, alpha } from "@mui/material/styles";
+import { styled, alpha, useTheme } from "@mui/material/styles";
 import {
   Box,
   Link,
@@ -50,7 +50,8 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
   const { resetAuthentication } = useLoginSlice().actions;
   const { infoParty3rd, userInfo } = useSelector(selectAuth);
   const isDesktop = useResponsive("up", "lg", "xl");
-
+  const { palette } = useTheme();
+  console.log(palette.mode);
   useEffect(() => {
     if (openSideBar) {
       onCloseSideBar();

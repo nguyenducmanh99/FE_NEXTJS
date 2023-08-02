@@ -16,12 +16,12 @@ export default function Cart() {
         >
           <Grid item xs={8} className="p-4 flex flex-col">
             <div>Title 1</div>
-            <div className="w-full text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700"></div>
+            <div className="w-full text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:border-gray-700"></div>
           </Grid>
           <Grid item xs={0.5} />
           <Grid item xs={3.5} className="p-4 p-4 flex flex-col">
             <div>Title 2</div>
-            <div className="w-full text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700"></div>
+            <div className="w-full text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:border-gray-700"></div>
           </Grid>
         </Grid>
       </Container>

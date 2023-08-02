@@ -69,7 +69,7 @@ export default function Header() {
               </li>
               <li>
                 <Link
-                  href="/auth/signup"
+                  href="/cart"
                   className="btn-sm ml-3 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-center"
                 >
                   <svg
