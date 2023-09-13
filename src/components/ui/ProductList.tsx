@@ -12,7 +12,7 @@ export interface IProductList {
 }
 
 export default function ProductList({ products, ...other }: IProductList) {
-  const [productSelect, setProductSelect] = useState<IProduct>();
+  const [productSelect, setProductSelect] = useState<IProduct>(products[0]);
   const [open, setOpen] = useState<boolean>(false);
 
   const handleSelectProduct = useCallback((data: IProduct) => {

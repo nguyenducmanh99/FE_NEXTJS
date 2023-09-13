@@ -2,7 +2,7 @@ import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
-import { Box, Chip, Grid, Rating, Stack } from "@mui/material";
+import { Box, Button, ButtonGroup, Chip, Grid, Rating, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,7 +21,7 @@ const DetailProductDialog = styled(Dialog)(({ theme }) => ({
 interface IDetailProductDialog {
   open: boolean;
   onClose: CallableFunction;
-  data: IProduct | undefined;
+  data: IProduct;
 }
 
 export const enum ImageState {
@@ -37,8 +37,11 @@ export const enum IQuantity {
 
 export default function DetailProductDialogs(props: IDetailProductDialog) {
   const { open, onClose, data } = props;
+  console.log("data", data)
   const [image, setImage] = React.useState<ImageState>(ImageState.DEFAULT);
   const [numberOrder, setNumberOrder] = React.useState<number>(1);
+  const [colorSelect, setColorSelect] = React.useState<string>(data?.colors[0] || "");
+  const [size, setSize] = React.useState<string>(data.size[0]);
   const useBackgroundImage = React.useMemo(() => {
     return { backgroundImage: `url(${data?.cover})` };
   }, [data]);
@@ -96,6 +99,22 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
     const y = (offsetY / zoomer.offsetHeight) * 100;
     zoomer.style.backgroundPosition = x + "% " + y + "%";
   }, []);
+  
+  const handleColorSelect = React.useCallback((index: number) => {
+    setColorSelect(data?.colors[index])
+  }, [data?.colors])
+  
+  const handleChangeSize = React.useCallback((event: React.MouseEvent<HTMLElement>,
+    newSize: string,) => {
+          setSize(newSize)
+  }, [])
+
+  const control = {
+    value: size,
+    onChange: handleChangeSize,
+    exclusive: true,
+  };
+
 
   return (
     <DetailProductDialog
@@ -137,7 +156,7 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
               />
             </figure>
             <Box sx={{ height: "15%" }}>
-              <ButtonGroup>
+              <ButtonGroups>
                 <div
                   className={`image-item-button ${
                     checkSelected(ImageState.DEFAULT) && "selected-image"
@@ -159,28 +178,11 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
                   style={useBackgroundImage}
                   onClick={() => setImage(ImageState.RIGHT)}
                 ></div>
-              </ButtonGroup>
+              </ButtonGroups>
             </Box>
           </Grid>
           <Grid item xs={5} className="flex flex-col">
             <ProductName>{data?.name}</ProductName>
-            <div className="flex flex-row py-2">
-              <Label className="text-base">Brand:</Label>
-              <span className="text-base">Nike</span>
-            </div>
-            <div className="flex flex-row py-2">
-              <Label className="text-base" style={{ alignSelf: "end" }}>
-                Rate:
-              </Label>
-              <Rating value={4} readOnly />
-            </div>
-            <div className="flex flex-row py-2">
-              <Label className="text-base">Color:</Label>
-              <ColorPreview
-                colors={data?.colors || []}
-                sx={{ minWidth: "25px" }}
-              ></ColorPreview>
-            </div>
             <div className="flex flex-row py-2">
               <Label className="text-base self-center">Status:</Label>
               <Stack direction="row" spacing={1}>
@@ -208,6 +210,31 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
               </Stack>
             </div>
             <div className="flex flex-row py-2">
+              <Label className="text-base" style={{ alignSelf: "end" }}>
+                Rate:
+              </Label>
+              <Rating value={data.rate} readOnly />
+            </div>
+            <div className="flex flex-row py-2">
+              <Label className="text-base">Color:</Label>
+              <ColorPreview
+                colors={data?.colors || []}
+                sx={{ minWidth: "25px" }}
+                edit={true}
+                onSelect={handleColorSelect}
+              ></ColorPreview>
+            </div>
+            <div className="flex flex-row py-2">
+              <Label className="text-base self-center">Size:</Label>
+              <ToggleButtonGroup size="small" {...control} aria-label="small button group">
+                {data.size.length > 0 && data.size.map((item, index) => {
+                  return (
+                    <ToggleButton key={index} value={item}>{item}</ToggleButton>
+                  )
+                })}
+              </ToggleButtonGroup>
+            </div>
+            <div className="flex flex-row py-2">
               <Label className="text-base">Old Price:</Label>
               <span
                 className="text-base"
@@ -224,7 +251,7 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
             </div>
             <div className="flex flex-row py-2">
               <Label className="text-base">Update At:</Label>
-              <span className="text-base">2023-7-12</span>
+              <span className="text-base">{data.updateAt}</span>
             </div>
             <div className="flex flex-row py-2">
               <Label className="text-base">Created By:</Label>
@@ -329,7 +356,7 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
   );
 }
 
-const ButtonGroup = styled("div")({
+const ButtonGroups = styled("div")({
   display: "flex",
   justifyContent: "space-evenly",
   padding: "5px",

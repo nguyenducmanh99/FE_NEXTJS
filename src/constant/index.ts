@@ -80,9 +80,16 @@ export interface IProduct {
   price: number;
   priceSale: number;
   colors: string[];
-  status: "sale" | "new" | "";
+  status: "sale" | "new" | "feature";
+  rate: number;
+  size: string[];
+  inStock: boolean;
+  categoryId: number;
+  createAt: string;
+  updateAt: string;
 }
 
+// Fake Data Product
 export const products: IProduct[] = [
   {
     id: 1,
@@ -92,6 +99,12 @@ export const products: IProduct[] = [
     priceSale: 18,
     colors: ["#00AB55", "#000000"],
     status: "sale",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 2,
@@ -101,6 +114,12 @@ export const products: IProduct[] = [
     priceSale: 8,
     colors: ["#94D82D", "#FFC107"],
     status: "new",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 3,
@@ -109,7 +128,13 @@ export const products: IProduct[] = [
     price: 30,
     priceSale: 26,
     colors: ["#FFFFFF", "#FFC0CB"],
-    status: "",
+    status: "feature",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 4,
@@ -119,6 +144,12 @@ export const products: IProduct[] = [
     priceSale: 50,
     colors: ["#94D82D", "#FFC107"],
     status: "sale",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 5,
@@ -127,7 +158,13 @@ export const products: IProduct[] = [
     price: 17,
     priceSale: 16,
     colors: ["#FFC0CB", "#FF4842", "#1890FF", "#94D82D"],
-    status: "",
+    status: "feature",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 6,
@@ -137,6 +174,12 @@ export const products: IProduct[] = [
     priceSale: 48,
     colors: ["#00AB55", "#000000", "#FFFFFF", "#FFC0CB", "#FF4842"],
     status: "sale",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 7,
@@ -146,6 +189,12 @@ export const products: IProduct[] = [
     priceSale: 30,
     colors: ["#FFC107"],
     status: "new",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 8,
@@ -154,7 +203,13 @@ export const products: IProduct[] = [
     price: 44,
     priceSale: 42,
     colors: ["#00AB55", "#000000", "#FFFFFF"],
-    status: "",
+    status: "new",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 9,
@@ -164,6 +219,12 @@ export const products: IProduct[] = [
     priceSale: 50,
     colors: ["#94D82D"],
     status: "sale",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
   {
     id: 10,
@@ -173,6 +234,12 @@ export const products: IProduct[] = [
     priceSale: 60,
     colors: ["#000000", "#FFFFFF", "#FFC0CB", "#FF4842"],
     status: "new",
+    rate: 4,
+    inStock: true,
+    size: ["29", "30", "31"],
+    categoryId: 1,
+    createAt: '2023-4-28',
+    updateAt: '2023-4-28',
   },
 ];
 
