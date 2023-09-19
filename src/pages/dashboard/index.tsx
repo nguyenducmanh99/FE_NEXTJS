@@ -80,7 +80,11 @@ export const getServerSideProps: GetServerSideProps<{
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
   const { getHistoryRequest } = useHistorySlice().actions;
   const cookies = new Cookies(req?.headers?.cookie);
-  const token = cookies.get("token");
+
+  const isClientRender = typeof window !== 'undefined'
+  const token =
+    cookies.get("token")
+
   const payload = {
     token,
   };
