@@ -248,9 +248,9 @@ export default function Users({
     () =>
       page > 0
         ? Math.max(
-            0,
-            (1 + page) * rowsPerPage - (userData ? userData?.data.length : 0),
-          )
+          0,
+          (1 + page) * rowsPerPage - (userData ? userData?.data.length : 0),
+        )
         : 0,
     [page, rowsPerPage, userData],
   );
@@ -479,7 +479,13 @@ export const getServerSideProps: GetServerSideProps<{
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
   const { getUserRequest } = useUserSlice().actions;
   const cookies = new Cookies(req.headers.cookie);
-  const token = cookies.get("token");
+
+
+  const isClientRender = typeof window !== 'undefined'
+  const token =
+    cookies.get("token")
+
+
   const payload = {
     data: {
       page: 1,
