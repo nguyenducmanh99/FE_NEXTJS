@@ -2,12 +2,14 @@ import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
-import { Box, Button, ButtonGroup, Chip, Grid, Rating, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Chip, Grid, Rating, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
-import { IProduct } from "@/constant";
+import { IProduct, IOrder, CART_DATA } from "@/constant";
 import { ColorPreview } from "../ui/ProductCard";
+import { useLocalStorage } from "@/hook";
+import toast from "react-hot-toast";
 
 const DetailProductDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -42,6 +44,8 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
   const [numberOrder, setNumberOrder] = React.useState<number>(1);
   const [colorSelect, setColorSelect] = React.useState<string>(data?.colors[0] || "");
   const [size, setSize] = React.useState<string>(data.size[0]);
+  const [cartData, setCartData] = useLocalStorage(CART_DATA, "");
+
   const useBackgroundImage = React.useMemo(() => {
     return { backgroundImage: `url(${data?.cover})` };
   }, [data]);
@@ -114,7 +118,16 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
     onChange: handleChangeSize,
     exclusive: true,
   };
-
+  
+  const addItemToCart = React.useCallback(() => {
+    try {
+      const itemData: IOrder = {...data, quantity: numberOrder, size, colors: colorSelect};
+      setCartData(cartData && cartData?.length > 0 ? [...cartData, itemData] : [itemData]);
+      handleClose();
+    } finally {
+      toast.success(`Add ${data.name} to cart success`);
+    }
+  }, [cartData, colorSelect, data, handleClose, numberOrder, setCartData, size])
 
   return (
     <DetailProductDialog
@@ -143,7 +156,7 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
             <figure
               className={`zoom ${mainImageState}`}
               onMouseMove={handleZoomIn}
-              onTouchMove={handleZoomIn}
+              // onTouchMove={handleZoomIn}
               style={useBackgroundImage}
             >
               <Image
@@ -320,7 +333,7 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
                 </div>
               </div>
               <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-                <span className="flex flex-row relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                <span className="flex flex-row relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0" onClick={addItemToCart}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"

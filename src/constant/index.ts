@@ -17,6 +17,7 @@ export const AUTH_TOKEN = "AUTH_TOKEN";
 export const AUTH_PASSWORD = "AUTH_PASSWORD";
 export const AUTH_EMAIL = "AUTH_EMAIL";
 export const AUTH_INFO = "AUTH_INFO";
+export const CART_DATA = "CART_DATA";
 
 // </ KEY>
 
@@ -73,6 +74,7 @@ export const DELETE_USER_RESET = "DELETE_USER_RESET";
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
+
 export interface IProduct {
   id: number;
   cover: string;
@@ -87,6 +89,23 @@ export interface IProduct {
   categoryId: number;
   createAt: string;
   updateAt: string;
+}
+
+export interface IOrder {
+  id?: number;
+  cover: string;
+  name: string;
+  price: number;
+  priceSale: number;
+  colors: string;
+  status: "sale" | "new" | "feature";
+  rate: number;
+  size: string;
+  inStock: boolean;
+  quantity: number;
+  categoryId: number;
+  createAt?: string;
+  updateAt?: string;
 }
 
 // Fake Data Product

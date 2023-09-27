@@ -39,8 +39,8 @@ export type IMeThod = Extract<
 instance.interceptors.request.use(
   function (config: AxiosRequestConfig | any) {
     const token =
-      config.headers?.Authorization ||
-      JSON.parse(window?.localStorage.getItem(AUTH_TOKEN) || "");
+      config.headers?.Authorization || window?.localStorage?.getItem(AUTH_TOKEN) ?
+      JSON.parse(window?.localStorage?.getItem(AUTH_TOKEN) || "") : "";
     // console.log("token", token);
     if (token !== null && token !== undefined) {
       config.headers.Authorization = `Bearer ${token}`;
