@@ -121,6 +121,7 @@ export default function Users({
   const { createUserStatus, userCreateRes, userDataRes } =
     useSelector(selectUser);
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -480,11 +481,9 @@ export const getServerSideProps: GetServerSideProps<{
   const { getUserRequest } = useUserSlice().actions;
   const cookies = new Cookies(req.headers.cookie);
 
-
-  const isClientRender = typeof window !== 'undefined'
+  const isClientRender = typeof window !== 'undefined';
   const token =
-    cookies.get("token")
-
+    cookies.get("token") || isClientRender ? window.localStorage?.getItem(AUTH_TOKEN) : "";
 
   const payload = {
     data: {
