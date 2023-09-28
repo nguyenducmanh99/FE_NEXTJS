@@ -137,6 +137,7 @@ export default function ShopProductCard({
 const ProductName = styled("div")({
   marginTop: "2px !important",
   fontSize: "16px",
+  height: "48px"
 });
 
 export function ColorPreview({
@@ -190,7 +191,8 @@ export function ColorPreview({
           {edit && selected === index && (
             <div
               role="status"
-              className="absolute top-1/2 left-1/3 transform -translate-x-1/3 -translate-y-1/2"
+              style={{left: "40%"}}
+              className="absolute top-1/2 transform -translate-x-1/3 -translate-y-1/2"
             >
               <svg
                 aria-hidden="true"

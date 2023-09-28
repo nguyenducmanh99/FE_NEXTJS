@@ -39,7 +39,7 @@ export const enum IQuantity {
 
 export default function DetailProductDialogs(props: IDetailProductDialog) {
   const { open, onClose, data } = props;
-  console.log("data", data)
+  // console.log("data", data)
   const [image, setImage] = React.useState<ImageState>(ImageState.DEFAULT);
   const [numberOrder, setNumberOrder] = React.useState<number>(1);
   const [colorSelect, setColorSelect] = React.useState<string>(data?.colors[0] || "");
@@ -274,7 +274,7 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
             <div className="flex flex-row py-2">
               <div className="">
                 <div
-                  className="mb-2 mr-2"
+                  className="mb-2"
                   style={{ width: "150px", position: "relative" }}
                 >
                   <span

@@ -5,17 +5,13 @@ import { APP_SOCKET_URL } from "@/constant";
 import API from "@/services";
 
 const url = APP_SOCKET_URL;
-const socket = io(url);
-
-const connect = async () => {
-  await socket.connect();
-};
-const disconnect = async () => {
-  await socket.disconnect();
-};
-
 function* connectSocket(): any {
   try {
+    const socket = io(url);
+    const connect = async () => {
+        await socket.connect();
+    };
+
     const response = yield call(connect);
     if (response.connected && response.id) {
       yield put({
@@ -24,13 +20,17 @@ function* connectSocket(): any {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log("socker", error);
     yield put({ type: Slice.connectSocketFail.type, payload: error });
   }
 }
 
 function* disconnectSocket(): any {
   try {
+    const socket = io(url);
+    const disconnect = async () => {
+      await socket.disconnect();
+    };
     const response = yield call(disconnect);
     if (!response.connected) {
       yield put({
@@ -47,7 +47,7 @@ function* disconnectSocket(): any {
 function* conversationFlow(): any {
   try {
     const response = yield call(API.conversation);
-    console.log("dataSever", response);
+    // console.log("dataSever", response);
     if (!response.connected) {
       yield put({
         type: Slice.getConversationSuccess.type,

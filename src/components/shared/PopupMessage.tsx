@@ -16,7 +16,7 @@ import { useLocalStorage } from "@/hook";
 import { RequestStatus } from "@/constant";
 import useUpdateEffect from "@/hook/useUpdateEffect";
 
-const socket = io(APP_SOCKET_URL);
+
 
 export default function PopupMessage() {
   const { open, conversationData, conversationStatus } =
@@ -34,26 +34,29 @@ export default function PopupMessage() {
   const [message, setMessage] = React.useState<string>();
 
   useEffect(() => {
-    const onConnect = () => console.log("connected");
-    const onDisconnect = () => console.log("disconnected");
+    if(open) {
+      const onConnect = () => console.log("connected");
+      const onDisconnect = () => console.log("disconnected");
+      const socket = io(APP_SOCKET_URL);
+      (async () => {
+        await dispatch(connectSocketRequest());
+        socket.on("onMessage", (dataMess) => {
+          console.log("dataMess", dataMess);
+        });
+        socket.on("connect", onConnect);
+        socket.on("disconnect", onDisconnect);
+  
+        await dispatch(getConversationRequest());
+      })();
+  
+      return () => {
+        socket.off("connect", onConnect);
+        socket.off("disconnect", onDisconnect);
+      };
+    }
 
-    (async () => {
-      await dispatch(connectSocketRequest());
-      socket.on("onMessage", (dataMess) => {
-        console.log("dataMess", dataMess);
-      });
-      socket.on("connect", onConnect);
-      socket.on("disconnect", onDisconnect);
-
-      await dispatch(getConversationRequest());
-    })();
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [open]);
 
   useUpdateEffect(() => {
     if (conversationStatus == RequestStatus.SUCCESS) {
@@ -82,6 +85,7 @@ export default function PopupMessage() {
         authorId: authInfo.id,
         message: message,
       };
+      const socket = io(APP_SOCKET_URL);
       socket.emit("newMessage", content);
     }
   }, [authInfo.id, message]);
