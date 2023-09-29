@@ -583,3 +583,15 @@ figure.zoom img {
   top: 60.5%;
   transform: translateY(-50%);
 }
+
+.style-1 > del {
+  color: #000;
+  text-decoration: line-through 1.2px;
+  position: relative;
+}
+.style-1 > ins {
+  color: green;
+  font-size: 15px;
+  text-decoration: none;
+  padding-top: 10px;
+}

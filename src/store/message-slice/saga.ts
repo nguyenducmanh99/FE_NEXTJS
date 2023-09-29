@@ -9,7 +9,7 @@ function* connectSocket(): any {
   try {
     const socket = io(url);
     const connect = async () => {
-        await socket.connect();
+      await socket.connect();
     };
 
     const response = yield call(connect);

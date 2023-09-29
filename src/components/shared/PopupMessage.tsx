@@ -16,8 +16,6 @@ import { useLocalStorage } from "@/hook";
 import { RequestStatus } from "@/constant";
 import useUpdateEffect from "@/hook/useUpdateEffect";
 
-
-
 export default function PopupMessage() {
   const { open, conversationData, conversationStatus } =
     useSelector(selectMessage);
@@ -34,7 +32,7 @@ export default function PopupMessage() {
   const [message, setMessage] = React.useState<string>();
 
   useEffect(() => {
-    if(open) {
+    if (open) {
       const onConnect = () => console.log("connected");
       const onDisconnect = () => console.log("disconnected");
       const socket = io(APP_SOCKET_URL);
@@ -45,10 +43,10 @@ export default function PopupMessage() {
         });
         socket.on("connect", onConnect);
         socket.on("disconnect", onDisconnect);
-  
+
         await dispatch(getConversationRequest());
       })();
-  
+
       return () => {
         socket.off("connect", onConnect);
         socket.off("disconnect", onDisconnect);

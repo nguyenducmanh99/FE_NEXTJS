@@ -137,7 +137,7 @@ export default function ShopProductCard({
 const ProductName = styled("div")({
   marginTop: "2px !important",
   fontSize: "16px",
-  height: "48px"
+  height: "48px",
 });
 
 export function ColorPreview({
@@ -145,7 +145,7 @@ export function ColorPreview({
   limit = 3,
   edit = false,
   sx,
-  onSelect
+  onSelect,
 }: {
   colors: string[];
   limit?: number;
@@ -156,11 +156,14 @@ export function ColorPreview({
   const showColor = colors.slice(0, limit);
   const moreColor = colors.length - limit;
   const [selected, setSelected] = useState<number>(0);
-  
-  const handleSelect = useCallback((index: number) => {
-    setSelected(index);
-    onSelect && onSelect(index);
-  }, [onSelect])
+
+  const handleSelect = useCallback(
+    (index: number) => {
+      setSelected(index);
+      onSelect && onSelect(index);
+    },
+    [onSelect],
+  );
 
   return (
     <Stack
@@ -173,7 +176,7 @@ export function ColorPreview({
       {showColor.map((color, index) => (
         <Box
           key={color + index}
-          onClick={() => handleSelect(index) }
+          onClick={() => handleSelect(index)}
           sx={{
             ml: edit ? 2 : -0.75,
             width: 16,
@@ -184,14 +187,13 @@ export function ColorPreview({
               `inset -1px 1px 2px ${alpha(theme.palette.common.black, 0.24)}`,
             bgcolor: color,
             position: "relative",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
-          
         >
           {edit && selected === index && (
             <div
               role="status"
-              style={{left: "40%"}}
+              style={{ left: "40%" }}
               className="absolute top-1/2 transform -translate-x-1/3 -translate-y-1/2"
             >
               <svg

@@ -82,9 +82,11 @@ export const getServerSideProps: GetServerSideProps<{
   const { getHistoryRequest } = useHistorySlice().actions;
   const cookies = new Cookies(req?.headers?.cookie);
 
-  const isClientRender = typeof window !== 'undefined';
+  const isClientRender = typeof window !== "undefined";
   const token =
-    cookies.get("token") || isClientRender ? window.localStorage?.getItem(AUTH_TOKEN) : "";
+    cookies.get("token") || isClientRender
+      ? window.localStorage?.getItem(AUTH_TOKEN)
+      : "";
 
   const payload = {
     token,

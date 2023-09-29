@@ -19,7 +19,7 @@ function* loginFlow(
       });
     }
   } catch (error: AxiosError | any) {
-    console.log(error)
+    console.log(error);
     yield put({ type: Slice.loginFail.type, payload: error?.response });
   }
 }

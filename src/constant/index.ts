@@ -74,7 +74,6 @@ export const DELETE_USER_RESET = "DELETE_USER_RESET";
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
-
 export interface IProduct {
   id: number;
   cover: string;
@@ -122,8 +121,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 2,
@@ -137,8 +136,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 3,
@@ -152,8 +151,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 4,
@@ -167,8 +166,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 5,
@@ -182,8 +181,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 6,
@@ -197,8 +196,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 7,
@@ -212,8 +211,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 8,
@@ -227,8 +226,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 9,
@@ -242,8 +241,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
   {
     id: 10,
@@ -257,8 +256,8 @@ export const products: IProduct[] = [
     inStock: true,
     size: ["29", "30", "31"],
     categoryId: 1,
-    createAt: '2023-4-28',
-    updateAt: '2023-4-28',
+    createAt: "2023-4-28",
+    updateAt: "2023-4-28",
   },
 ];
 

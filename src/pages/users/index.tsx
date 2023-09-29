@@ -249,9 +249,9 @@ export default function Users({
     () =>
       page > 0
         ? Math.max(
-          0,
-          (1 + page) * rowsPerPage - (userData ? userData?.data.length : 0),
-        )
+            0,
+            (1 + page) * rowsPerPage - (userData ? userData?.data.length : 0),
+          )
         : 0,
     [page, rowsPerPage, userData],
   );
@@ -481,9 +481,11 @@ export const getServerSideProps: GetServerSideProps<{
   const { getUserRequest } = useUserSlice().actions;
   const cookies = new Cookies(req.headers.cookie);
 
-  const isClientRender = typeof window !== 'undefined';
+  const isClientRender = typeof window !== "undefined";
   const token =
-    cookies.get("token") || isClientRender ? window.localStorage?.getItem(AUTH_TOKEN) : "";
+    cookies.get("token") || isClientRender
+      ? window.localStorage?.getItem(AUTH_TOKEN)
+      : "";
 
   const payload = {
     data: {

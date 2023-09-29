@@ -10,7 +10,7 @@ import { useLocalStorage } from "@/hook";
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
   const [cartData, setCartData] = useLocalStorage(CART_DATA, "");
-  
+
   // detect whether user has scrolled the page down by 10px
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);
@@ -21,7 +21,7 @@ export default function Header() {
     window.addEventListener("scroll", scrollHandler);
     return () => window.removeEventListener("scroll", scrollHandler);
   }, [top]);
-  
+
   const numberItem: number = useMemo(() => {
     return cartData?.length || 0;
   }, [cartData?.length]);
@@ -98,7 +98,12 @@ export default function Header() {
                     </g>
                   </svg>
                   <span style={{ marginLeft: "5px" }}>My Cart</span>
-                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">{numberItem}</div>
+                  <div
+                    className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"
+                    suppressHydrationWarning
+                  >
+                    {numberItem}
+                  </div>
                 </Link>
               </li>
             </ul>
