@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Header from "@/components/ui/header";
-import { CART_DATA, IOrder } from "@/constant";
+import { CART_DATA, IOrderItem } from "@/constant";
 import { useLocalStorage } from "@/hook";
 import PageContainer from "@/layout/container/PageContainer";
 import { Grid } from "@mui/material";
@@ -56,7 +56,7 @@ export default function Cart() {
             </div>
 
             {mounted && cartData && cartData.length > 0 ? (
-              cartData.map((item: IOrder, index: number) => {
+              cartData.map((item: IOrderItem, index: number) => {
                 return (
                   <div
                     className="flex flex-col w-full text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:border-gray-700"

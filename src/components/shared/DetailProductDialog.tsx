@@ -14,7 +14,7 @@ import {
 import { styled } from "@mui/material/styles";
 import Image from "next/image";
 import CloseIcon from "@mui/icons-material/Close";
-import { IProduct, IOrder, CART_DATA } from "@/constant";
+import { IProduct, IOrderItem, CART_DATA } from "@/constant";
 import { ColorPreview } from "../ui/ProductCard";
 import { useLocalStorage } from "@/hook";
 import toast from "react-hot-toast";
@@ -136,7 +136,7 @@ export default function DetailProductDialogs(props: IDetailProductDialog) {
 
   const addItemToCart = React.useCallback(() => {
     try {
-      const itemData: IOrder = {
+      const itemData: IOrderItem = {
         ...data,
         quantity: numberOrder,
         size,
