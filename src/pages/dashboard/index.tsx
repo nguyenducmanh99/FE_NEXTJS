@@ -84,9 +84,7 @@ export const getServerSideProps: GetServerSideProps<{
 
   const isClientRender = typeof window !== "undefined";
   const token =
-    cookies.get("token") || isClientRender
-      ? window.localStorage?.getItem(AUTH_TOKEN)
-      : "";
+    cookies.get("token") || "";
 
   const payload = {
     token,
