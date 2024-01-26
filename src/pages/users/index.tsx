@@ -482,8 +482,7 @@ export const getServerSideProps: GetServerSideProps<{
   const cookies = new Cookies(req.headers.cookie);
 
   const isClientRender = typeof window !== "undefined";
-  const token =
-    cookies.get("token") ||  "";
+  const token = cookies.get("token") || "";
 
   const payload = {
     data: {
