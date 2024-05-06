@@ -47,7 +47,6 @@ function* disconnectSocket(): any {
 function* conversationFlow(): any {
   try {
     const response = yield call(API.conversation);
-    // console.log("dataSever", response);
     if (!response.connected) {
       yield put({
         type: Slice.getConversationSuccess.type,

@@ -18,6 +18,7 @@ import { selectAuth } from "@/store/selectors";
 import { isEmpty } from "lodash";
 import { APP_DEFAULT_AVT, APP_LOGIN_URL } from "@/constant";
 // ----------------------------------------------------------------------
+import Cookies from "universal-cookie";
 
 const MENU_OPTIONS = [
   {
@@ -59,9 +60,11 @@ export default function AccountPopover() {
   };
 
   const handleLogout = useCallback(async () => {
+    const cookies = new Cookies();
     await handleClose();
     await dispatch(resetAuthentication());
     await signOut({ callbackUrl: APP_LOGIN_URL });
+    await cookies.remove("token");
   }, [dispatch, resetAuthentication]);
 
   return (

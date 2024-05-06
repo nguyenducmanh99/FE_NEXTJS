@@ -8,7 +8,6 @@ import {
 import { LoginState } from "./types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
-
 export const initialState: LoginState = {
   loginStatus: RequestStatus.IDLE,
 };
@@ -29,7 +28,6 @@ const slice = createSlice({
       state.auth = { accessToken, expired };
       const cookies = new Cookies();
       cookies.set("token", accessToken, { path: "/" });
-
       window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(accessToken));
       window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(password));
       window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(email));
@@ -53,6 +51,7 @@ const slice = createSlice({
       window.localStorage.setItem(AUTH_TOKEN, JSON.stringify(""));
       window.localStorage.setItem(AUTH_PASSWORD, JSON.stringify(""));
       window.localStorage.setItem(AUTH_EMAIL, JSON.stringify(""));
+      window.localStorage.setItem(AUTH_INFO, JSON.stringify(""));
     },
   },
 });

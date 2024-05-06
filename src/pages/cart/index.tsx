@@ -23,7 +23,6 @@ export default function Cart() {
 
   const handleChangeQuantity = useCallback(
     (state: IQuantity) => {
-      console.log(state);
       let result = numberOrder;
       switch (state) {
         case IQuantity.INCREASE:

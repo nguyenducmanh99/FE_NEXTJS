@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useLocalStorage } from "@/hook";
 import dayjs, { Dayjs } from "dayjs";
 import { AUTH_INFO, AUTH_TOKEN } from "@/constant";
+import { getSession, useSession } from "next-auth/react";
 
 export const withAuth = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
@@ -17,25 +18,27 @@ export const withAuth = <P extends object>(
     const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
     const [token, setToken] = useLocalStorage(AUTH_TOKEN, "");
     const router = useRouter();
+    const { status, data: session } = useSession();
+    useEffect(() => {
+      const checkAuth = async () => {
+        console.log("session", { status, session });
+        // if (!session || !session.accessToken) {
+        //   // Redirect to login page if there's no valid session
+        //   router.replace("/login");
+        //   return;
+        // }
 
-    // const isAccess =  useMemo(() => {
-    //   // If isSever render return...
-    //   if(typeof window === "undefined") return
-    //   // Else client render process check auth
-    //   const currentDate: string | any = dayjs(new Date()).format("YYYY-MM-DD hh:mm:ss")
-    //   const expired: any  = dayjs(authInfo?.expired).format("YYYY-MM-DD hh:mm:ss");
-    //   console.log("currentDate", currentDate)
-    //   console.log("expired", expired)
-    //   console.log("???", dayjs().isBefore(currentDate , expired))
-    //   const isExpired: boolean = dayjs().isBefore(currentDate , expired)
-    //   const result: boolean = !!(isExpired && token)
-    //   // If expired time || not have token return login page
-    //   if (!result) {
-    //     router.push("/auth/signin")
-    //   }
-    //   return result
-    // }, [authInfo, router, token]);
-    console.log(process.env.NEXT_PUBLIC_HOST);
+        // const tokenExpiration = new Date(session.expiresIn * 1000); // Convert expiresIn to milliseconds
+        // const currentTime = new Date();
+
+        // if (tokenExpiration <= currentTime) {
+        //   // Logout if token has expired
+        //   router.replace("/logout");
+        // }
+      };
+
+      checkAuth();
+    }, []);
     return (
       // isAccess ? <WrappedComponent {...props} /> : <></>
       <WrappedComponent {...props} />

@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistorySlice, useLoginSlice } from "@/store";
-import { ILoginForm } from "@/store/type";
+import { ILoginForm, IUser } from "@/store/type";
 import { selectAuth } from "@/store/selectors";
 import {
   APP_HOME_URL,
@@ -56,21 +56,25 @@ export default function SignIn() {
   }, []);
 
   useEffect(() => {
-    if (loginStatus === RequestStatus.SUCCESS) {
-      if (!keepMe) {
-        setEmailLocal("");
-        setPasswordLocal("");
+    (async function () {
+      if (loginStatus === RequestStatus.SUCCESS) {
+        const { email, expired, accessToken } = userInfo as IUser;
+        await signIn("credentials", { email, accessToken, expired });
+        if (!keepMe) {
+          setEmailLocal("");
+          setPasswordLocal("");
+        }
+        const dataSave = {
+          authorId: Number(authInfo.id || userInfo?.id),
+          authorUrl: authInfo.avatarUrl || userInfo?.avatarUrl,
+          action: `${authInfo.name || userInfo?.name} has login to Admin`,
+          categoryName: "Authentication",
+          fullName: authInfo.fullName || userInfo?.fullName,
+        };
+        dispatch(createHistoryRequest(dataSave));
+        router.push(PAGE.DASHBOARD);
       }
-      const dataSave = {
-        authorId: Number(authInfo.id),
-        authorUrl: authInfo.avatarUrl,
-        action: `${authInfo.name} has login to Admin`,
-        categoryName: "Authentication",
-        fullName: authInfo.fullName,
-      };
-      dispatch(createHistoryRequest(dataSave));
-      router.push(PAGE.DASHBOARD);
-    }
+    })();
 
     dispatch(resetLoginStatus());
   }, [

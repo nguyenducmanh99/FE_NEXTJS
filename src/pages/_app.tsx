@@ -35,7 +35,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: MyAppProps) {
       easing: "ease-out-cubic",
     });
   });
-  // console.log(Component.displayName)
+
   const getLayout = Component.getLayout ?? ((page) => page);
   const { store, props } = wrapper.useWrappedStore(pageProps);
 

@@ -18,6 +18,8 @@ export interface IUser {
   email: string;
   dateOfBirth: string;
   avatarUrl: null | string;
+  expired?: string;
+  accessToken?: string;
 }
 
 export interface IParty3rd {

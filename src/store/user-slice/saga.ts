@@ -9,7 +9,7 @@ function* userFlow(action: PayloadAction<{ type: string; payload: any }>): any {
   const { payload } = action;
   try {
     const response: any = yield call(API.users, payload);
-    console.log("dataUser", response.data);
+
     if (response.status === HttpStatus.OK) {
       yield put({
         type: Slice.getUserSuccess.type,

@@ -47,7 +47,6 @@ export const enum IQuantity {
 
 export default function DetailProductDialogs(props: IDetailProductDialog) {
   const { open, onClose, data } = props;
-  // console.log("data", data)
   const [image, setImage] = React.useState<ImageState>(ImageState.DEFAULT);
   const [numberOrder, setNumberOrder] = React.useState<number>(1);
   const [colorSelect, setColorSelect] = React.useState<string>(

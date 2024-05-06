@@ -21,7 +21,6 @@ import { AUTH_INFO } from "@/constant";
 
 export default function Profile() {
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
-  console.log(authInfo);
   return (
     <>
       <Helmet>

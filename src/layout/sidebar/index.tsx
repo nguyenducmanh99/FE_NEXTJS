@@ -51,7 +51,6 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
   const { infoParty3rd, userInfo } = useSelector(selectAuth);
   const isDesktop = useResponsive("up", "lg", "xl");
   const { palette } = useTheme();
-  console.log(palette.mode);
   useEffect(() => {
     if (openSideBar) {
       onCloseSideBar();
