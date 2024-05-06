@@ -90,7 +90,7 @@ export interface IProduct {
   updateAt: string;
 }
 
-export interface IOrder {
+export interface IOrderItem {
   id?: number;
   cover: string;
   name: string;
