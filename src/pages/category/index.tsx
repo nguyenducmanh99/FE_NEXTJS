@@ -7,10 +7,19 @@ import CategoryCard from "@/components/ui/CategoryCard";
 import Iconify from "@/components/utils/iconify";
 import FullLayout from "@/layout/FullLayout";
 import { ReactElement } from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
+import { store, wrapper } from "@/store";
+import { ICategory } from "@/store/category-slice/types";
+import Cookies from "universal-cookie";
+import { useCategorySlice } from "@/store/category-slice";
+import { AUTH_TOKEN } from "@/constant";
+import { END } from "redux-saga";
 
 // ----------------------------------------------------------------------
 
-export default function Category() {
+export default function Category({
+  dataServer,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <Helmet>
@@ -25,85 +34,48 @@ export default function Category() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Blog
+            Category
           </Typography>
           <Button
             variant="contained"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Post
+            New Category
           </Button>
         </Stack>
 
         <Grid container spacing={3}>
-          {CATEGORY.map((post, index) => (
-            <CategoryCard key={post.id} post={post} index={index} />
+          {dataServer?.map((el, index) => (
+            <CategoryCard key={el.id} category={el} index={index} />
           ))}
         </Grid>
       </Container>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  dataServer: ICategory[] | undefined;
+}> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
+  const { getCategoryRequest } = useCategorySlice().actions;
+  const cookies = new Cookies(req.headers.cookie);
+  const isServerRender = !req || typeof window === "undefined";
+  const token = isServerRender
+    ? cookies.get("token") || req.cookies["token"]
+    : window?.localStorage?.getItem(AUTH_TOKEN) || "";
+
+  const payload = {
+    token,
+  };
+  if (!token) return;
+  await store.dispatch(getCategoryRequest(payload));
+  await store.dispatch(END);
+  await store.sagaTask.toPromise();
+  const dataServer: ICategory[] | undefined =
+    store.getState().category?.categoryData;
+  if (dataServer) return { props: { dataServer } };
+});
+
 Category.getLayout = function getLayout(page: ReactElement) {
   return <FullLayout>{page}</FullLayout>;
 };
-
-const CATEGORY = [
-  {
-    id: 1,
-    cover: `/images/cover_1.jpg`,
-    title: "Whiteboard Templates By Industry Leaders",
-    createdAt: "28/04/2023",
-    view: 1000,
-    comment: 20,
-    share: 10,
-    favorite: 234,
-    author: {
-      name: "Duc Manh",
-      avatarUrl: `https://cdn-icons-png.flaticon.com/512/147/147133.png`,
-    },
-  },
-  {
-    id: 2,
-    cover: `/images/cover_2.jpg`,
-    title:
-      "Tesla Cybertruck-inspired camper trailer for Tesla fans who can’t just wait for the truck!",
-    createdAt: "28/04/2023",
-    view: 1000,
-    comment: 20,
-    share: 10,
-    favorite: 234,
-    author: {
-      name: "Duc Manh",
-      avatarUrl: `https://cdn-icons-png.flaticon.com/512/147/147133.png`,
-    },
-  },
-  {
-    id: 3,
-    cover: `/images/cover_3.jpg`,
-    title: "Designify Agency Landing Page Design",
-    createdAt: "28/04/2023",
-    view: 1000,
-    comment: 20,
-    share: 10,
-    favorite: 234,
-    author: {
-      name: "Duc Manh",
-      avatarUrl: `https://cdn-icons-png.flaticon.com/512/147/147133.png`,
-    },
-  },
-  {
-    id: 4,
-    cover: `/images/cover_4.jpg`,
-    title: "✨What is Done is Done ✨",
-    createdAt: "28/04/2023",
-    view: 1000,
-    comment: 20,
-    share: 10,
-    favorite: 234,
-    author: {
-      name: "Duc Manh",
-      avatarUrl: `https://cdn-icons-png.flaticon.com/512/147/147133.png`,
-    },
-  },
-] as const;

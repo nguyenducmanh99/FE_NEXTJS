@@ -8,7 +8,7 @@ import axios, {
 } from "axios";
 
 const instance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8228/api/v1/",
+  baseURL: process.env.NEXT_PUBLIC_API_END_POINT,
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });
@@ -38,11 +38,8 @@ export type IMeThod = Extract<
 >;
 instance.interceptors.request.use(
   function (config: AxiosRequestConfig | any) {
-    const token =
-      config.headers?.Authorization || window?.localStorage?.getItem(AUTH_TOKEN)
-        ? JSON.parse(window?.localStorage?.getItem(AUTH_TOKEN) || "")
-        : "";
-    // console.log("token", token);
+    const token = config.headers?.Authorization;
+    console.log("token", token);
     if (token !== null && token !== undefined) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -50,7 +47,7 @@ instance.interceptors.request.use(
     return config;
   },
   function (error: AxiosError | any) {
-    // Làm gì đó với lỗi request
+    console.log(error);
     return Promise.reject(error);
   },
 );
@@ -69,7 +66,7 @@ instance.interceptors.response.use(
       error?.response?.status == HttpStatus.UNAUTHORIZED &&
       typeof window !== "undefined"
     ) {
-      window.location.href = APP_LOGIN_URL;
+      // window.location.href = APP_LOGIN_URL;
     }
     return Promise.reject(error);
   },
@@ -99,9 +96,14 @@ const APIs = {
   saveLog: (payload: any) => request("/history", payload, "POST"),
   getHistory: (payload: any) =>
     request("/history", payload?.data, "get", payload?.token),
-  users: (payload: any) =>
-    request("/users", payload.data, "get", payload.token),
+  getUsers: (payload: any) => {
+    return request("/users", payload.data, "get", payload.token);
+  },
+
   createUser: (payload: any) => request("/users", payload, "POST"),
-  conversation: () => request("/conversation", {}, "get"),
+  conversation: (payload: string) =>
+    request("/conversation", {}, "get", payload),
+  getCategory: (payload: any) =>
+    request("/category", payload?.data, "get", payload?.token),
 };
 export default APIs;

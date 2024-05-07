@@ -11,7 +11,9 @@ import {
 } from "@mui/material";
 import SvgColor from "../utils/SvgColor";
 import Iconify from "../utils/iconify";
+import { ICategory } from "@/store/category-slice/types";
 // ----------------------------------------------------------------------
+import dayjs from "dayjs";
 
 const StyledCardMedia = styled("div")({
   position: "relative",
@@ -24,6 +26,17 @@ const StyledTitle = styled(Link)({
   WebkitLineClamp: 2,
   display: "-webkit-box",
   WebkitBoxOrient: "vertical",
+  fontWeight: "bold",
+  fontSize: "20px",
+});
+
+const StyledDescription = styled(Link)({
+  height: 30,
+  overflow: "hidden",
+  WebkitLineClamp: 2,
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  fontSize: "15px",
 });
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
@@ -52,9 +65,37 @@ const StyledCover = styled("img")({
 });
 
 // ----------------------------------------------------------------------
+function generateRandomNumber50To90() {
+  const randomNumber = Math.floor(Math.random() * (90 - 50 + 1)) + 50; // Tạo số nguyên ngẫu nhiên từ 50 đến 90
+  return randomNumber;
+}
 
-export default function CategoryCard({ post, index }: any) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+function generateRandomNumbers1000To2000() {
+  const numbers = [];
+  for (let i = 0; i < 1; i++) {
+    const randomNumber = Math.floor(Math.random() * (2000 - 1000 + 1)) + 1000; // Tạo số nguyên ngẫu nhiên từ 1000 đến 2000
+    numbers.push(randomNumber);
+  }
+  return numbers;
+}
+
+export default function CategoryCard({
+  category,
+  index,
+}: {
+  category: ICategory | any;
+  index: number;
+}) {
+  const {
+    bannerUrl,
+    title,
+    view = generateRandomNumbers1000To2000(),
+    comment = generateRandomNumber50To90(),
+    share = generateRandomNumber50To90(),
+    author,
+    createAt,
+    description,
+  } = category;
 
   const POST_INFO = [
     { number: comment, icon: "eva:message-circle-fill" },
@@ -80,7 +121,7 @@ export default function CategoryCard({ post, index }: any) {
           />
           <StyledAvatar alt={author.name} src={author.avatarUrl} />
 
-          <StyledCover alt={title} src={cover} />
+          <StyledCover alt={title} src={bannerUrl} />
         </StyledCardMedia>
 
         <CardContent
@@ -93,13 +134,20 @@ export default function CategoryCard({ post, index }: any) {
             variant="caption"
             sx={{ color: "text.disabled", display: "block" }}
           >
-            {createdAt}
+            {createAt && dayjs(createAt).format('YYYY-MM-DD HH:mm:ss')}
           </Typography>
 
           <StyledTitle color="inherit" variant="subtitle2" underline="hover">
             {title}
           </StyledTitle>
 
+          <StyledDescription
+            color="inherit"
+            variant="subtitle2"
+            underline="hover"
+          >
+            {description}
+          </StyledDescription>
           <StyledInfo>
             {POST_INFO.map((info, index) => (
               <Box

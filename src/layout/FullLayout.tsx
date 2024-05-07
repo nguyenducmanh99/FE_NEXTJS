@@ -7,9 +7,8 @@ import PopupMessage from "@/components/shared/PopupMessage";
 
 import { useRouter } from "next/navigation";
 import { useLocalStorage } from "@/hook";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { AUTH_INFO, AUTH_TOKEN } from "@/constant";
-import { getSession, useSession } from "next-auth/react";
 
 export const withAuth = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
@@ -18,31 +17,17 @@ export const withAuth = <P extends object>(
     const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
     const [token, setToken] = useLocalStorage(AUTH_TOKEN, "");
     const router = useRouter();
-    const { status, data: session } = useSession();
+
     useEffect(() => {
       const checkAuth = async () => {
-        console.log("session", { status, session });
-        // if (!session || !session.accessToken) {
-        //   // Redirect to login page if there's no valid session
-        //   router.replace("/login");
-        //   return;
-        // }
-
-        // const tokenExpiration = new Date(session.expiresIn * 1000); // Convert expiresIn to milliseconds
-        // const currentTime = new Date();
-
-        // if (tokenExpiration <= currentTime) {
-        //   // Logout if token has expired
-        //   router.replace("/logout");
-        // }
+        if (!authInfo || dayjs(authInfo.expired) <= dayjs() || !token) {
+          router.push("/auth/signin");
+        }
       };
-
       checkAuth();
-    }, []);
-    return (
-      // isAccess ? <WrappedComponent {...props} /> : <></>
-      <WrappedComponent {...props} />
-    );
+    }, [authInfo, token, router]);
+
+    return <WrappedComponent {...props} />;
   };
 
   return ComponentWithAuth;

@@ -14,7 +14,7 @@ import { IQuantity } from "@/components/shared/DetailProductDialog";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BootstrapInput } from "@/components/utils/Input";
 Cart.displayName = "Cart";
-const unitPrice = '€';
+const unitPrice = "€";
 export default function Cart() {
   const {
     register,
@@ -201,11 +201,15 @@ export default function Cart() {
               </RowDetailCart>
               <RowDetailCart>
                 <span className="text-gray-500">Original price</span>
-                <span suppressHydrationWarning>{originalPrice + unitPrice}</span>
+                <span suppressHydrationWarning>
+                  {originalPrice + unitPrice}
+                </span>
               </RowDetailCart>
               <RowDetailCart>
                 <span className="text-gray-500">Reduced amount</span>
-                <span suppressHydrationWarning>{reducedAmount + unitPrice}</span>
+                <span suppressHydrationWarning>
+                  {reducedAmount + unitPrice}
+                </span>
               </RowDetailCart>
               <RowDetailCart>
                 <label
@@ -251,7 +255,6 @@ export default function Cart() {
                     placeholder="Please input your name"
                     required
                   />
-
                 </div>
                 <div className="relative z-0 w-full mb-2 group">
                   <BootstrapInput
@@ -343,5 +346,3 @@ const RowDetailCart = styled("div")({
   display: "flex",
   marginTop: "1rem",
 });
-
-

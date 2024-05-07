@@ -10,7 +10,7 @@ import { BootstrapInput } from "./SignUpDialog";
 import { useMessageSlice } from "@/store";
 import Iconify from "../utils/iconify";
 import { io } from "socket.io-client";
-import { APP_SOCKET_URL, AUTH_INFO } from "@/constant";
+import { APP_SOCKET_URL, AUTH_INFO, AUTH_TOKEN } from "@/constant";
 import { useEffect } from "react";
 import { useLocalStorage } from "@/hook";
 import { RequestStatus } from "@/constant";
@@ -20,6 +20,7 @@ export default function PopupMessage() {
   const { open, conversationData, conversationStatus } =
     useSelector(selectMessage);
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
+  const [token, setToken] = useLocalStorage(AUTH_TOKEN, "");
   const dispatch = useDispatch();
   const {
     changeStatePopup,
@@ -37,14 +38,13 @@ export default function PopupMessage() {
       const onDisconnect = () => console.log("disconnected");
       const socket = io(APP_SOCKET_URL);
       (async () => {
-        await dispatch(connectSocketRequest());
+        dispatch(connectSocketRequest());
         socket.on("onMessage", (dataMess) => {
           console.log("dataMess", dataMess);
         });
         socket.on("connect", onConnect);
         socket.on("disconnect", onDisconnect);
-
-        await dispatch(getConversationRequest());
+        dispatch(getConversationRequest(token));
       })();
 
       return () => {
@@ -124,8 +124,8 @@ export default function PopupMessage() {
                   conversationData.map((el) => {
                     const position: string =
                       el.authorId === authInfo.id ? "right" : "left";
-                    const avtUrl = el.users.avatarUrl || "";
-                    const name = el.users?.name;
+                    const avtUrl = el.author.avatarUrl || "";
+                    const name = el.author?.name;
                     const nameDisplay = name?.charAt(0);
 
                     return (

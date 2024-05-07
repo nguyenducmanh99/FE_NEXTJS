@@ -44,9 +44,10 @@ function* disconnectSocket(): any {
   }
 }
 
-function* conversationFlow(): any {
+function* conversationFlow(action): any {
+  console.log("payload", action);
   try {
-    const response = yield call(API.conversation);
+    const response = yield call(API.conversation, action.payload);
     if (!response.connected) {
       yield put({
         type: Slice.getConversationSuccess.type,

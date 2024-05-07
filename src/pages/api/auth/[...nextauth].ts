@@ -32,8 +32,6 @@ export const authOptions = {
         expired: { type: "string" },
       },
       async authorize(credentials): Promise<any> {
-        // const { email, accessToken, expired } = credentials;
-        console.log("oke", credentials);
         return credentials;
       },
     }),
@@ -41,7 +39,7 @@ export const authOptions = {
   secret: process.env.NEXT_PUBLIC_AUTH_SECRET,
   pages: {
     signIn: "/auth/signin",
-    error: "/auth/signin",
+    error: "/404",
   },
   callbacks: {
     async jwt({ token, user, trigger, session }: any) {

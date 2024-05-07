@@ -23,7 +23,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "@/store/selectors";
 import { signOut } from "next-auth/react";
 import { useLoginSlice } from "@/store";
-import { APP_DEFAULT_AVT, APP_LOGIN_URL } from "@/constant";
+import { APP_DEFAULT_AVT, APP_LOGIN_URL, AUTH_INFO } from "@/constant";
+import { useLocalStorage } from "@/hook";
 // ----------------------------------------------------------------------
 
 const NAV_WIDTH = 280;
@@ -51,6 +52,7 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
   const { infoParty3rd, userInfo } = useSelector(selectAuth);
   const isDesktop = useResponsive("up", "lg", "xl");
   const { palette } = useTheme();
+  const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   useEffect(() => {
     if (openSideBar) {
       onCloseSideBar();
@@ -79,7 +81,7 @@ export default function Sidebar({ openSideBar, onCloseSideBar }: ISideBar) {
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {infoParty3rd?.name || userInfo?.name}
+                {infoParty3rd?.name || authInfo.name || userInfo?.name}
               </Typography>
 
               <Typography variant="body2" sx={{ color: "text.secondary" }}>

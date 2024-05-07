@@ -125,7 +125,7 @@ export default function Profile() {
                         className="fas fa-map-marker-alt mr-2 text-lg text-gray-500"
                         suppressHydrationWarning
                       ></i>{" "}
-                      {`${authInfo.address}, Vietnamese`}
+                      {`${authInfo.address || "Random"}, Vietnamese`}
                     </div>
                     <div className="mb-2 text-gray-700 mt-10">
                       <i

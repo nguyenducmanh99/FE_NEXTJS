@@ -13,5 +13,5 @@ export interface IConversation {
   message: string;
   authorId: number;
   createAt: string;
-  users: IUser;
+  author: IUser;
 }

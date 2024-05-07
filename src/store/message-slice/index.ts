@@ -43,7 +43,7 @@ const slice = createSlice({
       state.disconnectStatus = RequestStatus.ERROR;
     },
 
-    getConversationRequest: (state) => {
+    getConversationRequest: (state, action: PayloadAction<any>) => {
       state.conversationStatus = RequestStatus.REQUESTING;
     },
 

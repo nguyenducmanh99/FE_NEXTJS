@@ -484,7 +484,7 @@ export const getServerSideProps: GetServerSideProps<{
   const isServerRender = !req || typeof window === "undefined";
   const token = isServerRender
     ? cookies.get("token") || req.cookies["token"]
-    : window.localStorage?.getItem(AUTH_TOKEN) || "";
+    : window?.localStorage?.getItem(AUTH_TOKEN) || "";
 
   const payload = {
     data: {
@@ -500,6 +500,7 @@ export const getServerSideProps: GetServerSideProps<{
   await store.sagaTask.toPromise();
   const dataServer: IUserData | undefined =
     store.getState().userInfo?.userDataRes;
+
   if (dataServer) return { props: { dataServer } };
 });
 

@@ -111,7 +111,7 @@ export interface IOrderItem {
 export const products: IProduct[] = [
   {
     id: 1,
-    cover: `/images/product_1.jpg`,
+    cover: `/images/product_1.webp`,
     name: "Nike Air Force 1 NDESTRUKT",
     price: 20,
     priceSale: 18,
@@ -126,7 +126,7 @@ export const products: IProduct[] = [
   },
   {
     id: 2,
-    cover: `/images/product_2.jpg`,
+    cover: `/images/product_2.png`,
     name: "Nike Space Hippie 04",
     price: 10,
     priceSale: 8,
@@ -141,7 +141,7 @@ export const products: IProduct[] = [
   },
   {
     id: 3,
-    cover: `/images/product_3.jpg`,
+    cover: `/images/product_3.webp`,
     name: "Nike Air Zoom Pegasus 37 A.I.R. Chaz Bear",
     price: 30,
     priceSale: 26,
@@ -216,7 +216,7 @@ export const products: IProduct[] = [
   },
   {
     id: 8,
-    cover: `/images/product_8.jpg`,
+    cover: `/images/product_8.jpeg`,
     name: "Jordan Delta",
     price: 44,
     priceSale: 42,
@@ -246,7 +246,7 @@ export const products: IProduct[] = [
   },
   {
     id: 10,
-    cover: `/images/product_10.jpg`,
+    cover: `/images/product_10.webp`,
     name: "Nike Waffle Racer Crater",
     price: 67,
     priceSale: 60,
