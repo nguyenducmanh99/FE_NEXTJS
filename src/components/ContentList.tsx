@@ -1,15 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import CategoryShow from "./shared/CategoryShow";
+import { useRef, useEffect, useCallback } from "react";
 import { styled } from "@mui/material/styles";
-import { Icon } from "@iconify/react";
-import ProductList from "./ui/ProductList";
-import { products } from "@/constant";
+import ProductList, { IProductList } from "./ui/ProductList";
 
-export default function ContentList() {
+export default function ContentList( { products }: IProductList) {
   const tabs = useRef<HTMLDivElement>(null);
-
   const heightFix = () => {
     if (tabs.current && tabs.current.parentElement)
       tabs.current.parentElement.style.height = `${tabs.current.clientHeight}px`;

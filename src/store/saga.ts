@@ -5,6 +5,7 @@ import UserSaga from "@/store/user-slice/saga";
 import HistorySaga from "@/store/history-slice/saga";
 import MessageSaga from "@/store/message-slice/saga";
 import CategorySaga from "@/store/category-slice/saga";
+import ProductSaga from "@/store/product-slice/saga";
 
 export default function* rootSaga(): SagaIterator {
   yield all([fork(LoginSaga)]);
@@ -12,4 +13,5 @@ export default function* rootSaga(): SagaIterator {
   yield all([fork(HistorySaga)]);
   yield all([fork(MessageSaga)]);
   yield all([fork(CategorySaga)]);
+  yield all([fork(ProductSaga)]);
 }

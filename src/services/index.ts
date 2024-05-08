@@ -105,5 +105,7 @@ const APIs = {
     request("/conversation", {}, "get", payload),
   getCategory: (payload: any) =>
     request("/category", payload?.data, "get", payload?.token),
+  getProduct: (payload: any) =>
+    request("/products", payload?.data, "get", payload?.token),
 };
 export default APIs;

@@ -1,3 +1,5 @@
+import { ICategory } from "@/store/category-slice/types";
+
 export * from "@/constant/status";
 export * from "@/constant/enum";
 export * from "@/constant/regex";
@@ -88,6 +90,7 @@ export interface IProduct {
   categoryId: number;
   createAt: string;
   updateAt: string;
+  category?: ICategory;
 }
 
 export interface IOrderItem {

@@ -7,9 +7,15 @@ import "tailwindcss/tailwind.css";
 import SlideShow from "@/components/shared/SlideShow";
 import ContentList from "@/components/ContentList";
 import Script from "next/script";
+import { IProduct } from "@/constant";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next/types";
+import { store, useProductSlice, wrapper } from "@/store";
+import { END } from "redux-saga";
 
 Home.displayName = "Home";
-export default function Home() {
+export default function Home({
+  dataServer,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <Script
@@ -26,11 +32,23 @@ export default function Home() {
         <Header />
         <SlideShow />
         <Features />
-        <ContentList />
+        <ContentList products={dataServer}/>
       </Container>
       <Footer />
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<{
+  dataServer: IProduct[] | undefined;
+}> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {
+  const { getProductRequest } = useProductSlice().actions;
+  await store.dispatch(getProductRequest(null));
+  await store.dispatch(END);
+  await store.sagaTask.toPromise();
+  const dataServer: IProduct[] | undefined =
+    store.getState().products.productData;
+  if (dataServer) return { props: { dataServer } };
+});
 
 const Container = styled.div``;

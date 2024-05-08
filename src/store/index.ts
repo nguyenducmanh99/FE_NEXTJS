@@ -1,3 +1,4 @@
+import { useProductSlice } from "./product-slice/index";
 import { useCategorySlice } from "./category-slice/index";
 import {
   Action,
@@ -13,11 +14,13 @@ import { createWrapper } from "next-redux-wrapper";
 import { HistoryReducer } from "./history-slice";
 import { MessageReducer } from "./message-slice";
 import { CategoryReducer } from "./category-slice/index";
+import { ProductReducer } from "./product-slice";
 export { useLoginSlice } from "@/store/signin-slice";
 export { useUserSlice } from "@/store/user-slice";
 export { useHistorySlice } from "@/store/history-slice";
 export { useMessageSlice } from "@/store/message-slice";
 export { useCategorySlice } from "@/store/category-slice";
+export { useProductSlice } from "@/store/product-slice";
 declare module "redux" {
   export interface Store {
     sagaTask: any;
@@ -30,6 +33,7 @@ const rootReducer = combineReducers({
   history: HistoryReducer,
   message: MessageReducer,
   category: CategoryReducer,
+  products: ProductReducer,
 });
 export const store = configureStore({
   reducer: rootReducer,

@@ -30,7 +30,9 @@ const RecentActivity = (props: IRecentActivity) => {
           onResizeCapture={undefined}
           sx={{
             p: 0,
-            mb: "-40px",
+            mb: "50px",
+            maxHeight: '320px',
+            overflowY: 'auto',
             "& .MuiTimelineConnector-root": {
               width: "1px",
               backgroundColor: "#efefef",

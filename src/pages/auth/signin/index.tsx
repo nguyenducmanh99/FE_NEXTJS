@@ -16,6 +16,7 @@ import {
   AUTH_EMAIL,
   AUTH_INFO,
   AUTH_PASSWORD,
+  AUTH_TOKEN,
   RequestStatus,
 } from "@/constant";
 import { useLocalStorage } from "@/hook";
@@ -26,6 +27,8 @@ import _ from "lodash";
 import { BootstrapInput } from "@/components/utils/Input";
 import { IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import dayjs from "dayjs";
+
 export default function SignIn() {
   const {
     register,
@@ -33,7 +36,6 @@ export default function SignIn() {
     formState: { errors },
     setValue,
   } = useForm<ILoginForm>();
-  // const { status, data: session } = useSession();
   const router = useRouter();
   const [keepMe, setKeepMe] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -44,13 +46,16 @@ export default function SignIn() {
   const [authInfo, setAuthInfo] = useLocalStorage(AUTH_INFO, "");
   const { createHistoryRequest } = useHistorySlice().actions;
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
+  const [token, setToken] = useLocalStorage(AUTH_TOKEN, "");
+  
   useEffect(() => {
     if (!_.isEmpty(emailLocal) && !_.isEmpty(passwordLocal)) {
       setKeepMe(true);
       setValue("email", emailLocal);
       setValue("password", passwordLocal);
-      router.push(PAGE.DASHBOARD);
+      if (authInfo && dayjs(authInfo.expired) > dayjs() && token) { 
+        router.push(PAGE.DASHBOARD);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -71,8 +76,8 @@ export default function SignIn() {
           categoryName: "Authentication",
           fullName: authInfo.fullName || userInfo?.fullName,
         };
-        dispatch(createHistoryRequest(dataSave));
-        router.push(PAGE.DASHBOARD);
+        await dispatch(createHistoryRequest(dataSave));
+        await router.push(PAGE.DASHBOARD);
       }
     })();
 

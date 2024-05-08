@@ -28,7 +28,7 @@ export default function ShopProductCard({
   product,
   onSelect,
 }: IShopProductCard) {
-  const { name, cover, price, colors, status, priceSale, id } = product;
+  const { name, cover, price, colors, status, priceSale, id, category } = product;
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const renderActionList = () => {
@@ -104,7 +104,7 @@ export default function ShopProductCard({
           noWrap
           sx={{ textTransform: "uppercase", color: "darkslategray" }}
         >
-          {"Fashion shoes"}
+          {category.title}
         </Typography>
         <ProductName>{name}</ProductName>
         <Rating name={name} value={4} readOnly />
