@@ -31,8 +31,8 @@ const RecentActivity = (props: IRecentActivity) => {
           sx={{
             p: 0,
             mb: "50px",
-            maxHeight: '320px',
-            overflowY: 'auto',
+            maxHeight: "320px",
+            overflowY: "auto",
             "& .MuiTimelineConnector-root": {
               width: "1px",
               backgroundColor: "#efefef",

@@ -134,7 +134,7 @@ export default function CategoryCard({
             variant="caption"
             sx={{ color: "text.disabled", display: "block" }}
           >
-            {createAt && dayjs(createAt).format('YYYY-MM-DD HH:mm:ss')}
+            {createAt && dayjs(createAt).format("YYYY-MM-DD HH:mm:ss")}
           </Typography>
 
           <StyledTitle color="inherit" variant="subtitle2" underline="hover">
@@ -162,7 +162,9 @@ export default function CategoryCard({
                   icon={info.icon}
                   sx={{ width: 16, height: 16, mr: 0.5 }}
                 />
-                <Typography variant="caption">{info.number}</Typography>
+                <Typography variant="caption" suppressHydrationWarning>
+                  {info.number}
+                </Typography>
               </Box>
             ))}
           </StyledInfo>

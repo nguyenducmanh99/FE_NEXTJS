@@ -4,7 +4,7 @@ import { useRef, useEffect, useCallback } from "react";
 import { styled } from "@mui/material/styles";
 import ProductList, { IProductList } from "./ui/ProductList";
 
-export default function ContentList( { products }: IProductList) {
+export default function ContentList({ products }: IProductList) {
   const tabs = useRef<HTMLDivElement>(null);
   const heightFix = () => {
     if (tabs.current && tabs.current.parentElement)

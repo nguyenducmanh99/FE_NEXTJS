@@ -32,7 +32,7 @@ export default function Home({
         <Header />
         <SlideShow />
         <Features />
-        <ContentList products={dataServer}/>
+        <ContentList products={dataServer} />
       </Container>
       <Footer />
     </>

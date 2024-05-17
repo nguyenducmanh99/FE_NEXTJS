@@ -47,13 +47,13 @@ export default function SignIn() {
   const { createHistoryRequest } = useHistorySlice().actions;
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [token, setToken] = useLocalStorage(AUTH_TOKEN, "");
-  
+
   useEffect(() => {
     if (!_.isEmpty(emailLocal) && !_.isEmpty(passwordLocal)) {
       setKeepMe(true);
       setValue("email", emailLocal);
       setValue("password", passwordLocal);
-      if (authInfo && dayjs(authInfo.expired) > dayjs() && token) { 
+      if (authInfo && dayjs(authInfo.expired) > dayjs() && token) {
         router.push(PAGE.DASHBOARD);
       }
     }

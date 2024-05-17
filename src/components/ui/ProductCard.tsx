@@ -28,7 +28,8 @@ export default function ShopProductCard({
   product,
   onSelect,
 }: IShopProductCard) {
-  const { name, cover, price, colors, status, priceSale, id, category } = product;
+  const { name, cover, price, colors, status, priceSale, id, category } =
+    product;
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const renderActionList = () => {

@@ -39,7 +39,7 @@ export type IMeThod = Extract<
 instance.interceptors.request.use(
   function (config: AxiosRequestConfig | any) {
     const token = config.headers?.Authorization;
-    console.log("token", token);
+    console.log("hasToken", !!token);
     if (token !== null && token !== undefined) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -47,7 +47,7 @@ instance.interceptors.request.use(
     return config;
   },
   function (error: AxiosError | any) {
-    console.log(error);
+    console.log(error?.toJSON());
     return Promise.reject(error);
   },
 );
@@ -68,6 +68,7 @@ instance.interceptors.response.use(
     ) {
       // window.location.href = APP_LOGIN_URL;
     }
+    console.log(error?.toJSON());
     return Promise.reject(error);
   },
 );

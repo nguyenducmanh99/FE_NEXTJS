@@ -202,13 +202,13 @@ export default function Cart() {
               <RowDetailCart>
                 <span className="text-gray-500">Original price</span>
                 <span suppressHydrationWarning>
-                  {originalPrice + unitPrice}
+                  {originalPrice ? originalPrice + unitPrice : ""}
                 </span>
               </RowDetailCart>
               <RowDetailCart>
                 <span className="text-gray-500">Reduced amount</span>
                 <span suppressHydrationWarning>
-                  {reducedAmount + unitPrice}
+                  {reducedAmount ? reducedAmount + unitPrice : ""}
                 </span>
               </RowDetailCart>
               <RowDetailCart>

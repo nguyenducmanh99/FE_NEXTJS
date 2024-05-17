@@ -84,7 +84,6 @@ export default function Products({
   );
 }
 
-
 export const getServerSideProps: GetServerSideProps<{
   dataServer: IProduct[] | undefined;
 }> = wrapper.getServerSideProps(() => async ({ req, res }: any) => {

@@ -120,14 +120,17 @@ export default function Profile() {
                     >
                       {authInfo.fullName}
                     </h3>
-                    <div className="text-sm leading-normal mt-0 mb-2 text-gray-500 font-bold uppercase">
-                      <i
-                        className="fas fa-map-marker-alt mr-2 text-lg text-gray-500"
-                        suppressHydrationWarning
-                      ></i>{" "}
+                    <div
+                      className="text-sm leading-normal mt-0 mb-2 text-gray-500 font-bold uppercase"
+                      suppressHydrationWarning
+                    >
+                      <i className="fas fa-map-marker-alt mr-2 text-lg text-gray-500"></i>{" "}
                       {`${authInfo.address || "Random"}, Vietnamese`}
                     </div>
-                    <div className="mb-2 text-gray-700 mt-10">
+                    <div
+                      className="mb-2 text-gray-700 mt-10"
+                      suppressHydrationWarning
+                    >
                       <i
                         className="fas fa-briefcase mr-2 text-lg text-gray-500"
                         suppressHydrationWarning
